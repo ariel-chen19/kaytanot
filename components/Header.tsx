@@ -39,7 +39,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/kaytanot_logo.webp" alt="קייטנות" style={{ height: "60px", width: "auto" }} />
+          <img src="/kaytanot_logo.webp" alt="קייטנות" style={{ height: "90px", width: "auto" }} />
         </Link>
 
         {/* Desktop Nav — centered */}
