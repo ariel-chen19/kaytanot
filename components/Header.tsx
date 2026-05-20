@@ -34,7 +34,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#003087] shadow-lg">
+    <header className="sticky top-0 z-50 bg-white shadow-lg">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center flex-shrink-0">
@@ -48,7 +48,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-white/90 hover:text-[#F5C400] transition-colors font-medium text-sm px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-[#003087] hover:text-[#F5C400] transition-colors font-medium text-sm px-3 py-2 rounded-lg hover:bg-[#003087]/10"
             >
               {link.label}
             </Link>
@@ -61,13 +61,13 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="text-white/80 hover:text-white text-sm font-medium px-3 py-2"
+                className="text-[#003087]/80 hover:text-[#003087] text-sm font-medium px-3 py-2"
               >
                 לוח הבקרה
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-white/70 hover:text-white text-sm px-3 py-2"
+                className="text-[#003087]/60 hover:text-[#003087] text-sm px-3 py-2"
               >
                 התנתק
               </button>
@@ -76,7 +76,7 @@ export default function Header() {
             <>
               <Link
                 href="/auth/login"
-                className="text-white/80 hover:text-white text-sm font-medium px-3 py-2"
+                className="text-[#003087]/80 hover:text-[#003087] text-sm font-medium px-3 py-2"
               >
                 כניסה
               </Link>
@@ -92,7 +92,7 @@ export default function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="lg:hidden p-2 text-white"
+          className="lg:hidden p-2 text-[#003087]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="תפריט"
         >
@@ -102,12 +102,12 @@ export default function Header() {
 
       {/* Mobile drawer */}
       {menuOpen && (
-        <div className="lg:hidden bg-[#001f5b] border-t border-white/10 px-4 py-5 flex flex-col gap-1">
+        <div className="lg:hidden bg-white border-t border-[#003087]/10 px-4 py-5 flex flex-col gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-white/90 hover:text-[#F5C400] font-medium py-2.5 border-b border-white/10 last:border-0"
+              className="text-[#003087] hover:text-[#F5C400] font-medium py-2.5 border-b border-[#003087]/10 last:border-0"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -119,13 +119,13 @@ export default function Header() {
                 <Link
                   href="/dashboard"
                   onClick={() => setMenuOpen(false)}
-                  className="text-center py-2.5 rounded-full border border-white/30 text-white font-medium"
+                  className="text-center py-2.5 rounded-full border border-[#003087]/30 text-[#003087] font-medium"
                 >
                   לוח הבקרה
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-center py-2.5 rounded-full bg-white/10 text-white font-medium"
+                  className="text-center py-2.5 rounded-full bg-[#003087]/10 text-[#003087] font-medium"
                 >
                   התנתק
                 </button>
@@ -135,7 +135,7 @@ export default function Header() {
                 <Link
                   href="/auth/login"
                   onClick={() => setMenuOpen(false)}
-                  className="text-center py-2.5 rounded-full border border-white/30 text-white font-medium"
+                  className="text-center py-2.5 rounded-full border border-[#003087]/30 text-[#003087] font-medium"
                 >
                   כניסה
                 </Link>
