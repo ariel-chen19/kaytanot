@@ -37,11 +37,9 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-[#003087] shadow-lg">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-          <div className="bg-[#F5C400] rounded-full w-9 h-9 flex items-center justify-center text-[#003087] font-black text-lg">
-            ק
-          </div>
-          <span className="font-extrabold text-lg text-white hidden sm:block">קייטנות</span>
+        <Link href="/" className="flex items-center flex-shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/kaytanot_logo.webp" alt="קייטנות" style={{ height: "50px", width: "auto" }} />
         </Link>
 
         {/* Desktop Nav — centered */}
