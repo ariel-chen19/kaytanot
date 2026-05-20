@@ -338,7 +338,7 @@ export default async function HomePage() {
       <section className="bg-[#F5F7FA] py-12 px-4">
         <div className="container mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-black text-[#003087] mb-3">
-            רשת הקייטנות הארצית פועלת עם ועדי עובדים וארגונים
+            קייטנות מובילות מכל רחבי הארץ פועלות עם ועדי עובדים וארגונים
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-sm leading-relaxed">
             הגופים הגדולים לעובדים במשק בהסדרים מיוחדים ומסובסדים. לפרטים ולהרשמה לחצו על הקישור
