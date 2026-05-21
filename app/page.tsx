@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import CampCard from "@/components/CampCard";
 import LeadFormSection from "@/components/LeadFormSection";
 import Link from "next/link";
-import { Check, Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, Waves, Target } from "lucide-react";
+import { Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, Waves, Target, Search, MapPin, ChevronDown } from "lucide-react";
 
 /* ─── IMAGE CONSTANTS ─────────────────────────────────── */
 
@@ -102,9 +102,9 @@ const BENEFITS = [
 ];
 
 const HERO_BULLETS = [
-  "מוצאים קייטנה בקלות — השוואה פשוטה במקום אחד",
-  "קייטנות לפי אזור וגיל — חיפוש מהיר ומדויק",
-  "בחירה חכמה לקיץ — כל האפשרויות במקום אחד",
+  { Icon: Search,  title: "מוצאים קייטנה בקלות", sub: "השוואה פשוטה במקום אחד" },
+  { Icon: MapPin,  title: "קייטנות לפי אזור וגיל", sub: "חיפוש מהיר ומדויק" },
+  { Icon: Star,    title: "בחירה חכמה לקיץ", sub: "כל האפשרויות במקום אחד" },
 ];
 
 /* ─── PAGE ──────────────────────────────────────────────── */
@@ -121,38 +121,48 @@ export default async function HomePage() {
     <div className="overflow-x-hidden">
 
       {/* ══════════════════════════════════════════════
-          1. HERO — split layout (image left, logo+bullets right)
+          1. HERO — image left fades to white, logo+bullets right
       ══════════════════════════════════════════════ */}
-      <section className="bg-white overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[500px]">
+      <section className="relative bg-white overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[520px]">
 
-          {/* Right (RTL start): Logo + bullets — white bg */}
-          <div className="flex flex-col justify-center px-8 md:px-16 py-14 order-1">
-            {/* Large logo */}
-            <div className="mb-8">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/kaytanot_logo.webp"
-                alt="קייטנות"
-                style={{ height: "120px", width: "auto" }}
-                loading="eager"
-              />
-            </div>
+          {/* Right col (RTL start): Logo + subtitle + arrow + bullets */}
+          <div className="flex flex-col justify-center px-8 md:px-14 py-14 bg-white z-10 order-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/kaytanot_logo.webp"
+              alt="קייטנות"
+              style={{ height: "110px", width: "auto" }}
+              className="mb-2"
+              loading="eager"
+            />
+            <p className="text-[#003087] text-xl font-bold mb-1">הכיף שלהם מתחיל כאן</p>
 
-            <ul className="space-y-4">
-              {HERO_BULLETS.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-base text-[#003087]">
-                  <span className="w-6 h-6 rounded-full bg-[#F5C400] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#003087]" strokeWidth={3} />
-                  </span>
-                  <span className="font-medium leading-snug">{b}</span>
-                </li>
+            {/* Yellow curved arrow */}
+            <svg viewBox="0 0 280 55" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-56 h-10 mb-8">
+              <path d="M 260 12 C 220 48 80 58 18 38" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
+              <path d="M 18 38 L 6 26" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
+              <path d="M 18 38 L 8 50" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
+            </svg>
+
+            {/* 3 horizontal bullets */}
+            <div className="grid grid-cols-3 gap-4">
+              {HERO_BULLETS.map(({ Icon, title, sub }) => (
+                <div key={title} className="flex flex-col items-center text-center gap-2">
+                  <div className="w-12 h-12 rounded-full border-2 border-[#003087]/20 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-[#003087]" />
+                  </div>
+                  <div>
+                    <p className="text-[#003087] font-bold text-sm leading-tight">{title}</p>
+                    <p className="text-gray-500 text-xs leading-snug mt-0.5">{sub}</p>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Left: Hero image */}
-          <div className="relative order-2 overflow-hidden min-h-[300px]">
+          {/* Left col (RTL end): Hero image with fade to white */}
+          <div className="relative order-2 overflow-hidden min-h-[320px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={HERO_IMG}
@@ -160,75 +170,118 @@ export default async function HomePage() {
               className="w-full h-full object-cover object-center"
               loading="eager"
             />
+            {/* Gradient fade from image towards white text column (right side in RTL = physical right) */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(to right, transparent 40%, white 100%)" }}
+            />
           </div>
         </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════
-          2. SEARCH BAR
-      ══════════════════════════════════════════════ */}
-      <section className="bg-[#003087] py-10 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-white text-center text-2xl font-black mb-6">
-            חפשו קייטנה שמתאימה לכם
-          </h2>
-          <div className="bg-white rounded-2xl p-4 md:p-6 shadow-xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-              <div>
-                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">עיר / אזור</label>
-                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
-                  <option value="">כל הערים</option>
-                  <option>תל אביב</option>
-                  <option>ירושלים</option>
-                  <option>חיפה</option>
-                  <option>באר שבע</option>
-                  <option>רחובות</option>
-                  <option>פתח תקווה</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">גיל הילד</label>
-                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
-                  <option value="">כל הגילאים</option>
-                  <option>3-5</option>
-                  <option>6-8</option>
-                  <option>9-11</option>
-                  <option>12-14</option>
-                  <option>15-18</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">סוג קייטנה</label>
-                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
-                  <option value="">כל הסוגים</option>
-                  <option>ספורט</option>
-                  <option>שחייה</option>
-                  <option>ריקוד</option>
-                  <option>אמנות</option>
-                  <option>טכנולוגיה</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">תאריכים</label>
-                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
-                  <option value="">כל התאריכים</option>
-                  <option>יולי 2026</option>
-                  <option>אוגוסט 2026</option>
-                  <option>יולי-אוגוסט 2026</option>
-                </select>
-              </div>
+        {/* ── Search bar floating over hero bottom ── */}
+        <div className="relative z-20 container mx-auto px-4 -mt-6 pb-10">
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 md:p-8">
+            {/* Title */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl md:text-3xl font-black text-[#003087] inline-block relative">
+                חפשו קייטנה שמתאימה לכם
+                <span className="absolute -bottom-1.5 right-0 left-0 h-1 rounded-full bg-[#F5C400]" />
+              </h2>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-3">
+
+            {/* Fields + button row */}
+            <div className="flex flex-col lg:flex-row items-stretch gap-3">
+              {/* Search button — far left (RTL end) */}
               <Link
                 href="/search"
-                className="w-full sm:w-auto flex-1 sm:flex-none text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-10 py-3.5 rounded-full transition-colors"
+                className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-4 rounded-xl transition-colors"
               >
+                <Search className="w-5 h-5" />
                 מצאו קייטנה
               </Link>
-              <Link
-                href="/search"
-                className="text-[#003087] hover:text-[#F5C400] text-sm font-medium underline underline-offset-2 transition-colors"
-              >
+
+              {/* 4 filter fields */}
+              <div className="flex flex-col sm:flex-row flex-1 gap-3">
+                {/* עיר / אזור */}
+                <div className="flex-1 relative">
+                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors group">
+                    <MapPin className="w-5 h-5 text-[#003087] flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[#003087] font-bold text-xs">עיר / אזור</p>
+                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
+                        <option value="">בחרו אזור</option>
+                        <option>תל אביב</option>
+                        <option>ירושלים</option>
+                        <option>חיפה</option>
+                        <option>באר שבע</option>
+                        <option>פתח תקווה</option>
+                      </select>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                  </div>
+                </div>
+
+                {/* גיל הילד */}
+                <div className="flex-1 relative">
+                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
+                    <Users className="w-5 h-5 text-[#003087] flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[#003087] font-bold text-xs">גיל הילד/ה</p>
+                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
+                        <option value="">בחרו גיל</option>
+                        <option>3-5</option>
+                        <option>6-8</option>
+                        <option>9-11</option>
+                        <option>12-14</option>
+                        <option>15-18</option>
+                      </select>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                  </div>
+                </div>
+
+                {/* סוג קייטנה */}
+                <div className="flex-1 relative">
+                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
+                    <Activity className="w-5 h-5 text-[#003087] flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[#003087] font-bold text-xs">סוג קייטנה</p>
+                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
+                        <option value="">בחרו תחום</option>
+                        <option>ספורט</option>
+                        <option>שחייה</option>
+                        <option>ריקוד</option>
+                        <option>אמנות</option>
+                        <option>טכנולוגיה</option>
+                      </select>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                  </div>
+                </div>
+
+                {/* תאריכים */}
+                <div className="flex-1 relative">
+                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
+                    <Calendar className="w-5 h-5 text-[#003087] flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[#003087] font-bold text-xs">תאריכים</p>
+                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
+                        <option value="">בחרו תאריכים</option>
+                        <option>יולי 2026</option>
+                        <option>אוגוסט 2026</option>
+                        <option>יולי-אוגוסט 2026</option>
+                      </select>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced search */}
+            <div className="text-center mt-4">
+              <Link href="/search" className="inline-flex items-center gap-1 text-[#003087] hover:text-[#F5C400] text-sm font-medium transition-colors">
+                <ChevronDown className="w-4 h-4" />
                 חיפוש מתקדם
               </Link>
             </div>
