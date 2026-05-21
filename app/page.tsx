@@ -2,12 +2,11 @@ export const dynamic = 'force-dynamic';
 
 import { createClient } from "@/lib/supabase/server";
 import CampCard from "@/components/CampCard";
-import HeroSearch from "@/components/HeroSearch";
 import LeadFormSection from "@/components/LeadFormSection";
 import Link from "next/link";
-import { Check, Shield, Star, Trophy, Heart, Calendar, Users } from "lucide-react";
+import { Check, Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, Waves, Target } from "lucide-react";
 
-/* ─── UNSPLASH IMAGE CONSTANTS ──────────────────────────── */
+/* ─── IMAGE CONSTANTS ─────────────────────────────────── */
 
 const HERO_IMG = "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=800";
 
@@ -16,31 +15,27 @@ const PLACEHOLDER_CAMPS = [
     name: "קייטנת חוויה אולימפית",
     subtitle: "בוחרים מסלול אחד ומתמקצעים",
     img: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=400",
-    icons: ["🏊", "⚽", "🎾", "🏃"],
   },
   {
     name: "קייטנת ספורט מקצועית",
     subtitle: "תכנית אינטנסיבית לאוהבי הספורט",
     img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400",
-    icons: ["⚽", "🏊", "🎾", "🏃"],
   },
   {
     name: "קייטנת שחייה ומים",
     subtitle: "ספורט מים, בטיחות ומיומנויות",
     img: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400",
-    icons: ["🏊", "🤽", "🏄", "💧"],
   },
   {
     name: "קייטנת ריקוד ואומנות",
     subtitle: "ביטוי עצמי, קצב ויצירתיות",
     img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400",
-    icons: ["💃", "🎵", "🎨", "🎭"],
   },
 ];
 
 const CATEGORIES = [
   {
-    icon: "🏃",
+    Icon: Music2,
     label: "ריקוד",
     desc: "פיתוח קואורדינציה, קצב וביטוי עצמי עם מדריכים מקצועיים",
     images: [
@@ -50,7 +45,7 @@ const CATEGORIES = [
     ],
   },
   {
-    icon: "🎾",
+    Icon: Activity,
     label: "טניס",
     desc: "ללמוד את המשחק, הטכניקה ולשפר יכולות עם מאמנים מוסמכים",
     images: [
@@ -60,7 +55,7 @@ const CATEGORIES = [
     ],
   },
   {
-    icon: "🏊",
+    Icon: Waves,
     label: "שחייה",
     desc: "לחוות ספורט מים מהנה ולשפר יחד עם מדריכים מוסמכים",
     images: [
@@ -70,7 +65,7 @@ const CATEGORIES = [
     ],
   },
   {
-    icon: "⚽",
+    Icon: Target,
     label: "כדורגל",
     desc: "שיפור טכניקה, עבודת צוות ותחרות עם מאמן מקצועי",
     images: [
@@ -107,10 +102,9 @@ const BENEFITS = [
 ];
 
 const HERO_BULLETS = [
-  "מקצועיות מובילה בישראל",
-  "בטיחות מעל הכל",
-  "קייטנות לכל גיל ותחום",
-  "מדריכים מוסמכים ומנוסים",
+  "מוצאים קייטנה בקלות — השוואה פשוטה במקום אחד",
+  "קייטנות לפי אזור וגיל — חיפוש מהיר ומדויק",
+  "בחירה חכמה לקיץ — כל האפשרויות במקום אחד",
 ];
 
 /* ─── PAGE ──────────────────────────────────────────────── */
@@ -127,76 +121,123 @@ export default async function HomePage() {
     <div className="overflow-x-hidden">
 
       {/* ══════════════════════════════════════════════
-          1. HERO — split layout
+          1. HERO — split layout (image left, logo+bullets right)
       ══════════════════════════════════════════════ */}
-      <section className="bg-gradient-to-br from-[#003087] via-[#0a3fa0] to-[#1a4aa8] text-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch min-h-[580px]">
+      <section className="bg-white overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[500px]">
 
-            {/* Text — right side (RTL) */}
-            <div className="py-16 lg:py-20 order-2 lg:order-1 flex flex-col justify-center">
-              <div className="inline-block bg-[#F5C400]/20 text-[#F5C400] text-xs font-bold px-4 py-1.5 rounded-full mb-5 w-fit">
-                ✨ קייטנות קיץ 2026
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
-                מצאו את הקייטנה
-                <br />
-                <span className="text-[#F5C400]">המושלמת</span>
-                <br />
-                לילד שלכם!
-              </h1>
-
-              <ul className="space-y-2.5 mb-8">
-                {HERO_BULLETS.map((b) => (
-                  <li key={b} className="flex items-center gap-3 text-base text-blue-100">
-                    <span className="w-5 h-5 rounded-full bg-green-400/20 border border-green-400 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-green-400" strokeWidth={3} />
-                    </span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Link
-                  href="/search"
-                  className="inline-flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-3.5 rounded-full transition-colors"
-                >
-                  הבטיחו מקום עכשיו »
-                </Link>
-                <Link
-                  href="#camps"
-                  className="inline-flex items-center justify-center border-2 border-white/30 hover:border-white text-white font-bold text-base px-8 py-3.5 rounded-full transition-colors"
-                >
-                  לכל הקייטנות
-                </Link>
-              </div>
-
-              <HeroSearch />
-            </div>
-
-            {/* Image — left side */}
-            <div className="relative order-1 lg:order-2 overflow-hidden min-h-[280px]">
-              {/* overlay gradient for text readability on mobile */}
-              <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/70 via-transparent to-transparent z-10 lg:hidden" />
-              {/* Real Unsplash image */}
+          {/* Right (RTL start): Logo + bullets — white bg */}
+          <div className="flex flex-col justify-center px-8 md:px-16 py-14 order-1">
+            {/* Large logo */}
+            <div className="mb-8">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={HERO_IMG}
-                alt="ילדים רצים בקייטנה"
-                className="w-full h-full object-cover object-center"
+                src="/kaytanot_logo.webp"
+                alt="קייטנות"
+                style={{ height: "120px", width: "auto" }}
                 loading="eager"
               />
-              {/* Decorative circles */}
-              <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-[#F5C400]/10 hidden lg:block pointer-events-none" />
-              <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/5 hidden lg:block pointer-events-none" />
+            </div>
+
+            <ul className="space-y-4">
+              {HERO_BULLETS.map((b) => (
+                <li key={b} className="flex items-start gap-3 text-base text-[#003087]">
+                  <span className="w-6 h-6 rounded-full bg-[#F5C400] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-[#003087]" strokeWidth={3} />
+                  </span>
+                  <span className="font-medium leading-snug">{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Left: Hero image */}
+          <div className="relative order-2 overflow-hidden min-h-[300px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={HERO_IMG}
+              alt="ילדים רצים בקייטנה"
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          2. SEARCH BAR
+      ══════════════════════════════════════════════ */}
+      <section className="bg-[#003087] py-10 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-white text-center text-2xl font-black mb-6">
+            חפשו קייטנה שמתאימה לכם
+          </h2>
+          <div className="bg-white rounded-2xl p-4 md:p-6 shadow-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+              <div>
+                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">עיר / אזור</label>
+                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
+                  <option value="">כל הערים</option>
+                  <option>תל אביב</option>
+                  <option>ירושלים</option>
+                  <option>חיפה</option>
+                  <option>באר שבע</option>
+                  <option>רחובות</option>
+                  <option>פתח תקווה</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">גיל הילד</label>
+                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
+                  <option value="">כל הגילאים</option>
+                  <option>3-5</option>
+                  <option>6-8</option>
+                  <option>9-11</option>
+                  <option>12-14</option>
+                  <option>15-18</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">סוג קייטנה</label>
+                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
+                  <option value="">כל הסוגים</option>
+                  <option>ספורט</option>
+                  <option>שחייה</option>
+                  <option>ריקוד</option>
+                  <option>אמנות</option>
+                  <option>טכנולוגיה</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#003087] mb-1.5 pr-1">תאריכים</label>
+                <select className="w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm text-gray-600 focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]">
+                  <option value="">כל התאריכים</option>
+                  <option>יולי 2026</option>
+                  <option>אוגוסט 2026</option>
+                  <option>יולי-אוגוסט 2026</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <Link
+                href="/search"
+                className="w-full sm:w-auto flex-1 sm:flex-none text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-10 py-3.5 rounded-full transition-colors"
+              >
+                מצאו קייטנה
+              </Link>
+              <Link
+                href="/search"
+                className="text-[#003087] hover:text-[#F5C400] text-sm font-medium underline underline-offset-2 transition-colors"
+              >
+                חיפוש מתקדם
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          2. CAMPS — "הורים בוחרים"
+          3. CAMPS — "הורים בוחרים"
       ══════════════════════════════════════════════ */}
       <section id="camps" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
@@ -214,7 +255,6 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            /* Placeholder cards with real images */
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
               {PLACEHOLDER_CAMPS.map((c) => (
                 <div key={c.name} className="bg-white rounded-2xl shadow-md border border-[#e0e8f0] overflow-hidden flex flex-col">
@@ -229,15 +269,12 @@ export default async function HomePage() {
                   </div>
                   <div className="flex flex-col flex-1 p-5">
                     <h3 className="font-extrabold text-lg text-[#003087] mb-1 leading-tight">{c.name}</h3>
-                    <p className="text-gray-500 text-sm mb-3">{c.subtitle}</p>
-                    <div className="flex gap-2 text-xl mb-5 flex-1">
-                      {c.icons.map((ic, i) => <span key={i}>{ic}</span>)}
-                    </div>
+                    <p className="text-gray-500 text-sm mb-5 flex-1">{c.subtitle}</p>
                     <Link
                       href="/search"
                       className="block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-bold py-3 rounded-full transition-colors text-sm"
                     >
-                      לפרטים והרשמה »
+                      לפרטים והרשמה
                     </Link>
                   </div>
                 </div>
@@ -257,7 +294,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          3. CATEGORIES — icon + desc + 3 images
+          4. CATEGORIES — icon + desc + 3 images
       ══════════════════════════════════════════════ */}
       <section id="categories" className="py-16 px-4 bg-[#F5F7FA]">
         <div className="container mx-auto">
@@ -267,46 +304,48 @@ export default async function HomePage() {
               בחרו מסלול שמתאים לילד שלכם
             </h2>
             <p className="text-gray-500 mt-3 max-w-xl mx-auto text-sm">
-              מסלולי הספורט שלנו מפולחים מקצועית, ועל ידי מדריכים מנוסים לכל גיל
+              מסלולי הספורט שלנו מפולחים מקצועית, על ידי מדריכים מנוסים לכל גיל
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.label}
-                href={`/search?category=${encodeURIComponent(cat.label)}`}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-[#e0e8f0] group"
-              >
-                {/* Icon + label */}
-                <div className="p-5 pb-3">
-                  <div className="text-4xl mb-2">{cat.icon}</div>
-                  <h3 className="font-extrabold text-lg text-[#003087] mb-1">{cat.label}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed">{cat.desc}</p>
-                </div>
-
-                {/* 3 real images */}
-                <div className="grid grid-cols-3 gap-1 p-2 pt-1">
-                  {cat.images.map((src, n) => (
-                    <div key={n} className="h-20 rounded-lg overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={src}
-                        alt={cat.label}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                      />
+            {CATEGORIES.map((cat) => {
+              const CatIcon = cat.Icon;
+              return (
+                <Link
+                  key={cat.label}
+                  href={`/search?category=${encodeURIComponent(cat.label)}`}
+                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-[#e0e8f0] group"
+                >
+                  <div className="p-5 pb-3">
+                    <div className="w-10 h-10 rounded-full bg-[#003087]/10 flex items-center justify-center mb-3">
+                      <CatIcon className="w-5 h-5 text-[#003087]" />
                     </div>
-                  ))}
-                </div>
-              </Link>
-            ))}
+                    <h3 className="font-extrabold text-lg text-[#003087] mb-1">{cat.label}</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed">{cat.desc}</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1 p-2 pt-1">
+                    {cat.images.map((src, n) => (
+                      <div key={n} className="h-20 rounded-lg overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={src}
+                          alt={cat.label}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          4. BENEFITS — 6 icons in a row
+          5. BENEFITS — 6 icons in a row
       ══════════════════════════════════════════════ */}
       <section id="benefits" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
@@ -333,7 +372,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          5. PARTNERSHIP BANNER — colorful partner chips
+          6. PARTNERSHIP BANNER
       ══════════════════════════════════════════════ */}
       <section className="bg-[#F5F7FA] py-12 px-4">
         <div className="container mx-auto text-center">
@@ -358,14 +397,14 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          6. LEAD FORM — split layout
+          7. LEAD FORM — split layout
       ══════════════════════════════════════════════ */}
       <section id="contact">
         <LeadFormSection />
       </section>
 
       {/* ══════════════════════════════════════════════
-          7. PHOTO GALLERY — real Unsplash images
+          8. PHOTO GALLERY
       ══════════════════════════════════════════════ */}
       <section className="py-10 bg-[#F5F7FA]">
         <div className="container mx-auto px-4">
@@ -387,12 +426,11 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          8. BOTTOM CTA
+          9. BOTTOM CTA
       ══════════════════════════════════════════════ */}
       <section className="bg-[#003087] text-white py-14 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* Text */}
             <div>
               <div className="inline-block bg-[#F5C400] text-[#003087] text-xs font-black px-4 py-1.5 rounded-full mb-4">
                 מקומות מוגבלים!
@@ -404,7 +442,6 @@ export default async function HomePage() {
                 אל תפספסו את הקיץ הכי טוב של ילדכם — הבטיחו מקום לפני שייגמרו.
               </p>
             </div>
-            {/* Mini form */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
               <p className="font-bold text-lg mb-4 text-center">השאירו פרטים ונחזור אליכם</p>
               <div className="grid grid-cols-2 gap-3 mb-3">
@@ -436,10 +473,11 @@ export default async function HomePage() {
                 href="/search"
                 className="block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black py-3 rounded-full transition-colors"
               >
-                שלח פרטים »
+                שלח פרטים
               </Link>
-              <p className="text-center text-blue-200/60 text-xs mt-3 flex items-center justify-center gap-1">
-                🔒 הפרטים מוצפנים ולא יועברו לגורם אחר
+              <p className="text-center text-blue-200/60 text-xs mt-3 flex items-center justify-center gap-1.5">
+                <Lock className="w-3 h-3" />
+                הפרטים מוצפנים ולא יועברו לגורם אחר
               </p>
             </div>
           </div>
