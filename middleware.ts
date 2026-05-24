@@ -1,37 +1,21 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          )
-          supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
-      },
-    }
-  )
+  // Allow: _next internals, static assets, and /coming-soon itself
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/coming-soon') ||
+    pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)
+  ) {
+    return NextResponse.next()
+  }
 
-  await supabase.auth.getUser()
-
-  return supabaseResponse
+  // Redirect everything else → /coming-soon
+  return NextResponse.redirect(new URL('/coming-soon', request.url))
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image).*)'],
 }
