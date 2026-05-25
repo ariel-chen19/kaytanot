@@ -126,17 +126,20 @@ export default async function HomePage() {
       <section className="relative bg-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[520px]">
 
-          {/* Right col (RTL start): Logo + subtitle + arrow + bullets */}
+          {/* Right col (RTL start): Text hero + arrow + bullets */}
           <div className="flex flex-col justify-center px-8 md:px-14 py-14 bg-white z-10 order-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/kaytanot_logo.webp"
-              alt="קייטנות"
-              style={{ height: "110px", width: "auto" }}
-              className="mb-2"
-              loading="eager"
-            />
-            <p className="text-[#003087] text-xl font-bold mb-1">הכיף שלהם מתחיל כאן</p>
+            <h1 className="text-5xl md:text-6xl font-black text-[#003087] leading-tight mb-2">
+              קייטנות
+            </h1>
+            <p className="text-2xl md:text-3xl font-black text-[#003087] mb-1">
+              הכיף שלהם מתחיל כאן
+            </p>
+            <p className="text-lg md:text-xl font-bold text-gray-700 mb-1">
+              כל הקייטנות במקום אחד
+            </p>
+            <p className="text-sm md:text-base text-gray-500 leading-relaxed mb-2">
+              מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם
+            </p>
 
             {/* Yellow curved arrow */}
             <svg viewBox="0 0 280 55" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-56 h-10 mb-8">
