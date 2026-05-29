@@ -3,11 +3,7 @@ export const dynamic = 'force-dynamic';
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, CheckCircle, Clock, Mail, Phone } from "lucide-react";
+import { Plus, CheckCircle, Clock, Mail, Phone, Tent, Inbox, BarChart3 } from "lucide-react";
 
 interface Camp {
   id: string;
@@ -30,7 +26,7 @@ interface Lead {
 }
 
 function getCampName(camps: Lead["camps"]): string {
-  if (!camps) return "—";
+  if (!camps) return "פנייה כללית";
   if (Array.isArray(camps)) return camps[0]?.name ?? "—";
   return camps.name;
 }
@@ -38,14 +34,12 @@ function getCampName(camps: Lead["camps"]): string {
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: { success?: string };
+  searchParams: { success?: string; tab?: string };
 }) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/auth/login?redirect=/dashboard");
-  }
+  if (!user) redirect("/auth/login?redirect=/dashboard");
 
   const { data: camps } = await supabase
     .from("camps")
@@ -63,150 +57,169 @@ export default async function DashboardPage({
         .order("created_at", { ascending: false })
     : { data: [] as Lead[] };
 
-  const campList = (camps ?? []) as Camp[];
-  const leadList = (leadsData ?? []) as Lead[];
+  const campList  = (camps    ?? []) as Camp[];
+  const leadList  = (leadsData ?? []) as Lead[];
+  const activeTab = searchParams.tab ?? "camps";
+
+  const stats = [
+    { label: "קייטנות פעילות",    value: campList.filter(c => c.is_active).length,  icon: CheckCircle, color: "text-green-600",  bg: "bg-green-50"  },
+    { label: "ממתינות לאישור",    value: campList.filter(c => !c.is_active).length, icon: Clock,       color: "text-[#F5C400]", bg: "bg-yellow-50" },
+    { label: 'סה"כ פניות',        value: leadList.length,                            icon: BarChart3,   color: "text-[#003087]", bg: "bg-blue-50"   },
+  ];
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-[#1A1A2E]">לוח הבקרה</h1>
-          <p className="text-muted-foreground">{user.email}</p>
-        </div>
-        <Link href="/publish">
-          <Button className="bg-[#FF6B35] hover:bg-[#e55a27] text-white gap-2 rounded-xl">
+    <div className="min-h-screen bg-[#F5F7FA]">
+
+      {/* Header */}
+      <div className="bg-[#003087] py-10 px-4">
+        <div className="container mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-black text-white">לוח הבקרה</h1>
+            <p className="text-blue-200 text-sm mt-1">{user.email}</p>
+          </div>
+          <Link
+            href="/publish"
+            className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-6 py-3 rounded-full transition-colors text-sm w-fit"
+          >
             <Plus className="w-4 h-4" />
             פרסם קייטנה חדשה
-          </Button>
-        </Link>
-      </div>
-
-      {searchParams.success && (
-        <div className="mb-6 bg-green-50 border border-green-200 text-green-800 rounded-2xl p-4 flex items-center gap-3">
-          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-          <p>הקייטנה נשמרה בהצלחה! היא תפורסם לאחר אישור התשלום.</p>
+          </Link>
         </div>
-      )}
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="rounded-2xl">
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground text-sm">קייטנות פעילות</p>
-            <p className="text-4xl font-extrabold text-[#1B4F72]">
-              {campList.filter((c) => c.is_active).length}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl">
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground text-sm">ממתינות לאישור</p>
-            <p className="text-4xl font-extrabold text-[#FF6B35]">
-              {campList.filter((c) => !c.is_active).length}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl">
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground text-sm">סה&quot;כ פניות</p>
-            <p className="text-4xl font-extrabold text-green-600">
-              {leadList.length}
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
-      <Tabs defaultValue="camps" dir="rtl">
-        <TabsList className="mb-6">
-          <TabsTrigger value="camps">הקייטנות שלי</TabsTrigger>
-          <TabsTrigger value="leads">פניות שהתקבלו</TabsTrigger>
-        </TabsList>
+      <div className="container mx-auto px-4 py-8">
 
-        <TabsContent value="camps">
-          {campList.length > 0 ? (
+        {/* Success banner */}
+        {searchParams.success && (
+          <div className="mb-6 bg-green-50 border border-green-200 text-green-800 rounded-2xl p-4 flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+            <p className="text-sm font-medium">הקייטנה נשמרה בהצלחה! היא תפורסם לאחר אישור התשלום.</p>
+          </div>
+        )}
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {stats.map(({ label, value, icon: Icon, color, bg }) => (
+            <div key={label} className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-full ${bg} flex items-center justify-center flex-shrink-0`}>
+                <Icon className={`w-6 h-6 ${color}`} />
+              </div>
+              <div>
+                <p className="text-gray-500 text-sm">{label}</p>
+                <p className={`text-3xl font-black ${color}`}>{value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6">
+          {[{ key: "camps", label: "הקייטנות שלי", icon: Tent },
+            { key: "leads", label: "פניות שהתקבלו", icon: Inbox }
+          ].map(({ key, label, icon: Icon }) => (
+            <Link
+              key={key}
+              href={`/dashboard?tab=${key}`}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-colors ${
+                activeTab === key
+                  ? "bg-[#003087] text-white"
+                  : "bg-white text-[#003087] border border-[#e0e8f0] hover:border-[#003087]"
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Camps tab */}
+        {activeTab === "camps" && (
+          campList.length > 0 ? (
             <div className="space-y-3">
               {campList.map((camp) => (
-                <Card key={camp.id} className="rounded-2xl">
-                  <CardContent className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-5">
-                    <div>
-                      <h3 className="font-bold text-lg">{camp.name}</h3>
-                      <p className="text-muted-foreground text-sm">{camp.city}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      {camp.is_active ? (
-                        <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
-                          <CheckCircle className="w-3 h-3" />
-                          פעיל
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-yellow-100 text-yellow-700 flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          ממתין לאישור
-                        </Badge>
-                      )}
-                      <Link href={`/camps/${camp.slug}`}>
-                        <Button variant="outline" size="sm">צפה</Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={camp.id} className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-black text-[#003087] text-lg">{camp.name}</h3>
+                    <p className="text-gray-500 text-sm">{camp.city}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {camp.is_active ? (
+                      <span className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full">
+                        <CheckCircle className="w-3.5 h-3.5" /> פעיל
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1.5 rounded-full">
+                        <Clock className="w-3.5 h-3.5" /> ממתין לאישור
+                      </span>
+                    )}
+                    <Link
+                      href={`/kaytana/${camp.slug}`}
+                      className="border border-[#003087] text-[#003087] hover:bg-[#003087] hover:text-white text-sm font-bold px-4 py-2 rounded-full transition-colors"
+                    >
+                      צפה
+                    </Link>
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 bg-white rounded-2xl border border-border">
-              <span className="text-6xl mb-4 block">🏕️</span>
-              <h3 className="text-xl font-bold mb-2">עדיין אין לך קייטנות</h3>
-              <p className="text-muted-foreground mb-6">פרסם את הקייטנה הראשונה שלך עכשיו!</p>
-              <Link href="/publish">
-                <Button className="bg-[#FF6B35] hover:bg-[#e55a27] text-white">פרסם קייטנה</Button>
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-[#e0e8f0] text-center">
+              <div className="w-16 h-16 rounded-full bg-[#F5F7FA] flex items-center justify-center mb-4">
+                <Tent className="w-8 h-8 text-[#003087]/30" />
+              </div>
+              <h3 className="text-xl font-black text-[#003087] mb-2">עדיין אין לך קייטנות</h3>
+              <p className="text-gray-500 text-sm mb-6">פרסם את הקייטנה הראשונה שלך עכשיו!</p>
+              <Link href="/publish" className="bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-7 py-3 rounded-full transition-colors text-sm">
+                פרסם קייטנה
               </Link>
             </div>
-          )}
-        </TabsContent>
+          )
+        )}
 
-        <TabsContent value="leads">
-          {leadList.length > 0 ? (
+        {/* Leads tab */}
+        {activeTab === "leads" && (
+          leadList.length > 0 ? (
             <div className="space-y-3">
               {leadList.map((lead) => (
-                <Card key={lead.id} className="rounded-2xl">
-                  <CardContent className="py-5">
-                    <div className="flex flex-col md:flex-row justify-between gap-4">
-                      <div className="space-y-1">
-                        <p className="font-bold text-lg">{lead.parent_name}</p>
-                        <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Mail className="w-4 h-4" />
-                            {lead.parent_email}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Phone className="w-4 h-4" />
-                            {lead.parent_phone}
-                          </span>
-                        </div>
-                        {lead.message && (
-                          <p className="text-sm text-foreground/70 mt-2 bg-gray-50 rounded-lg p-3">
-                            {lead.message}
-                          </p>
-                        )}
+                <div key={lead.id} className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-5">
+                  <div className="flex flex-col md:flex-row justify-between gap-4">
+                    <div className="space-y-2">
+                      <p className="font-black text-[#003087] text-lg">{lead.parent_name}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <a href={`mailto:${lead.parent_email}`} className="flex items-center gap-1.5 hover:text-[#003087] transition-colors">
+                          <Mail className="w-4 h-4" />{lead.parent_email}
+                        </a>
+                        <a href={`tel:${lead.parent_phone}`} className="flex items-center gap-1.5 hover:text-[#003087] transition-colors">
+                          <Phone className="w-4 h-4" />{lead.parent_phone}
+                        </a>
                       </div>
-                      <div className="text-left md:text-right text-sm text-muted-foreground flex-shrink-0">
-                        <Badge variant="outline" className="mb-1">{getCampName(lead.camps)}</Badge>
-                        <p>{new Date(lead.created_at).toLocaleDateString("he-IL")}</p>
-                      </div>
+                      {lead.message && (
+                        <p className="text-sm text-gray-600 bg-[#F5F7FA] rounded-xl p-3 border border-[#e0e8f0]">
+                          {lead.message}
+                        </p>
+                      )}
                     </div>
-                  </CardContent>
-                </Card>
+                    <div className="flex-shrink-0 text-sm text-gray-400 flex flex-col items-start md:items-end gap-1">
+                      <span className="bg-[#003087]/10 text-[#003087] text-xs font-bold px-3 py-1 rounded-full">
+                        {getCampName(lead.camps)}
+                      </span>
+                      <span>{new Date(lead.created_at).toLocaleDateString("he-IL")}</span>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 bg-white rounded-2xl border border-border">
-              <span className="text-6xl mb-4 block">📬</span>
-              <h3 className="text-xl font-bold mb-2">עדיין אין פניות</h3>
-              <p className="text-muted-foreground">פניות מהורים יופיעו כאן ברגע שהקייטנה שלך תפורסם.</p>
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-[#e0e8f0] text-center">
+              <div className="w-16 h-16 rounded-full bg-[#F5F7FA] flex items-center justify-center mb-4">
+                <Inbox className="w-8 h-8 text-[#003087]/30" />
+              </div>
+              <h3 className="text-xl font-black text-[#003087] mb-2">עדיין אין פניות</h3>
+              <p className="text-gray-500 text-sm">פניות מהורים יופיעו כאן ברגע שהקייטנה שלך תפורסם.</p>
             </div>
-          )}
-        </TabsContent>
-      </Tabs>
+          )
+        )}
+      </div>
     </div>
   );
 }

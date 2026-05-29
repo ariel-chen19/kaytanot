@@ -10,9 +10,34 @@ const assistant = Assistant({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kaytanot.co.il";
+
 export const metadata: Metadata = {
-  title: "קייטנות – מצאו את הקייטנה המושלמת לילד שלכם",
-  description: "פלטפורמת הקייטנות המובילה בישראל – חיפוש, השוואה ופרסום קייטנות לכל הגילאים",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default:  "קייטנות — כל הקייטנות במקום אחד",
+    template: "%s | קייטנות",
+  },
+  description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם. כל הקייטנות בישראל במקום אחד.",
+  keywords: ["קייטנות", "קיץ 2026", "קייטנת קיץ", "קייטנה לילדים", "קייטנת ספורט", "קייטנת שחייה"],
+  openGraph: {
+    type:        "website",
+    locale:      "he_IL",
+    url:         siteUrl,
+    siteName:    "קייטנות",
+    title:       "קייטנות — כל הקייטנות במקום אחד",
+    description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם.",
+    images: [{ url: "/kaytanot_logo.webp", width: 800, height: 400, alt: "קייטנות" }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "קייטנות — כל הקייטנות במקום אחד",
+    description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם.",
+  },
+  robots: {
+    index:  true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

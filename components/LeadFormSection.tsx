@@ -28,6 +28,7 @@ const PERKS = [
 
 export default function LeadFormSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -38,10 +39,25 @@ export default function LeadFormSection() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    // Simulate submit — in production wire to /api/leads or a CRM
-    await new Promise((r) => setTimeout(r, 800));
-    console.log("Lead form data:", data);
-    setSubmitted(true);
+    setServerError(null);
+    const res = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        parent_name:     data.child_name,
+        parent_email:    data.parent_email,
+        parent_phone:    data.parent_phone,
+        child_name:      data.child_name,
+        last_name:       data.last_name,
+        child_age:       data.child_age,
+        preferred_track: data.preferred_track,
+      }),
+    });
+    if (res.ok) {
+      setSubmitted(true);
+    } else {
+      setServerError("אירעה שגיאה. אנא נסו שוב.");
+    }
   };
 
   return (
@@ -154,6 +170,10 @@ export default function LeadFormSection() {
                   />
                   {errors.parent_email && <p className="text-red-500 text-xs mt-1 pr-3">{errors.parent_email.message}</p>}
                 </div>
+
+                {serverError && (
+                  <p className="text-red-500 text-sm text-center">{serverError}</p>
+                )}
 
                 <button
                   type="submit"
