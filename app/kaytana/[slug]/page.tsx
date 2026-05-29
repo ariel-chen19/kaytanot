@@ -2,34 +2,27 @@ export const dynamic = "force-dynamic";
 
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { MapPin, Users, CheckCircle, Calendar, Clock, Building2 } from "lucide-react";
+import {
+  MapPin, Users, Calendar, Clock, ChevronDown,
+  Phone, Waves, Star, Anchor, Trees, Film,
+  Target, Wind, Zap, Music2, ShoppingBag, Bike,
+  CheckCircle, ArrowLeft,
+} from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import FaqAccordion from "@/components/FaqAccordion";
 import Link from "next/link";
+import type { Metadata } from "next";
 
-interface Cycle {
-  label: string;
-  dates: string;
-  days: string;
-  hours: string;
-}
+/* ─── Types ─────────────────────────────────────────── */
 
-interface FaqItem {
-  q: string;
-  a: string;
-}
+interface Cycle  { label: string; dates: string; days: string; hours: string }
+interface FaqItem { q: string; a: string }
 
 interface Camp {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  city: string;
-  location: string | null;
-  age_min: number;
-  age_max: number;
-  price_basic: number | null;
-  price_advanced: number | null;
+  id: string; name: string; slug: string;
+  description: string | null; city: string; location: string | null;
+  age_min: number; age_max: number;
+  price_basic: number | null; price_advanced: number | null;
   image_url: string | null;
   activities: string[] | null;
   cycles: Cycle[] | null;
@@ -37,154 +30,290 @@ interface Camp {
   faq: FaqItem[] | null;
 }
 
-interface PageProps {
-  params: { slug: string };
+/* ─── Activity icons (keyword match → icon + color) ─── */
+
+const ACTIVITY_STYLES: { keywords: string[]; icon: React.ElementType; bg: string; text: string }[] = [
+  { keywords: ["מים","שחיי","בריכה","שייט","ים"],             icon: Waves,      bg: "bg-blue-100",   text: "text-blue-600"   },
+  { keywords: ["לונה","פארק","אטרקציה","תיאטרון"],             icon: Star,       bg: "bg-yellow-100", text: "text-yellow-600" },
+  { keywords: ["קולנוע","סרט"],                               icon: Film,       bg: "bg-purple-100", text: "text-purple-600" },
+  { keywords: ["גן חיות","טבע","חי"],                         icon: Trees,      bg: "bg-green-100",  text: "text-green-600"  },
+  { keywords: ["כדור","ספורט","כושר","טניס"],                  icon: Target,     bg: "bg-red-100",    text: "text-red-600"    },
+  { keywords: ["ריקוד","מוזיקה"],                              icon: Music2,     bg: "bg-pink-100",   text: "text-pink-600"   },
+  { keywords: ["אופניים","רכיבה"],                            icon: Bike,       bg: "bg-orange-100", text: "text-orange-600" },
+  { keywords: ["מתנפחים","משחק"],                             icon: Wind,       bg: "bg-teal-100",   text: "text-teal-600"   },
+  { keywords: ["קניות","שוק"],                                icon: ShoppingBag,bg: "bg-indigo-100", text: "text-indigo-600" },
+  { keywords: ["עוגן","ספינה","אנייה"],                       icon: Anchor,     bg: "bg-cyan-100",   text: "text-cyan-600"   },
+];
+
+const FALLBACK_STYLES = [
+  { bg: "bg-blue-100",   text: "text-blue-600",   icon: Zap     },
+  { bg: "bg-yellow-100", text: "text-yellow-600", icon: Star    },
+  { bg: "bg-green-100",  text: "text-green-600",  icon: CheckCircle },
+  { bg: "bg-purple-100", text: "text-purple-600", icon: Wind    },
+  { bg: "bg-pink-100",   text: "text-pink-600",   icon: Music2  },
+  { bg: "bg-orange-100", text: "text-orange-600", icon: Target  },
+];
+
+function getActivityStyle(name: string, idx: number) {
+  const lower = name.toLowerCase();
+  const match = ACTIVITY_STYLES.find(s => s.keywords.some(k => lower.includes(k)));
+  if (match) return match;
+  return FALLBACK_STYLES[idx % FALLBACK_STYLES.length];
 }
 
-export default async function KaytanaPage({ params }: PageProps) {
+/* ─── Metadata ──────────────────────────────────────── */
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const supabase = createClient();
+  const { data } = await supabase.from("camps").select("name,description,city").eq("slug", params.slug).single();
+  if (!data) return {};
+  return {
+    title: `${data.name} — קייטנות`,
+    description: data.description?.slice(0, 155) ?? `קייטנה ב${data.city}`,
+  };
+}
 
+/* ─── Page ──────────────────────────────────────────── */
+
+export default async function KaytanaPage({ params }: { params: { slug: string } }) {
+  const supabase = createClient();
   const { data: camp } = await supabase
-    .from("camps")
-    .select("*")
-    .eq("slug", params.slug)
-    .eq("is_active", true)
-    .single();
-
+    .from("camps").select("*").eq("slug", params.slug).eq("is_active", true).single();
   if (!camp) notFound();
-
   const c = camp as Camp;
+
+  const cityCount      = c.cities?.length ?? 0;
+  const activityCount  = c.activities?.length ?? 0;
+  const cycleCount     = c.cycles?.length ?? 0;
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
 
-      {/* ══════════════════════════════════════════════
-          1. HERO
-      ══════════════════════════════════════════════ */}
-      <div className="relative w-full h-72 md:h-96 overflow-hidden">
+      {/* ══════════════════════════════════
+          HERO
+      ══════════════════════════════════ */}
+      <div className="relative overflow-hidden">
+        {/* Background */}
         {c.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={c.image_url}
-            alt={c.name}
-            className="w-full h-full object-cover object-center"
-          />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#003087]/90 via-[#003087]/50 to-[#003087]/20" />
+          </>
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#003087] to-[#1a4aa8]" />
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-[#003087] via-[#0a3fa0] to-[#1a4aa8]" />
+            {/* Decorative circles */}
+            <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-[#F5C400]/10 pointer-events-none" />
+            <div className="absolute top-10 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-72 h-72 rounded-full bg-[#F5C400]/5 pointer-events-none" />
+          </>
         )}
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#003087]/80 via-[#003087]/30 to-transparent" />
 
-        {/* Hero content */}
-        <div className="absolute bottom-0 right-0 left-0 p-6 md:p-10 container mx-auto">
-          <div className="flex flex-wrap gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full">
-              <MapPin className="w-3.5 h-3.5" />
-              {c.city}
-            </span>
-            <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full">
-              <Users className="w-3.5 h-3.5" />
-              גילאי {c.age_min}–{c.age_max}
-            </span>
+        {/* Content */}
+        <div className="relative container mx-auto px-4 py-16 md:py-24">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-white/60 text-sm mb-6">
+            <Link href="/" className="hover:text-white transition-colors">דף הבית</Link>
+            <ChevronDown className="w-3 h-3 rotate-90" />
+            <Link href="/search" className="hover:text-white transition-colors">קייטנות</Link>
+            <ChevronDown className="w-3 h-3 rotate-90" />
+            <span className="text-white/90">{c.name}</span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4">
-            {c.name}
-          </h1>
-          <a
-            href="#contact-form"
-            className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-7 py-3 rounded-full transition-colors text-sm"
-          >
-            שלחו פנייה עכשיו
-          </a>
+
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
+              {c.name}
+            </h1>
+
+            {c.description && (
+              <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
+                {c.description.split(".")[0]}.
+              </p>
+            )}
+
+            {/* Info chips */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                <MapPin className="w-4 h-4 text-[#F5C400]" />
+                {c.city}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                <Users className="w-4 h-4 text-[#F5C400]" />
+                גילאי {c.age_min}–{c.age_max}
+              </span>
+              {cycleCount > 0 && (
+                <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                  <Calendar className="w-4 h-4 text-[#F5C400]" />
+                  {cycleCount} מחזורים
+                </span>
+              )}
+              {c.price_basic && (
+                <span className="inline-flex items-center gap-1.5 bg-[#F5C400] text-[#003087] text-sm font-black px-4 py-2 rounded-full">
+                  החל מ-{c.price_basic.toLocaleString("he-IL")} ₪
+                </span>
+              )}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#contact-form"
+                className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-full transition-colors text-base shadow-lg shadow-[#F5C400]/30"
+              >
+                להרשמה ופרטים
+                <ArrowLeft className="w-4 h-4" />
+              </a>
+              <a
+                href="tel:050-1234567"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-full transition-colors text-base border border-white/30"
+              >
+                <Phone className="w-4 h-4" />
+                התקשרו עכשיו
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════
-          MAIN LAYOUT — content (2/3) + sidebar (1/3)
-      ══════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════
+          STATS BAR
+      ══════════════════════════════════ */}
+      {(cityCount > 0 || activityCount > 0) && (
+        <div className="bg-white border-b border-[#e0e8f0] shadow-sm">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap divide-x divide-x-reverse divide-[#e0e8f0]">
+              {([
+                cityCount > 0     ? { value: cityCount,                    label: "ערים ברחבי הארץ", Icon: MapPin   } : null,
+                activityCount > 0 ? { value: activityCount,                label: "פעילויות שונות",  Icon: Star     } : null,
+                                    { value: `${c.age_min}–${c.age_max}`,  label: "שנים",            Icon: Users    },
+                cycleCount > 0    ? { value: cycleCount,                   label: "מחזורי קיץ",       Icon: Calendar } : null,
+              ] as ({ value: string | number; label: string; Icon: React.ElementType } | null)[])
+                .filter((s): s is { value: string | number; label: string; Icon: React.ElementType } => s !== null)
+                .map((stat, i) => (
+                <div key={i} className="flex items-center gap-3 px-6 py-4 flex-1 min-w-[120px]">
+                  <stat.Icon className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
+                  <div>
+                    <p className="text-2xl font-black text-[#003087] leading-none">{stat.value}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{stat.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════
+          MAIN LAYOUT
+      ══════════════════════════════════ */}
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-          {/* ── LEFT: Main content ── */}
-          <div className="lg:col-span-2 space-y-8">
+          {/* ── Main content (2/3) ── */}
+          <div className="lg:col-span-2 space-y-6">
 
             {/* Description */}
             {c.description && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-4">על הקייטנה</h2>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-wrap text-sm">{c.description}</p>
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-4 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  על הקייטנה
+                </h2>
+                <p className="text-gray-600 leading-relaxed whitespace-pre-wrap text-sm md:text-base">{c.description}</p>
               </section>
             )}
 
-            {/* ── 2. Activities ── */}
+            {/* Activities */}
             {c.activities && c.activities.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-5">פעילויות</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {c.activities.map((activity, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 bg-[#F5F7FA] rounded-xl px-4 py-3 border border-[#e0e8f0]"
-                    >
-                      <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                      <span className="text-sm font-medium text-[#003087]">{activity}</span>
-                    </div>
-                  ))}
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-6 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  מה עושים בקייטנה?
+                </h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {c.activities.map((act, i) => {
+                    const style = getActivityStyle(act, i);
+                    const Icon = style.icon;
+                    return (
+                      <div
+                        key={i}
+                        className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-[#e0e8f0] hover:border-[#003087]/30 hover:shadow-md transition-all text-center group"
+                      >
+                        <div className={`w-12 h-12 rounded-full ${style.bg} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                          <Icon className={`w-5 h-5 ${style.text}`} />
+                        </div>
+                        <span className="text-sm font-bold text-[#003087]">{act}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             )}
 
-            {/* ── 3. Cycles ── */}
+            {/* Cycles */}
             {c.cycles && c.cycles.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-5">מחזורים ותאריכים</h2>
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-6 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  תאריכים ומחזורים
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {c.cycles.map((cycle, i) => (
                     <div
                       key={i}
-                      className="rounded-2xl border-2 border-[#e0e8f0] hover:border-[#003087] transition-colors p-5"
+                      className="relative rounded-2xl border-2 border-[#e0e8f0] hover:border-[#003087] transition-colors p-5 overflow-hidden group"
                     >
-                      <div className="inline-block bg-[#003087] text-white text-xs font-black px-3 py-1 rounded-full mb-3">
+                      {/* Accent bar */}
+                      <div className="absolute top-0 right-0 w-1 h-full bg-[#F5C400] rounded-r-2xl" />
+                      <span className="inline-block bg-[#003087] text-white text-xs font-black px-3 py-1 rounded-full mb-4">
                         {cycle.label}
-                      </div>
-                      <ul className="space-y-1.5 text-sm text-gray-600">
+                      </span>
+                      <ul className="space-y-2">
                         {cycle.dates && (
-                          <li className="flex items-center gap-2">
+                          <li className="flex items-center gap-2 text-sm text-gray-700">
                             <Calendar className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                            {cycle.dates}
+                            <span className="font-medium">{cycle.dates}</span>
                           </li>
                         )}
                         {cycle.days && (
-                          <li className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                            {cycle.days}
+                          <li className="flex items-center gap-2 text-sm text-gray-700">
+                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
+                            <span>{cycle.days}</span>
                           </li>
                         )}
                         {cycle.hours && (
-                          <li className="flex items-center gap-2">
+                          <li className="flex items-center gap-2 text-sm text-gray-700">
                             <Clock className="w-4 h-4 text-[#003087]/40 flex-shrink-0" />
-                            {cycle.hours}
+                            <span>{cycle.hours}</span>
                           </li>
                         )}
                       </ul>
+                      <a
+                        href="#contact-form"
+                        className="mt-4 block w-full text-center bg-[#F5F7FA] hover:bg-[#F5C400] hover:text-[#003087] text-[#003087] text-xs font-bold py-2 rounded-full transition-colors border border-[#e0e8f0] hover:border-[#F5C400]"
+                      >
+                        הרשמה למחזור זה
+                      </a>
                     </div>
                   ))}
                 </div>
               </section>
             )}
 
-            {/* ── 4. Cities ── */}
+            {/* Cities */}
             {c.cities && c.cities.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-4 flex items-center gap-2">
-                  <Building2 className="w-5 h-5" />
-                  מיקומים
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-2 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  איפה הקייטנה פועלת?
                 </h2>
+                <p className="text-gray-500 text-sm mb-4">הקייטנה פועלת ב-{c.cities.length} ערים ברחבי הארץ</p>
                 <div className="flex flex-wrap gap-2">
                   {c.cities.map((city, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1.5 bg-[#003087]/8 text-[#003087] font-medium text-sm px-4 py-2 rounded-full border border-[#003087]/20"
+                      className="inline-flex items-center gap-1.5 bg-[#F5F7FA] hover:bg-[#003087] hover:text-white text-[#003087] font-medium text-sm px-4 py-2 rounded-full border border-[#e0e8f0] hover:border-[#003087] transition-colors cursor-default"
                     >
                       <MapPin className="w-3.5 h-3.5" />
                       {city}
@@ -194,76 +323,59 @@ export default async function KaytanaPage({ params }: PageProps) {
               </section>
             )}
 
-            {/* ── 5. Pricing ── */}
+            {/* Pricing */}
             {(c.price_basic || c.price_advanced) && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-5">תוכניות ומחירים</h2>
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-2 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  תוכניות ומחירים
+                </h2>
+                <p className="text-gray-500 text-sm mb-6">בחרו את התוכנית המתאימה לכם</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                   {c.price_basic && (
-                    <div className="rounded-2xl border-2 border-[#e0e8f0] p-6">
-                      <h3 className="font-bold text-[#003087] text-base mb-2">תוכנית בסיסית</h3>
-                      <p className="text-3xl font-black text-[#003087] mb-4">
-                        {c.price_basic.toLocaleString("he-IL")}
-                        <span className="text-lg font-bold"> ₪</span>
-                      </p>
-                      <ul className="space-y-2 text-sm text-gray-500">
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          כניסה לכל הפעילויות
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          ציוד בסיסי כלול
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          ליווי מקצועי
-                        </li>
+                    <div className="rounded-2xl border-2 border-[#e0e8f0] p-6 flex flex-col">
+                      <p className="text-sm font-bold text-gray-500 mb-1">תוכנית בסיסית</p>
+                      <div className="flex items-baseline gap-1 mb-4">
+                        <span className="text-4xl font-black text-[#003087]">{c.price_basic.toLocaleString("he-IL")}</span>
+                        <span className="text-lg font-bold text-[#003087]">₪</span>
+                        <span className="text-gray-400 text-sm">/ מחזור</span>
+                      </div>
+                      <ul className="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        {["כניסה לכל הפעילויות", "ציוד בסיסי כלול", "ליווי מקצועי", "ביטוח"].map(f => (
+                          <li key={f} className="flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
+                          </li>
+                        ))}
                       </ul>
-                      <a
-                        href="#contact-form"
-                        className="mt-5 block text-center bg-[#F5F7FA] hover:bg-[#e0e8f0] text-[#003087] font-bold py-2.5 rounded-full transition-colors text-sm border border-[#e0e8f0]"
-                      >
+                      <a href="#contact-form" className="block text-center bg-[#F5F7FA] hover:bg-[#003087] hover:text-white text-[#003087] font-bold py-3 rounded-full transition-colors border border-[#e0e8f0] hover:border-[#003087] text-sm">
                         בחרו תוכנית זו
                       </a>
                     </div>
                   )}
 
                   {c.price_advanced && (
-                    <div className="rounded-2xl border-2 border-[#F5C400] p-6 relative overflow-hidden">
-                      <div className="absolute top-3 left-3">
+                    <div className="rounded-2xl border-2 border-[#F5C400] p-6 flex flex-col relative overflow-hidden">
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-[#F5C400]" />
+                      <div className="absolute top-4 left-4">
                         <span className="bg-[#F5C400] text-[#003087] text-xs font-black px-3 py-1 rounded-full">
-                          מומלץ
+                          הכי פופולרי
                         </span>
                       </div>
-                      <h3 className="font-bold text-[#003087] text-base mb-2">תוכנית מתקדמת</h3>
-                      <p className="text-3xl font-black text-[#003087] mb-4">
-                        {c.price_advanced.toLocaleString("he-IL")}
-                        <span className="text-lg font-bold"> ₪</span>
-                      </p>
-                      <ul className="space-y-2 text-sm text-gray-500">
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          כל הכלול בבסיסי
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          ציוד מתקדם
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          הדרכה אישית
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                          אירועי בונוס
-                        </li>
+                      <p className="text-sm font-bold text-gray-500 mb-1 mt-6">תוכנית מתקדמת</p>
+                      <div className="flex items-baseline gap-1 mb-4">
+                        <span className="text-4xl font-black text-[#003087]">{c.price_advanced.toLocaleString("he-IL")}</span>
+                        <span className="text-lg font-bold text-[#003087]">₪</span>
+                        <span className="text-gray-400 text-sm">/ מחזור</span>
+                      </div>
+                      <ul className="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        {["כל הכלול בבסיסי", "ציוד מתקדם", "הדרכה אישית", "אירועי בונוס", "תמונות וסרטון סיום"].map(f => (
+                          <li key={f} className="flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
+                          </li>
+                        ))}
                       </ul>
-                      <a
-                        href="#contact-form"
-                        className="mt-5 block text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black py-2.5 rounded-full transition-colors text-sm"
-                      >
+                      <a href="#contact-form" className="block text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black py-3 rounded-full transition-colors text-sm shadow-md shadow-[#F5C400]/40">
                         בחרו תוכנית זו
                       </a>
                     </div>
@@ -272,46 +384,61 @@ export default async function KaytanaPage({ params }: PageProps) {
               </section>
             )}
 
-            {/* ── 6. FAQ ── */}
+            {/* FAQ */}
             {c.faq && c.faq.length > 0 && (
-              <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e0e8f0]">
-                <h2 className="text-xl font-black text-[#003087] mb-5">שאלות נפוצות</h2>
+              <section className="bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6 md:p-8">
+                <h2 className="text-xl font-black text-[#003087] mb-6 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
+                  שאלות נפוצות
+                </h2>
                 <FaqAccordion items={c.faq} />
               </section>
             )}
 
-            {/* Mobile contact form */}
-            <div id="contact-form" className="lg:hidden bg-white rounded-2xl p-6 shadow-sm border border-[#e0e8f0]">
+            {/* Mobile form */}
+            <div id="contact-form" className="lg:hidden bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6">
               <h2 className="text-xl font-black text-[#003087] mb-1">שלחו פנייה לקייטנה</h2>
-              <p className="text-gray-500 text-sm mb-5">מלאו את הפרטים ונחזור אליכם בהקדם</p>
+              <p className="text-gray-500 text-sm mb-5">נציג יחזור אליכם תוך 24 שעות</p>
               <ContactForm campId={c.id} campName={c.name} />
             </div>
 
           </div>
 
-          {/* ── RIGHT: Sticky sidebar ── */}
+          {/* ── Sidebar (1/3) ── */}
           <div className="hidden lg:block">
-            <div
-              id="contact-form"
-              className="bg-white rounded-2xl shadow-lg border border-[#e0e8f0] p-6 sticky top-24"
-            >
-              <h2 className="text-xl font-black text-[#003087] mb-1">שלחו פנייה לקייטנה</h2>
-              <p className="text-gray-500 text-sm mb-5">מלאו את הפרטים ונחזור אליכם בהקדם</p>
-              <ContactForm campId={c.id} campName={c.name} />
+            <div id="contact-form" className="bg-white rounded-2xl border border-[#e0e8f0] shadow-lg p-6 sticky top-6">
 
-              {c.location && (
-                <div className="mt-5 pt-5 border-t border-[#e0e8f0] flex items-start gap-2 text-sm text-gray-500">
-                  <MapPin className="w-4 h-4 text-[#003087] flex-shrink-0 mt-0.5" />
-                  <span>{c.location}</span>
+              {/* Price teaser */}
+              {c.price_basic && (
+                <div className="bg-[#003087] rounded-xl p-4 mb-5 text-center">
+                  <p className="text-blue-200 text-xs mb-1">החל מ</p>
+                  <p className="text-3xl font-black text-white">{c.price_basic.toLocaleString("he-IL")} <span className="text-lg">₪</span></p>
+                  <p className="text-blue-200 text-xs mt-1">למחזור</p>
                 </div>
               )}
 
+              <h2 className="text-lg font-black text-[#003087] mb-1">שלחו פנייה לקייטנה</h2>
+              <p className="text-gray-500 text-xs mb-4">נציג יחזור אליכם תוך 24 שעות</p>
+
+              <ContactForm campId={c.id} campName={c.name} />
+
+              {/* Contact + location */}
+              <div className="mt-5 pt-5 border-t border-[#e0e8f0] space-y-2">
+                <a href="tel:050-1234567" className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#003087] transition-colors">
+                  <Phone className="w-4 h-4 text-[#003087]" />
+                  050-1234567
+                </a>
+                {c.location && (
+                  <div className="flex items-start gap-2 text-sm text-gray-500">
+                    <MapPin className="w-4 h-4 text-[#003087] flex-shrink-0 mt-0.5" />
+                    <span>{c.location}</span>
+                  </div>
+                )}
+              </div>
+
               <div className="mt-4 text-center">
-                <Link
-                  href="/search"
-                  className="text-[#003087]/60 hover:text-[#003087] text-xs underline underline-offset-2 transition-colors"
-                >
-                  חזרה לכל הקייטנות
+                <Link href="/search" className="text-[#003087]/40 hover:text-[#003087] text-xs transition-colors">
+                  ← חזרה לכל הקייטנות
                 </Link>
               </div>
             </div>
@@ -319,6 +446,54 @@ export default async function KaytanaPage({ params }: PageProps) {
 
         </div>
       </div>
+
+      {/* ══════════════════════════════════
+          BOTTOM CTA STRIP
+      ══════════════════════════════════ */}
+      <div className="bg-[#003087] py-12 px-4 mt-6">
+        <div className="container mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-2">
+            רוצים לשריין מקום?
+          </h2>
+          <p className="text-blue-200 text-sm mb-6">המקומות מוגבלים — הירשמו עכשיו לפני שייגמר</p>
+          <a
+            href="#contact-form"
+            className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-10 py-4 rounded-full transition-colors text-base shadow-lg shadow-[#F5C400]/30"
+          >
+            שלחו פנייה עכשיו
+            <ArrowLeft className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
+          MOBILE STICKY BOTTOM BAR
+      ══════════════════════════════════ */}
+      <div className="lg:hidden fixed bottom-0 right-0 left-0 z-40 bg-white border-t border-[#e0e8f0] shadow-2xl px-4 py-3">
+        <div className="flex items-center gap-3">
+          {c.price_basic && (
+            <div className="flex-shrink-0">
+              <p className="text-xs text-gray-400">החל מ</p>
+              <p className="font-black text-[#003087] text-lg leading-none">{c.price_basic.toLocaleString("he-IL")} ₪</p>
+            </div>
+          )}
+          <a
+            href="#contact-form"
+            className="flex-1 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black py-3.5 rounded-full text-center transition-colors text-sm"
+          >
+            להרשמה ופרטים
+          </a>
+          <a
+            href="tel:050-1234567"
+            className="w-12 h-12 bg-[#003087] rounded-full flex items-center justify-center flex-shrink-0"
+          >
+            <Phone className="w-5 h-5 text-white" />
+          </a>
+        </div>
+      </div>
+      {/* Bottom padding for mobile sticky bar */}
+      <div className="lg:hidden h-20" />
+
     </div>
   );
 }
