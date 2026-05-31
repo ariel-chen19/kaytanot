@@ -92,68 +92,71 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <section className="relative min-h-[580px] md:min-h-[660px] flex items-center overflow-hidden">
+      {/* dir="ltr" — forces text LEFT physically, even in RTL page */}
+      <section className="relative min-h-[580px] md:min-h-[660px] overflow-hidden" dir="ltr">
 
-        {/* Full-bleed background image — LEFT side */}
-        <div className="absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={c.image_url ?? "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=1400&q=80"}
-            alt={c.name}
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          {/* Gradient: WHITE on RIGHT (text side in RTL), transparent on LEFT (image visible) */}
-          <div className="absolute inset-0 bg-gradient-to-l from-white via-white/97 to-white/0" />
-        </div>
+        {/* Full-bleed background image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={c.image_url ?? "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=1400&q=80"}
+          alt={c.name}
+          className="absolute inset-0 w-full h-full object-cover object-[65%_center]"
+          loading="eager"
+        />
 
-        {/* Text content — right side in RTL, dark text on white bg */}
-        <div className="relative container mx-auto px-6 py-20">
-          <div className="max-w-lg">
+        {/* Gradient: WHITE on LEFT (text), transparent on RIGHT (children visible) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.97) 30%, rgba(255,255,255,0.5) 52%, rgba(255,255,255,0) 68%)",
+          }}
+        />
+
+        {/* Text block — physically on LEFT */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full md:w-[55%] lg:w-[48%] px-8 md:px-14 lg:px-20 py-16" dir="rtl">
 
             {/* Year badge */}
-            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-6 shadow-md">
+            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-5 shadow-md">
               קייטנות קיץ 2026
             </span>
 
-            {/* Camp name — big */}
+            {/* Camp name — BIG */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#003087] leading-tight mb-3">
               קייטנת {c.name}
             </h1>
 
             {/* Tagline — slightly smaller */}
-            <p className="text-xl md:text-2xl font-bold text-gray-600 mb-8 leading-snug">
+            <p className="text-xl md:text-2xl font-bold text-gray-600 mb-7 leading-snug">
               {c.activities?.length
-                ? `כל האטרקציות המובילות בארץ`
+                ? "כל האטרקציות המובילות בארץ"
                 : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
             </p>
 
-            {/* 3 trust bullets — horizontal */}
-            <div className="flex flex-wrap gap-6 mb-8">
+            {/* 3 trust bullets */}
+            <div className="flex flex-wrap gap-5 mb-8">
               {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
                 <span key={b} className="flex items-center gap-2 text-[#003087] font-bold text-base">
-                  <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                   {b}
                 </span>
               ))}
             </div>
 
             {/* CTA */}
-            <div>
-              <a
-                href="#contact-form"
-                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] active:scale-95 text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-xl shadow-[#F5C400]/30 hover:scale-105"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                הבטיחו מקום עכשיו!
-              </a>
-              <p className="text-gray-400 text-sm mt-3 font-medium">
-                מקומות מוגבלים בכל קבוצה!
-              </p>
-            </div>
+            <a
+              href="#contact-form"
+              className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-xl shadow-[#F5C400]/30 hover:scale-105 active:scale-95"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              הבטיחו מקום עכשיו!
+            </a>
+            <p className="text-gray-400 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
 
           </div>
         </div>
+
       </section>
 
       {/* ══════════════════════════════════
