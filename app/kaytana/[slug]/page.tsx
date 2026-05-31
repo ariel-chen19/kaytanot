@@ -108,7 +108,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
 
         {/* Content — fills hero, flex centers vertically */}
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-6 md:px-10">
+          <div className="container mx-auto px-6 md:px-10 flex items-center">
 
             {/* Text block — RIGHT side in RTL flex */}
             <div className="w-full md:w-1/2 lg:w-5/12">
