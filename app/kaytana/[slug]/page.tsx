@@ -97,31 +97,26 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
         {c.image_url ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/70 to-transparent" />
+            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover object-center" />
+            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/75 to-[#003087]/10" />
           </>
         ) : (
           <>
-            <div className="absolute inset-0 bg-gradient-to-br from-[#003087] via-[#0a3fa0] to-[#1a4aa8]" />
-            {/* Decorative circles */}
-            <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-[#F5C400]/10 pointer-events-none" />
-            <div className="absolute top-10 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-72 h-72 rounded-full bg-[#F5C400]/5 pointer-events-none" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"
+              alt={c.name}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/75 to-[#003087]/10" />
           </>
         )}
 
         {/* Content */}
-        <div className="relative container mx-auto px-4 py-16 md:py-24">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-white/60 text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">דף הבית</Link>
-            <ChevronDown className="w-3 h-3 rotate-90" />
-            <Link href="/search" className="hover:text-white transition-colors">קייטנות</Link>
-            <ChevronDown className="w-3 h-3 rotate-90" />
-            <span className="text-white/90">{c.name}</span>
-          </div>
-
-          <div className="max-w-xl ml-auto">
+        <div className="relative container mx-auto px-4 py-16 md:py-24 flex items-center min-h-[inherit]">
+          {/* text block — in RTL flex naturally sits on the RIGHT */}
+          <div className="w-full md:w-1/2 lg:w-5/12">
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
               {c.name}
             </h1>
