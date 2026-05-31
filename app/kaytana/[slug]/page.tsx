@@ -103,17 +103,14 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           loading="eager"
         />
 
-        {/* Dark overlay — LEFT transparent, RIGHT dark (for text readability) */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/30 to-black/70" />
+        {/* Light overlay — left transparent, right light (for dark text on right) */}
+        <div className="absolute inset-0 bg-gradient-to-l from-white/75 via-white/40 to-transparent" />
 
-        {/* Content — fills hero, text pinned to physical right */}
+        {/* Content — fills hero */}
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-6 md:px-10 w-full flex items-center">
 
-            {/* Spacer pushes text block to the right */}
-            <div className="hidden md:block flex-1" />
-
-            {/* Text block — RIGHT side */}
+            {/* Text block — RIGHT side (in RTL, first child = right) */}
             <div className="w-full md:w-1/2 lg:w-5/12">
 
               {/* Badge */}
@@ -122,19 +119,19 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
               </span>
 
               {/* Camp name */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-3">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#003087] leading-tight mb-3">
                 קייטנת {c.name}
               </h1>
 
               {/* Tagline */}
-              <p className="text-xl md:text-2xl font-bold text-blue-100 mb-7">
+              <p className="text-xl md:text-2xl font-bold text-[#003087] mb-7">
                 {c.activities?.length ? "כל האטרקציות המובילות בארץ" : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
               </p>
 
               {/* 3 bullets */}
               <div className="flex flex-wrap gap-5 mb-8">
                 {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
-                  <span key={b} className="flex items-center gap-2 text-white font-bold">
+                  <span key={b} className="flex items-center gap-2 text-[#003087] font-bold">
                     <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
                     {b}
                   </span>
@@ -149,9 +146,13 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                 <ArrowLeft className="w-5 h-5" />
                 הבטיחו מקום עכשיו!
               </a>
-              <p className="text-white/50 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
+              <p className="text-[#003087]/50 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
 
             </div>
+
+            {/* Spacer — after text so in RTL flex text stays right */}
+            <div className="hidden md:block flex-1" />
+
           </div>
         </div>
       </div>
