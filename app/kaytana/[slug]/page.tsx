@@ -92,80 +92,62 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className="relative overflow-hidden min-h-[580px] md:min-h-[660px]">
-        {/* Background */}
-        {c.image_url ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/75 to-[#003087]/10" />
-          </>
-        ) : (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"
-              alt={c.name}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              loading="eager"
-            />
-            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/75 to-[#003087]/10" />
-          </>
-        )}
+      <div className="relative" style={{ minHeight: "620px" }}>
 
-        {/* Content */}
-        <div className="relative container mx-auto px-4 py-16 md:py-24 flex items-center min-h-[inherit]">
-          {/* text block — in RTL flex naturally sits on the RIGHT */}
-          <div className="w-full md:w-1/2 lg:w-5/12">
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
-              {c.name}
-            </h1>
+        {/* Background image — fills the div */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"}
+          alt={c.name}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
 
-            {c.description && (
-              <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
-                {c.description.split(".")[0]}.
+        {/* Dark overlay — RIGHT side (text), transparent on LEFT (image) */}
+        <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/80 to-[#003087]/20" />
+
+        {/* Content — fills hero, flex centers vertically */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-6 md:px-10">
+
+            {/* Text block — RIGHT side in RTL flex */}
+            <div className="w-full md:w-1/2 lg:w-5/12">
+
+              {/* Badge */}
+              <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-5 shadow-md">
+                קייטנות קיץ 2026
+              </span>
+
+              {/* Camp name */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-3">
+                קייטנת {c.name}
+              </h1>
+
+              {/* Tagline */}
+              <p className="text-xl md:text-2xl font-bold text-blue-100 mb-7">
+                {c.activities?.length ? "כל האטרקציות המובילות בארץ" : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
               </p>
-            )}
 
-            {/* Info chips */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                <MapPin className="w-4 h-4 text-[#F5C400]" />
-                {c.city}
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                <Users className="w-4 h-4 text-[#F5C400]" />
-                גילאי {c.age_min}–{c.age_max}
-              </span>
-              {cycleCount > 0 && (
-                <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                  <Calendar className="w-4 h-4 text-[#F5C400]" />
-                  {cycleCount} מחזורים
-                </span>
-              )}
-              {c.price_basic && (
-                <span className="inline-flex items-center gap-1.5 bg-[#F5C400] text-[#003087] text-sm font-black px-4 py-2 rounded-full">
-                  החל מ-{c.price_basic.toLocaleString("he-IL")} ₪
-                </span>
-              )}
-            </div>
+              {/* 3 bullets */}
+              <div className="flex flex-wrap gap-5 mb-8">
+                {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
+                  <span key={b} className="flex items-center gap-2 text-white font-bold">
+                    <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
+                    {b}
+                  </span>
+                ))}
+              </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3">
+              {/* CTA */}
               <a
                 href="#contact-form"
-                className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-full transition-colors text-base shadow-lg shadow-[#F5C400]/30"
+                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-9 py-4 rounded-full text-lg shadow-xl hover:scale-105 transition-all"
               >
-                להרשמה ופרטים
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-5 h-5" />
+                הבטיחו מקום עכשיו!
               </a>
-              <a
-                href="tel:050-1234567"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-full transition-colors text-base border border-white/30"
-              >
-                <Phone className="w-4 h-4" />
-                התקשרו עכשיו
-              </a>
+              <p className="text-white/50 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
+
             </div>
           </div>
         </div>
