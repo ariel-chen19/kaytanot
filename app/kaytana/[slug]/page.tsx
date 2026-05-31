@@ -98,7 +98,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#003087]/90 via-[#003087]/50 to-[#003087]/20" />
+            <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/70 to-transparent" />
           </>
         ) : (
           <>
@@ -121,7 +121,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             <span className="text-white/90">{c.name}</span>
           </div>
 
-          <div className="max-w-2xl">
+          <div className="max-w-xl ml-auto">
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
               {c.name}
             </h1>
