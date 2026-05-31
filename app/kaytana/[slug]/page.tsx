@@ -103,14 +103,14 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           loading="eager"
         />
 
-        {/* Dark overlay — RIGHT side (text), transparent on LEFT (image) */}
-        <div className="absolute inset-0 bg-gradient-to-l from-[#003087]/95 via-[#003087]/80 to-[#003087]/20" />
+        {/* Dark overlay — LEFT transparent, RIGHT dark (for text readability) */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/30 to-black/70" />
 
         {/* Content — fills hero, flex centers vertically */}
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-6 md:px-10 flex items-center">
+          <div className="container mx-auto px-6 md:px-10 flex items-center justify-end">
 
-            {/* Text block — RIGHT side in RTL flex */}
+            {/* Text block — RIGHT side */}
             <div className="w-full md:w-1/2 lg:w-5/12">
 
               {/* Badge */}
