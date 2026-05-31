@@ -94,7 +94,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       ══════════════════════════════════ */}
       <section className="relative min-h-[580px] md:min-h-[660px] flex items-center overflow-hidden">
 
-        {/* Full-bleed background image */}
+        {/* Full-bleed background image — LEFT side */}
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -103,39 +103,35 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
-          {/* Gradient: dark on RIGHT (text side in RTL), transparent on LEFT (image side) */}
-          <div className="absolute inset-0 bg-gradient-to-l from-[#001a4d]/95 via-[#002a6e]/80 to-transparent" />
+          {/* Gradient: WHITE on RIGHT (text side in RTL), transparent on LEFT (image visible) */}
+          <div className="absolute inset-0 bg-gradient-to-l from-white via-white/97 to-white/0" />
         </div>
 
-        {/* Text content — naturally sits on RIGHT in RTL */}
+        {/* Text content — right side in RTL, dark text on white bg */}
         <div className="relative container mx-auto px-6 py-20">
-          <div className="max-w-xl">
+          <div className="max-w-lg">
 
             {/* Year badge */}
-            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-6 shadow-lg">
+            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-6 shadow-md">
               קייטנות קיץ 2026
             </span>
 
-            {/* Heading */}
-            <h1 className="font-black text-white leading-tight mb-6">
-              <span className="block text-2xl md:text-3xl font-bold text-white/80 mb-1">
-                {c.name},
-              </span>
-              <span className="block text-4xl md:text-5xl lg:text-6xl">
-                קיץ של חוויות,
-              </span>
-              <span className="block text-4xl md:text-5xl lg:text-6xl text-[#F5C400]">
-                אטרקציות וכיף
-              </span>
-              <span className="block text-4xl md:text-5xl lg:text-6xl">
-                שישאר איתם לתמיד!
-              </span>
+            {/* Camp name — big */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#003087] leading-tight mb-3">
+              קייטנת {c.name}
             </h1>
+
+            {/* Tagline — slightly smaller */}
+            <p className="text-xl md:text-2xl font-bold text-gray-600 mb-8 leading-snug">
+              {c.activities?.length
+                ? `כל האטרקציות המובילות בארץ`
+                : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
+            </p>
 
             {/* 3 trust bullets — horizontal */}
             <div className="flex flex-wrap gap-6 mb-8">
               {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
-                <span key={b} className="flex items-center gap-2 text-white font-bold text-base">
+                <span key={b} className="flex items-center gap-2 text-[#003087] font-bold text-base">
                   <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
                   {b}
                 </span>
@@ -146,12 +142,12 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             <div>
               <a
                 href="#contact-form"
-                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] active:scale-95 text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-2xl shadow-black/30 hover:shadow-[#F5C400]/40 hover:scale-105"
+                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] active:scale-95 text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-xl shadow-[#F5C400]/30 hover:scale-105"
               >
                 <ArrowLeft className="w-5 h-5" />
                 הבטיחו מקום עכשיו!
               </a>
-              <p className="text-white/55 text-sm mt-3 font-medium">
+              <p className="text-gray-400 text-sm mt-3 font-medium">
                 מקומות מוגבלים בכל קבוצה!
               </p>
             </div>
