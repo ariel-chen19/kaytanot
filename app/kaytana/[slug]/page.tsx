@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import {
-  MapPin, Users, Calendar, Clock,
+  MapPin, Users, Calendar, Clock, ChevronDown,
   Phone, Waves, Star, Anchor, Trees, Film,
   Target, Wind, Zap, Music2, ShoppingBag, Bike,
   CheckCircle, ArrowLeft,
@@ -92,72 +92,89 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      {/* dir="ltr" — forces text LEFT physically, even in RTL page */}
-      <section className="relative min-h-[580px] md:min-h-[660px] overflow-hidden" dir="ltr">
+      <div className="relative overflow-hidden">
+        {/* Background */}
+        {c.image_url ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#003087]/90 via-[#003087]/50 to-[#003087]/20" />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-[#003087] via-[#0a3fa0] to-[#1a4aa8]" />
+            {/* Decorative circles */}
+            <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-[#F5C400]/10 pointer-events-none" />
+            <div className="absolute top-10 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-72 h-72 rounded-full bg-[#F5C400]/5 pointer-events-none" />
+          </>
+        )}
 
-        {/* Full-bleed background image */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={c.image_url ?? "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=1400&q=80"}
-          alt={c.name}
-          className="absolute inset-0 w-full h-full object-cover object-[65%_center]"
-          loading="eager"
-        />
+        {/* Content */}
+        <div className="relative container mx-auto px-4 py-16 md:py-24">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-white/60 text-sm mb-6">
+            <Link href="/" className="hover:text-white transition-colors">דף הבית</Link>
+            <ChevronDown className="w-3 h-3 rotate-90" />
+            <Link href="/search" className="hover:text-white transition-colors">קייטנות</Link>
+            <ChevronDown className="w-3 h-3 rotate-90" />
+            <span className="text-white/90">{c.name}</span>
+          </div>
 
-        {/* Gradient: WHITE on LEFT (text), transparent on RIGHT (children visible) */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.97) 30%, rgba(255,255,255,0.5) 52%, rgba(255,255,255,0) 68%)",
-          }}
-        />
-
-        {/* Text block — physically on LEFT */}
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full md:w-[55%] lg:w-[48%] px-8 md:px-14 lg:px-20 py-16" dir="rtl">
-
-            {/* Year badge */}
-            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-5 shadow-md">
-              קייטנות קיץ 2026
-            </span>
-
-            {/* Camp name — BIG */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#003087] leading-tight mb-3">
-              קייטנת {c.name}
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
+              {c.name}
             </h1>
 
-            {/* Tagline — slightly smaller */}
-            <p className="text-xl md:text-2xl font-bold text-gray-600 mb-7 leading-snug">
-              {c.activities?.length
-                ? "כל האטרקציות המובילות בארץ"
-                : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
-            </p>
+            {c.description && (
+              <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
+                {c.description.split(".")[0]}.
+              </p>
+            )}
 
-            {/* 3 trust bullets */}
-            <div className="flex flex-wrap gap-5 mb-8">
-              {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
-                <span key={b} className="flex items-center gap-2 text-[#003087] font-bold text-base">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  {b}
+            {/* Info chips */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                <MapPin className="w-4 h-4 text-[#F5C400]" />
+                {c.city}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                <Users className="w-4 h-4 text-[#F5C400]" />
+                גילאי {c.age_min}–{c.age_max}
+              </span>
+              {cycleCount > 0 && (
+                <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
+                  <Calendar className="w-4 h-4 text-[#F5C400]" />
+                  {cycleCount} מחזורים
                 </span>
-              ))}
+              )}
+              {c.price_basic && (
+                <span className="inline-flex items-center gap-1.5 bg-[#F5C400] text-[#003087] text-sm font-black px-4 py-2 rounded-full">
+                  החל מ-{c.price_basic.toLocaleString("he-IL")} ₪
+                </span>
+              )}
             </div>
 
-            {/* CTA */}
-            <a
-              href="#contact-form"
-              className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-xl shadow-[#F5C400]/30 hover:scale-105 active:scale-95"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              הבטיחו מקום עכשיו!
-            </a>
-            <p className="text-gray-400 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
-
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#contact-form"
+                className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-full transition-colors text-base shadow-lg shadow-[#F5C400]/30"
+              >
+                להרשמה ופרטים
+                <ArrowLeft className="w-4 h-4" />
+              </a>
+              <a
+                href="tel:050-1234567"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-full transition-colors text-base border border-white/30"
+              >
+                <Phone className="w-4 h-4" />
+                התקשרו עכשיו
+              </a>
+            </div>
           </div>
         </div>
-
-      </section>
+      </div>
 
       {/* ══════════════════════════════════
           STATS BAR
