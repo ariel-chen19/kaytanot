@@ -92,7 +92,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden min-h-[580px] md:min-h-[660px]">
         {/* Background */}
         {c.image_url ? (
           <>
