@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import {
-  MapPin, Users, Calendar, Clock, ChevronDown,
+  MapPin, Users, Calendar, Clock,
   Phone, Waves, Star, Anchor, Trees, Film,
   Target, Wind, Zap, Music2, ShoppingBag, Bike,
   CheckCircle, ArrowLeft,
@@ -92,89 +92,73 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className="relative overflow-hidden">
-        {/* Background */}
-        {c.image_url ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={c.image_url} alt={c.name} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#003087]/90 via-[#003087]/50 to-[#003087]/20" />
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-br from-[#003087] via-[#0a3fa0] to-[#1a4aa8]" />
-            {/* Decorative circles */}
-            <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-[#F5C400]/10 pointer-events-none" />
-            <div className="absolute top-10 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-72 h-72 rounded-full bg-[#F5C400]/5 pointer-events-none" />
-          </>
-        )}
+      <section className="relative min-h-[580px] md:min-h-[660px] flex items-center overflow-hidden">
 
-        {/* Content */}
-        <div className="relative container mx-auto px-4 py-16 md:py-24">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-white/60 text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">דף הבית</Link>
-            <ChevronDown className="w-3 h-3 rotate-90" />
-            <Link href="/search" className="hover:text-white transition-colors">קייטנות</Link>
-            <ChevronDown className="w-3 h-3 rotate-90" />
-            <span className="text-white/90">{c.name}</span>
-          </div>
+        {/* Full-bleed background image */}
+        <div className="absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={c.image_url ?? "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=1400&q=80"}
+            alt={c.name}
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+          />
+          {/* Gradient: dark on RIGHT (text side in RTL), transparent on LEFT (image side) */}
+          <div className="absolute inset-0 bg-gradient-to-l from-[#001a4d]/95 via-[#002a6e]/80 to-transparent" />
+        </div>
 
-          <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
-              {c.name}
+        {/* Text content — naturally sits on RIGHT in RTL */}
+        <div className="relative container mx-auto px-6 py-20">
+          <div className="max-w-xl">
+
+            {/* Year badge */}
+            <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-6 shadow-lg">
+              קייטנות קיץ 2026
+            </span>
+
+            {/* Heading */}
+            <h1 className="font-black text-white leading-tight mb-6">
+              <span className="block text-2xl md:text-3xl font-bold text-white/80 mb-1">
+                {c.name},
+              </span>
+              <span className="block text-4xl md:text-5xl lg:text-6xl">
+                קיץ של חוויות,
+              </span>
+              <span className="block text-4xl md:text-5xl lg:text-6xl text-[#F5C400]">
+                אטרקציות וכיף
+              </span>
+              <span className="block text-4xl md:text-5xl lg:text-6xl">
+                שישאר איתם לתמיד!
+              </span>
             </h1>
 
-            {c.description && (
-              <p className="text-blue-100 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
-                {c.description.split(".")[0]}.
-              </p>
-            )}
-
-            {/* Info chips */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                <MapPin className="w-4 h-4 text-[#F5C400]" />
-                {c.city}
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                <Users className="w-4 h-4 text-[#F5C400]" />
-                גילאי {c.age_min}–{c.age_max}
-              </span>
-              {cycleCount > 0 && (
-                <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full border border-white/20">
-                  <Calendar className="w-4 h-4 text-[#F5C400]" />
-                  {cycleCount} מחזורים
+            {/* 3 trust bullets — horizontal */}
+            <div className="flex flex-wrap gap-6 mb-8">
+              {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
+                <span key={b} className="flex items-center gap-2 text-white font-bold text-base">
+                  <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
+                  {b}
                 </span>
-              )}
-              {c.price_basic && (
-                <span className="inline-flex items-center gap-1.5 bg-[#F5C400] text-[#003087] text-sm font-black px-4 py-2 rounded-full">
-                  החל מ-{c.price_basic.toLocaleString("he-IL")} ₪
-                </span>
-              )}
+              ))}
             </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3">
+            {/* CTA */}
+            <div>
               <a
                 href="#contact-form"
-                className="inline-flex items-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-full transition-colors text-base shadow-lg shadow-[#F5C400]/30"
+                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] active:scale-95 text-[#003087] font-black px-9 py-4 rounded-full text-lg transition-all shadow-2xl shadow-black/30 hover:shadow-[#F5C400]/40 hover:scale-105"
               >
-                להרשמה ופרטים
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-5 h-5" />
+                הבטיחו מקום עכשיו!
               </a>
-              <a
-                href="tel:050-1234567"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-full transition-colors text-base border border-white/30"
-              >
-                <Phone className="w-4 h-4" />
-                התקשרו עכשיו
-              </a>
+              <p className="text-white/55 text-sm mt-3 font-medium">
+                מקומות מוגבלים בכל קבוצה!
+              </p>
             </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ══════════════════════════════════
           STATS BAR
