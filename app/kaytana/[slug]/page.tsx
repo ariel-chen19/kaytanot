@@ -106,9 +106,12 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
         {/* Dark overlay — LEFT transparent, RIGHT dark (for text readability) */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/30 to-black/70" />
 
-        {/* Content — fills hero, flex centers vertically */}
+        {/* Content — fills hero, text pinned to physical right */}
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-6 md:px-10 flex items-center justify-end">
+          <div className="container mx-auto px-6 md:px-10 w-full flex items-center">
+
+            {/* Spacer pushes text block to the right */}
+            <div className="hidden md:block flex-1" />
 
             {/* Text block — RIGHT side */}
             <div className="w-full md:w-1/2 lg:w-5/12">
