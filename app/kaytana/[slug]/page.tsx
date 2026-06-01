@@ -232,6 +232,66 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       )}
 
       {/* ══════════════════════════════════
+          WHY US
+      ══════════════════════════════════ */}
+      <div className="bg-[#f8f9ff] py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl md:text-4xl font-black text-[#182e86] text-center mb-2">
+            למה לבחור דווקא בנו?
+          </h2>
+          <div className="w-14 h-1 bg-[#F5C400] rounded-full mx-auto mb-12" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {/* Card 1 — Experience */}
+            <div className="bg-white rounded-3xl p-8 text-center shadow-sm border border-gray-100 flex flex-col items-center gap-4">
+              <div className="w-20 h-20 rounded-full bg-[#182e86]/10 flex items-center justify-center">
+                <Award className="w-10 h-10 text-[#182e86]" />
+              </div>
+              <div>
+                <p className="text-5xl font-black text-[#182e86] leading-none mb-1">27+</p>
+                <p className="text-xl font-bold text-gray-900">שנות ניסיון</p>
+              </div>
+              <p className="text-gray-700 text-base leading-relaxed">
+                מובילים בתחום קייטנות הנסיעות. ניסיון שנצבר לאורך שנים — ולידדכם.
+              </p>
+            </div>
+
+            {/* Card 2 — Daily Adventure */}
+            <div className="bg-[#182e86] rounded-3xl p-8 text-center shadow-lg flex flex-col items-center gap-4">
+              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
+                <Star className="w-10 h-10 text-[#F5C400]" />
+              </div>
+              <div>
+                <p className="text-5xl font-black text-[#F5C400] leading-none mb-1">
+                  {c.activities?.length ?? 7}+
+                </p>
+                <p className="text-xl font-bold text-white">אטרקציות שונות</p>
+              </div>
+              <p className="text-blue-100 text-base leading-relaxed">
+                כל יום יוצאים לאטרקציה חדשה — אף יום לא דומה לקודמו.
+              </p>
+            </div>
+
+            {/* Card 3 — Safety */}
+            <div className="bg-white rounded-3xl p-8 text-center shadow-sm border border-gray-100 flex flex-col items-center gap-4">
+              <div className="w-20 h-20 rounded-full bg-[#182e86]/10 flex items-center justify-center">
+                <Shield className="w-10 h-10 text-[#182e86]" />
+              </div>
+              <div>
+                <p className="text-5xl font-black text-[#182e86] leading-none mb-1">1:10</p>
+                <p className="text-xl font-bold text-gray-900">יחס מדריכים</p>
+              </div>
+              <p className="text-gray-700 text-base leading-relaxed">
+                צוות מקצועי, מוסמך ומנוסה. ילדכם בידיים הטובות ביותר.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
           MAIN LAYOUT
       ══════════════════════════════════ */}
       <div className="container mx-auto px-4 py-12">
