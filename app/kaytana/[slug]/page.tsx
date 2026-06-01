@@ -20,6 +20,8 @@ interface FaqItem { q: string; a: string }
 
 interface Feature { type: string; label: string; desc: string }
 
+interface CityPrice { city: string; price: number }
+
 interface Camp {
   id: string; name: string; slug: string;
   description: string | null; city: string; location: string | null;
@@ -34,6 +36,7 @@ interface Camp {
   cities: string[] | null;
   faq: FaqItem[] | null;
   features?: Feature[] | null;
+  city_prices?: CityPrice[] | null;
 }
 
 /* ─── Feature icon mapping ───────────────────────────────── */
@@ -331,12 +334,14 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
               </section>
             )}
 
-            {/* Cycles */}
+            {/* Cycles + City Prices */}
             {c.cycles && c.cycles.length > 0 && (
               <section>
-                <h2 className="text-2xl font-black text-[#182e86] mb-1">תאריכים ומחזורים</h2>
+                <h2 className="text-2xl font-black text-[#182e86] mb-1">תאריכים ומחירים</h2>
                 <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-6" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                {/* Cycle cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
                   {c.cycles.map((cycle, i) => (
                     <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-3">
                       <span className="inline-block bg-[#182e86] text-white text-sm font-black px-4 py-1.5 rounded-full self-start">
@@ -344,7 +349,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                       </span>
                       <ul className="space-y-2.5">
                         {cycle.dates && (
-                          <li className="flex items-center gap-2 text-gray-900 font-semibold">
+                          <li className="flex items-center gap-2 text-gray-900 font-semibold text-base">
                             <Calendar className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
                             {cycle.dates}
                           </li>
@@ -362,81 +367,51 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                           </li>
                         )}
                       </ul>
-                      <a href="#contact-form" className="mt-auto block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black py-2.5 rounded-xl transition-colors text-sm">
-                        הרשמה למחזור זה
+                      <a href="#contact-form" className="mt-auto block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black py-3 rounded-xl transition-colors">
+                        שריינו מקום
                       </a>
                     </div>
                   ))}
                 </div>
-              </section>
-            )}
 
-            {/* Cities */}
-            {c.cities && c.cities.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-black text-[#182e86] mb-1">איפה הקייטנה פועלת?</h2>
-                <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-2" />
-                <p className="text-gray-900 text-base mb-5">הקייטנה פועלת ב-{c.cities.length} ערים ברחבי הארץ</p>
-                <div className="flex flex-wrap gap-2">
-                  {c.cities.map((city, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 bg-white border border-gray-200 hover:bg-[#182e86] hover:text-white hover:border-[#182e86] text-gray-900 font-medium text-sm px-4 py-2 rounded-full transition-colors cursor-default shadow-sm">
-                      <MapPin className="w-3.5 h-3.5" />
-                      {city}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Pricing */}
-            {(c.price_basic || c.price_advanced) && (
-              <section>
-                <h2 className="text-2xl font-black text-[#182e86] mb-1">תוכניות ומחירים</h2>
-                <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-2" />
-                <p className="text-gray-900 text-base mb-6">בחרו את התוכנית המתאימה לכם</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {c.price_basic && (
-                    <div className="rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col bg-white">
-                      <p className="text-base font-bold text-gray-900 mb-2">תוכנית בסיסית</p>
-                      <div className="flex items-baseline gap-1 mb-5">
-                        <span className="text-4xl font-black text-[#182e86]">{c.price_basic.toLocaleString("he-IL")}</span>
-                        <span className="text-lg font-bold text-[#182e86]">₪</span>
-                        <span className="text-gray-700 text-sm">/ מחזור</span>
-                      </div>
-                      <ul className="space-y-3 text-sm text-gray-900 flex-1 mb-6">
-                        {["כניסה לכל הפעילויות", "ציוד בסיסי כלול", "ליווי מקצועי", "ביטוח"].map(f => (
-                          <li key={f} className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
-                          </li>
+                {/* City prices table */}
+                {c.city_prices && c.city_prices.length > 0 && (() => {
+                  // Group cities by price
+                  const groups = c.city_prices!.reduce((acc, cp) => {
+                    const key = cp.price;
+                    if (!acc[key]) acc[key] = [];
+                    acc[key].push(cp.city);
+                    return acc;
+                  }, {} as Record<number, string[]>);
+                  const sorted = Object.entries(groups).sort((a, b) => Number(a[0]) - Number(b[0]));
+                  return (
+                    <div>
+                      <h3 className="text-lg font-black text-[#182e86] mb-4 flex items-center gap-2">
+                        <MapPin className="w-5 h-5 text-[#F5C400]" />
+                        מחיר לפי עיר
+                      </h3>
+                      <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                        {sorted.map(([price, cities], i) => (
+                          <div key={price} className={`flex items-center gap-4 px-6 py-4 ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
+                            <div className="flex-shrink-0 text-center min-w-[90px]">
+                              <span className="text-2xl font-black text-[#182e86]">{Number(price).toLocaleString("he-IL")}</span>
+                              <span className="text-base font-bold text-[#182e86]"> ₪</span>
+                              <p className="text-xs text-gray-500">למחזור</p>
+                            </div>
+                            <div className="w-px h-10 bg-gray-200 flex-shrink-0" />
+                            <div className="flex flex-wrap gap-2">
+                              {cities.map(city => (
+                                <span key={city} className="inline-flex items-center gap-1 bg-[#182e86]/8 text-[#182e86] font-medium text-sm px-3 py-1 rounded-full">
+                                  {city}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
                         ))}
-                      </ul>
-                      <a href="#contact-form" className="block text-center bg-white border-2 border-[#182e86] hover:bg-[#182e86] hover:text-white text-[#182e86] font-bold py-3 rounded-xl transition-colors text-sm">
-                        בחרו תוכנית זו
-                      </a>
-                    </div>
-                  )}
-                  {c.price_advanced && (
-                    <div className="rounded-2xl border-2 border-[#F5C400] shadow-md p-6 flex flex-col relative overflow-hidden bg-white">
-                      <span className="absolute top-4 left-4 bg-[#F5C400] text-[#182e86] text-xs font-black px-3 py-1 rounded-full">הכי פופולרי</span>
-                      <p className="text-base font-bold text-gray-900 mb-2 mt-7">תוכנית מתקדמת</p>
-                      <div className="flex items-baseline gap-1 mb-5">
-                        <span className="text-4xl font-black text-[#182e86]">{c.price_advanced.toLocaleString("he-IL")}</span>
-                        <span className="text-lg font-bold text-[#182e86]">₪</span>
-                        <span className="text-gray-700 text-sm">/ מחזור</span>
                       </div>
-                      <ul className="space-y-3 text-sm text-gray-900 flex-1 mb-6">
-                        {["כל הכלול בבסיסי", "ציוד מתקדם", "הדרכה אישית", "אירועי בונוס", "תמונות וסרטון סיום"].map(f => (
-                          <li key={f} className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
-                          </li>
-                        ))}
-                      </ul>
-                      <a href="#contact-form" className="block text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black py-3 rounded-xl transition-colors text-sm">
-                        בחרו תוכנית זו
-                      </a>
                     </div>
-                  )}
-                </div>
+                  );
+                })()}
               </section>
             )}
 
