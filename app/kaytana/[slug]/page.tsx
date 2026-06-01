@@ -121,11 +121,11 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           <img
             src={c.logo_url ?? "/kaytanot_logo.webp"}
             alt={c.name}
-            className="h-16 object-contain mb-4 self-center"
+            className="h-24 object-contain mb-4 self-center"
           />
 
           {/* Title */}
-          <p className="text-gray-400 text-xl font-semibold text-center mb-1">קייטנת</p>
+          <p className="text-gray-400 text-2xl font-semibold text-center mb-1">קייטנת</p>
           <h1 className="text-5xl md:text-6xl font-black text-[#003087] leading-tight mb-3 text-center">
             {c.name}
           </h1>
@@ -188,14 +188,18 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
 
         </div>
 
-        {/* LEFT: Image (second in DOM = left in RTL flex) */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"}
-          alt={c.name}
-          className="w-full md:w-[55%] min-h-[280px] md:min-h-[580px] object-cover order-1 md:order-2"
-          loading="eager"
-        />
+        {/* LEFT: Image with white fade on right edge */}
+        <div className="relative w-full md:w-[55%] min-h-[280px] md:min-h-[580px] order-1 md:order-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"}
+            alt={c.name}
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          {/* White fade on right side (RTL: left side of image = toward text panel) */}
+          <div className="absolute inset-0 bg-gradient-to-l from-white via-white/20 to-transparent" style={{ width: '35%', left: 0 }} />
+        </div>
 
       </div>
 
