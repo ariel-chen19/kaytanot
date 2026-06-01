@@ -439,8 +439,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
 
               {/* Camp name header */}
               <div className="bg-[#182e86] rounded-xl p-4 mb-5 text-center">
-                <p className="text-blue-200 text-xs mb-1">קייטנת</p>
-                <p className="text-xl font-black text-white leading-tight">{c.name}</p>
+                <p className="text-xl font-black text-white leading-tight">קייטנת {c.name}</p>
               </div>
 
               <h2 className="text-xl font-black text-[#182e86] mb-1">שריינו מקום עכשיו</h2>
