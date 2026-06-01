@@ -113,20 +113,20 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       ══════════════════════════════════ */}
       <div className="flex flex-col md:flex-row bg-white" style={{ minHeight: "580px" }}>
 
-        {/* RIGHT: White text panel (first in DOM = right in RTL flex) */}
-        <div className="w-full md:w-[45%] flex flex-col justify-center px-8 md:px-12 lg:px-16 py-10 order-2 md:order-1">
+        {/* RIGHT: White text panel */}
+        <div className="w-full md:w-[45%] flex flex-col justify-center items-center text-center px-8 md:px-12 lg:px-16 py-10 order-2 md:order-1">
 
           {/* Logo */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={c.logo_url ?? "/kaytanot_logo.webp"}
             alt={c.name}
-            className="h-24 object-contain mb-4 self-center"
+            className="h-24 object-contain mb-4"
           />
 
           {/* Title */}
-          <p className="text-gray-400 text-2xl font-semibold text-center mb-1">קייטנת</p>
-          <h1 className="text-5xl md:text-6xl font-black text-[#003087] leading-tight mb-3 text-center">
+          <p className="text-5xl md:text-6xl font-black text-[#182e86] leading-tight mb-0">קייטנת</p>
+          <h1 className="text-5xl md:text-6xl font-black text-[#182e86] leading-tight mb-3">
             {c.name}
           </h1>
 
@@ -137,20 +137,20 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           <div className="w-14 h-1 bg-[#F5C400] rounded-full mb-6" />
 
           {/* Stats row */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-gray-500 text-sm">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-gray-500 text-sm">
             <div className="flex items-center gap-1.5">
-              <Users className="w-4 h-4 text-[#003087]" />
+              <Users className="w-4 h-4 text-[#182e86]" />
               <span>גילאי {c.age_min}-{c.age_max}</span>
             </div>
             {cycleCount > 0 && (
               <div className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-[#003087]" />
+                <Calendar className="w-4 h-4 text-[#182e86]" />
                 <span>{cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`}</span>
               </div>
             )}
             {cityCount > 0 && (
               <div className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#003087]" />
+                <MapPin className="w-4 h-4 text-[#182e86]" />
                 <span>{cityCount} ערים ברחבי הארץ</span>
               </div>
             )}
@@ -160,7 +160,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           {c.price_basic && (
             <div className="mb-6">
               <p className="text-gray-400 text-sm">החל מ-</p>
-              <p className="text-5xl font-black text-[#003087] leading-none">
+              <p className="text-5xl font-black text-[#182e86] leading-none">
                 ₪ {c.price_basic.toLocaleString("he-IL")}
               </p>
             </div>
@@ -169,7 +169,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           {/* CTA */}
           <a
             href="#contact-form"
-            className="inline-flex items-center justify-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-xl text-lg shadow-lg hover:scale-105 transition-all mb-3 w-full max-w-xs"
+            className="inline-flex items-center justify-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black px-8 py-4 rounded-xl text-lg shadow-lg hover:scale-105 transition-all mb-3 w-full max-w-xs"
           >
             <ArrowLeft className="w-5 h-5" />
             לפרטים והרשמה
@@ -188,7 +188,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
 
         </div>
 
-        {/* LEFT: Image with white fade on right edge */}
+        {/* LEFT: Image with smooth white fade on right edge (toward text panel) */}
         <div className="relative w-full md:w-[55%] min-h-[280px] md:min-h-[580px] order-1 md:order-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -197,8 +197,8 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             className="w-full h-full object-cover"
             loading="eager"
           />
-          {/* White fade on right side (RTL: left side of image = toward text panel) */}
-          <div className="absolute inset-0 bg-gradient-to-l from-white via-white/20 to-transparent" style={{ width: '35%', left: 0 }} />
+          {/* White fade on the right edge of the image (toward the text panel) */}
+          <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white to-transparent" />
         </div>
 
       </div>
