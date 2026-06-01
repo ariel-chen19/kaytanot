@@ -6,7 +6,7 @@ import {
   MapPin, Users, Calendar, Clock,
   Phone, Waves, Star, Anchor, Trees, Film,
   Target, Wind, Zap, Music2, ShoppingBag, Bike,
-  CheckCircle, ArrowLeft,
+  CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
 } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import FaqAccordion from "@/components/FaqAccordion";
@@ -18,17 +18,37 @@ import type { Metadata } from "next";
 interface Cycle  { label: string; dates: string; days: string; hours: string }
 interface FaqItem { q: string; a: string }
 
+interface Feature { type: string; label: string; desc: string }
+
 interface Camp {
   id: string; name: string; slug: string;
   description: string | null; city: string; location: string | null;
   age_min: number; age_max: number;
   price_basic: number | null; price_advanced: number | null;
   image_url: string | null;
+  logo_url?: string | null;
+  tagline?: string | null;
+  whatsapp?: string | null;
   activities: string[] | null;
   cycles: Cycle[] | null;
   cities: string[] | null;
   faq: FaqItem[] | null;
+  features?: Feature[] | null;
 }
+
+/* ─── Feature icon mapping ───────────────────────────────── */
+const FEATURE_ICONS: Record<string, { icon: React.ElementType; color: string }> = {
+  safety:     { icon: Shield,           color: "text-blue-600"   },
+  transport:  { icon: Bus,              color: "text-orange-500" },
+  food:       { icon: UtensilsCrossed,  color: "text-green-600"  },
+  ratio:      { icon: Users,            color: "text-purple-600" },
+  experience: { icon: Award,            color: "text-yellow-500" },
+  pool:       { icon: Waves,            color: "text-cyan-600"   },
+  sport:      { icon: Target,           color: "text-red-600"    },
+  art:        { icon: Music2,           color: "text-pink-600"   },
+  nature:     { icon: Trees,            color: "text-green-700"  },
+  personal:   { icon: CheckCircle,      color: "text-blue-500"   },
+};
 
 /* ─── Activity icons (keyword match → icon + color) ─── */
 
@@ -90,96 +110,110 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
     <div className="min-h-screen bg-[#F5F7FA]">
 
       {/* ══════════════════════════════════
-          HERO
+          HERO — split layout
       ══════════════════════════════════ */}
-      <div className="relative" style={{ minHeight: "620px" }}>
+      <div className="flex flex-col md:flex-row bg-white" style={{ minHeight: "580px" }}>
 
-        {/* Background image — fills the div */}
+        {/* RIGHT: White text panel (first in DOM = right in RTL flex) */}
+        <div className="w-full md:w-[45%] flex flex-col justify-center px-8 md:px-12 lg:px-16 py-10 order-2 md:order-1">
+
+          {/* Logo */}
+          {c.logo_url && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src={c.logo_url} alt={c.name} className="h-14 object-contain mb-5 self-start" />
+          )}
+
+          {/* Title */}
+          <p className="text-gray-400 text-base font-medium mb-1">קייטנת</p>
+          <h1 className="text-5xl md:text-6xl font-black text-[#003087] leading-tight mb-3">
+            {c.name}
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-gray-600 text-lg mb-2">
+            {c.tagline ?? (c.activities?.length ? "כל יום אטרקציה חדשה והרפתקה אחרת!" : `קייטנה לגילאי ${c.age_min}–${c.age_max}`)}
+          </p>
+          <div className="w-14 h-1 bg-[#F5C400] rounded-full mb-6" />
+
+          {/* Stats row */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-gray-500 text-sm">
+            <div className="flex items-center gap-1.5">
+              <Users className="w-4 h-4 text-[#003087]" />
+              <span>גילאי {c.age_min}-{c.age_max}</span>
+            </div>
+            {cycleCount > 0 && (
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-[#003087]" />
+                <span>{cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`}</span>
+              </div>
+            )}
+            {cityCount > 0 && (
+              <div className="flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-[#003087]" />
+                <span>{cityCount} ערים ברחבי הארץ</span>
+              </div>
+            )}
+          </div>
+
+          {/* Price */}
+          {c.price_basic && (
+            <div className="mb-6">
+              <p className="text-gray-400 text-sm">החל מ-</p>
+              <p className="text-5xl font-black text-[#003087] leading-none">
+                ₪ {c.price_basic.toLocaleString("he-IL")}
+              </p>
+            </div>
+          )}
+
+          {/* CTA */}
+          <a
+            href="#contact-form"
+            className="inline-flex items-center justify-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-8 py-4 rounded-xl text-lg shadow-lg hover:scale-105 transition-all mb-3 w-full max-w-xs"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            לפרטים והרשמה
+          </a>
+
+          {/* WhatsApp */}
+          <a
+            href={`https://wa.me/${c.whatsapp ?? "972501234567"}`}
+            className="flex items-center gap-2 text-gray-400 hover:text-green-600 text-sm transition-colors"
+          >
+            <Phone className="w-4 h-4" />
+            או שלחו לנו הודעה בוואטסאפ
+          </a>
+
+        </div>
+
+        {/* LEFT: Image (second in DOM = left in RTL flex) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80"}
           alt={c.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="w-full md:w-[55%] min-h-[280px] md:min-h-[580px] object-cover order-1 md:order-2"
           loading="eager"
         />
 
-        {/* Light overlay — left transparent, right light (for dark text on right) */}
-        <div className="absolute inset-0 bg-gradient-to-l from-white/75 via-white/40 to-transparent" />
-
-        {/* Content — fills hero */}
-        <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-6 md:px-10 w-full flex items-center">
-
-            {/* Text block — RIGHT side (in RTL, first child = right) */}
-            <div className="w-full md:w-1/2 lg:w-5/12">
-
-              {/* Badge */}
-              <span className="inline-block bg-[#F5C400] text-[#003087] text-sm font-black px-5 py-1.5 rounded-full mb-5 shadow-md">
-                קייטנות קיץ 2026
-              </span>
-
-              {/* Camp name */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#003087] leading-tight mb-3">
-                קייטנת {c.name}
-              </h1>
-
-              {/* Tagline */}
-              <p className="text-xl md:text-2xl font-bold text-[#003087] mb-7">
-                {c.activities?.length ? "כל האטרקציות המובילות בארץ" : `קייטנה לגילאי ${c.age_min}–${c.age_max}`}
-              </p>
-
-              {/* 3 bullets */}
-              <div className="flex flex-wrap gap-5 mb-8">
-                {["מקצועיות", "בטיחות", "יחס אישי"].map((b) => (
-                  <span key={b} className="flex items-center gap-2 text-[#003087] font-bold">
-                    <CheckCircle className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
-                    {b}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <a
-                href="#contact-form"
-                className="inline-flex items-center gap-3 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black px-9 py-4 rounded-full text-lg shadow-xl hover:scale-105 transition-all"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                הבטיחו מקום עכשיו!
-              </a>
-              <p className="text-[#003087]/50 text-sm mt-3">מקומות מוגבלים בכל קבוצה!</p>
-
-            </div>
-
-            {/* Spacer — after text so in RTL flex text stays right */}
-            <div className="hidden md:block flex-1" />
-
-          </div>
-        </div>
       </div>
 
       {/* ══════════════════════════════════
-          STATS BAR
+          FEATURES BAR
       ══════════════════════════════════ */}
-      {(cityCount > 0 || activityCount > 0) && (
-        <div className="bg-white border-b border-[#e0e8f0] shadow-sm">
+      {c.features && c.features.length > 0 && (
+        <div className="bg-white border-t border-[#e0e8f0] shadow-sm">
           <div className="container mx-auto px-4">
-            <div className="flex flex-wrap divide-x divide-x-reverse divide-[#e0e8f0]">
-              {([
-                cityCount > 0     ? { value: cityCount,                    label: "ערים ברחבי הארץ", Icon: MapPin   } : null,
-                activityCount > 0 ? { value: activityCount,                label: "פעילויות שונות",  Icon: Star     } : null,
-                                    { value: `${c.age_min}–${c.age_max}`,  label: "שנים",            Icon: Users    },
-                cycleCount > 0    ? { value: cycleCount,                   label: "מחזורי קיץ",       Icon: Calendar } : null,
-              ] as ({ value: string | number; label: string; Icon: React.ElementType } | null)[])
-                .filter((s): s is { value: string | number; label: string; Icon: React.ElementType } => s !== null)
-                .map((stat, i) => (
-                <div key={i} className="flex items-center gap-3 px-6 py-4 flex-1 min-w-[120px]">
-                  <stat.Icon className="w-5 h-5 text-[#F5C400] flex-shrink-0" />
-                  <div>
-                    <p className="text-2xl font-black text-[#003087] leading-none">{stat.value}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{stat.label}</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 divide-x divide-x-reverse divide-[#e0e8f0]">
+              {c.features.slice(0, 5).map((feat, i) => {
+                const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#003087]" };
+                const Icon = iconDef.icon;
+                return (
+                  <div key={i} className="flex flex-col items-center text-center gap-2 px-4 py-6">
+                    <Icon className={`w-7 h-7 ${iconDef.color}`} />
+                    <p className="font-bold text-[#003087] text-sm">{feat.label}</p>
+                    {feat.desc && <p className="text-gray-400 text-xs leading-snug">{feat.desc}</p>}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
