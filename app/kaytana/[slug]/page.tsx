@@ -102,9 +102,8 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
   if (!camp) notFound();
   const c = camp as Camp;
 
-  const cityCount      = c.cities?.length ?? 0;
-  const activityCount  = c.activities?.length ?? 0;
-  const cycleCount     = c.cycles?.length ?? 0;
+  const cityCount  = c.cities?.length ?? 0;
+  const cycleCount = c.cycles?.length ?? 0;
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
