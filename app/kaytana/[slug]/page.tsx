@@ -111,7 +111,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
   const cycleCount = c.cycles?.length ?? 0;
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-white">
 
       {/* ══════════════════════════════════
           HERO — split layout
@@ -136,13 +136,13 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           </h1>
 
           {/* Tagline */}
-          <p className="text-gray-600 text-lg mb-2">
+          <p className="text-gray-900 text-lg mb-2">
             {c.tagline ?? (c.activities?.length ? "כל יום אטרקציה חדשה והרפתקה אחרת!" : `קייטנה לגילאי ${c.age_min}–${c.age_max}`)}
           </p>
           <div className="w-14 h-1 bg-[#F5C400] rounded-full mb-6" />
 
           {/* Stats row */}
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-gray-500 text-sm">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-gray-800 text-base">
             <div className="flex items-center gap-1.5">
               <Users className="w-4 h-4 text-[#182e86]" />
               <span>גילאי {c.age_min}-{c.age_max}</span>
@@ -164,7 +164,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           {/* Price */}
           {c.price_basic && (
             <div className="mb-6">
-              <p className="text-gray-400 text-sm">החל מ-</p>
+              <p className="text-gray-700 text-sm">החל מ-</p>
               <p className="text-5xl font-black text-[#182e86] leading-none">
                 ₪ {c.price_basic.toLocaleString("he-IL")}
               </p>
@@ -212,7 +212,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           FEATURES BAR
       ══════════════════════════════════ */}
       {c.features && Array.isArray(c.features) && c.features.length > 0 && (
-        <div className="bg-[#F5F7FA] px-4 pb-6 -mt-6">
+        <div className="bg-white px-4 pb-6 -mt-6">
           <div className="container mx-auto">
             <div className="bg-white rounded-2xl shadow-md grid grid-cols-2 md:grid-cols-5 divide-x divide-x-reverse divide-[#e0e8f0]">
               {c.features.slice(0, 5).map((feat, i) => {
@@ -247,7 +247,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                   <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
                   על הקייטנה
                 </h2>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-wrap text-sm md:text-base">{c.description}</p>
+                <p className="text-gray-900 leading-relaxed whitespace-pre-wrap text-base md:text-lg">{c.description}</p>
               </section>
             )}
 
@@ -335,7 +335,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                   <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
                   איפה הקייטנה פועלת?
                 </h2>
-                <p className="text-gray-500 text-sm mb-4">הקייטנה פועלת ב-{c.cities.length} ערים ברחבי הארץ</p>
+                <p className="text-gray-800 text-base mb-4">הקייטנה פועלת ב-{c.cities.length} ערים ברחבי הארץ</p>
                 <div className="flex flex-wrap gap-2">
                   {c.cities.map((city, i) => (
                     <span
@@ -357,18 +357,18 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                   <span className="w-1 h-6 bg-[#F5C400] rounded-full inline-block" />
                   תוכניות ומחירים
                 </h2>
-                <p className="text-gray-500 text-sm mb-6">בחרו את התוכנית המתאימה לכם</p>
+                <p className="text-gray-800 text-base mb-6">בחרו את התוכנית המתאימה לכם</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                   {c.price_basic && (
                     <div className="rounded-2xl border-2 border-[#e0e8f0] p-6 flex flex-col">
-                      <p className="text-sm font-bold text-gray-500 mb-1">תוכנית בסיסית</p>
+                      <p className="text-sm font-bold text-gray-800 mb-1">תוכנית בסיסית</p>
                       <div className="flex items-baseline gap-1 mb-4">
                         <span className="text-4xl font-black text-[#003087]">{c.price_basic.toLocaleString("he-IL")}</span>
                         <span className="text-lg font-bold text-[#003087]">₪</span>
-                        <span className="text-gray-400 text-sm">/ מחזור</span>
+                        <span className="text-gray-700 text-sm">/ מחזור</span>
                       </div>
-                      <ul className="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                      <ul className="space-y-2.5 text-sm text-gray-900 flex-1 mb-6">
                         {["כניסה לכל הפעילויות", "ציוד בסיסי כלול", "ליווי מקצועי", "ביטוח"].map(f => (
                           <li key={f} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
@@ -389,13 +389,13 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                           הכי פופולרי
                         </span>
                       </div>
-                      <p className="text-sm font-bold text-gray-500 mb-1 mt-6">תוכנית מתקדמת</p>
+                      <p className="text-sm font-bold text-gray-800 mb-1 mt-6">תוכנית מתקדמת</p>
                       <div className="flex items-baseline gap-1 mb-4">
                         <span className="text-4xl font-black text-[#003087]">{c.price_advanced.toLocaleString("he-IL")}</span>
                         <span className="text-lg font-bold text-[#003087]">₪</span>
-                        <span className="text-gray-400 text-sm">/ מחזור</span>
+                        <span className="text-gray-700 text-sm">/ מחזור</span>
                       </div>
-                      <ul className="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                      <ul className="space-y-2.5 text-sm text-gray-900 flex-1 mb-6">
                         {["כל הכלול בבסיסי", "ציוד מתקדם", "הדרכה אישית", "אירועי בונוס", "תמונות וסרטון סיום"].map(f => (
                           <li key={f} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />{f}
@@ -425,7 +425,7 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             {/* Mobile form */}
             <div id="contact-form" className="lg:hidden bg-white rounded-2xl border border-[#e0e8f0] shadow-sm p-6">
               <h2 className="text-xl font-black text-[#003087] mb-1">שלחו פנייה לקייטנה</h2>
-              <p className="text-gray-500 text-sm mb-5">נציג יחזור אליכם תוך 24 שעות</p>
+              <p className="text-gray-800 text-base mb-5">נציג יחזור אליכם תוך 24 שעות</p>
               <ContactForm campId={c.id} campName={c.name} />
             </div>
 
@@ -445,18 +445,18 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
               )}
 
               <h2 className="text-lg font-black text-[#003087] mb-1">שלחו פנייה לקייטנה</h2>
-              <p className="text-gray-500 text-xs mb-4">נציג יחזור אליכם תוך 24 שעות</p>
+              <p className="text-gray-800 text-xs mb-4">נציג יחזור אליכם תוך 24 שעות</p>
 
               <ContactForm campId={c.id} campName={c.name} />
 
               {/* Contact + location */}
               <div className="mt-5 pt-5 border-t border-[#e0e8f0] space-y-2">
-                <a href="tel:050-1234567" className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#003087] transition-colors">
+                <a href="tel:050-1234567" className="flex items-center gap-2 text-sm text-gray-800 hover:text-[#003087] transition-colors">
                   <Phone className="w-4 h-4 text-[#003087]" />
                   050-1234567
                 </a>
                 {c.location && (
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
+                  <div className="flex items-start gap-2 text-sm text-gray-800">
                     <MapPin className="w-4 h-4 text-[#003087] flex-shrink-0 mt-0.5" />
                     <span>{c.location}</span>
                   </div>
