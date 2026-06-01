@@ -221,8 +221,8 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                 return (
                   <div key={i} className="flex flex-col items-center text-center gap-2 px-4 py-7">
                     <Icon className={`w-8 h-8 ${iconDef.color}`} />
-                    <p className="font-black text-[#182e86] text-sm leading-tight">{feat.label}</p>
-                    {feat.desc && <p className="text-gray-400 text-xs leading-snug">{feat.desc}</p>}
+                    <p className="font-black text-[#182e86] text-base leading-tight">{feat.label}</p>
+                    {feat.desc && <p className="text-gray-900 text-sm leading-snug">{feat.desc}</p>}
                   </div>
                 );
               })}
