@@ -102,6 +102,11 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
   if (!camp) notFound();
   const c = camp as Camp;
 
+  // Supabase may return jsonb as string — parse if needed
+  if (c.features && typeof c.features === "string") {
+    c.features = JSON.parse(c.features);
+  }
+
   const cityCount  = c.cities?.length ?? 0;
   const cycleCount = c.cycles?.length ?? 0;
 
@@ -206,7 +211,6 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           FEATURES BAR
       ══════════════════════════════════ */}
-      {(() => { if (c.features && typeof c.features === 'string') { /* eslint-disable-next-line @typescript-eslint/no-explicit-any */ (c as Record<string, unknown>).features = JSON.parse(c.features as unknown as string); } return null; })()}
       {c.features && Array.isArray(c.features) && c.features.length > 0 && (
         <div className="bg-[#F5F7FA] px-4 pb-6 -mt-6">
           <div className="container mx-auto">
