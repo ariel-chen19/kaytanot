@@ -239,16 +239,18 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           WHY US
       ══════════════════════════════════ */}
       {c.why_us && c.why_us.length > 0 && (
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-8">
           <h2 className="text-2xl font-black text-[#182e86] mb-1">למה לבחור דווקא בנו?</h2>
-          <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-8" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
+          <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-3">
             {c.why_us.slice(0, 10).map((item, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#F5C400] flex items-center justify-center mt-0.5">
-                  <CheckCircle className="w-4 h-4 text-[#182e86]" />
+              <div key={i} className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#182e86] flex items-center justify-center">
+                  <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
-                <p className="text-gray-900 text-base font-medium">{item}</p>
+                <p className="text-gray-900 text-sm font-medium">{item}</p>
               </div>
             ))}
           </div>
