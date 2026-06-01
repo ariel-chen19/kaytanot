@@ -206,7 +206,8 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       {/* ══════════════════════════════════
           FEATURES BAR
       ══════════════════════════════════ */}
-      {c.features && c.features.length > 0 && (
+      {(() => { if (c.features && typeof c.features === 'string') (c as any).features = JSON.parse(c.features as any); return null; })()}
+      {c.features && Array.isArray(c.features) && c.features.length > 0 && (
         <div className="bg-[#F5F7FA] px-4 pb-6 -mt-6">
           <div className="container mx-auto">
             <div className="bg-white rounded-2xl shadow-md grid grid-cols-2 md:grid-cols-5 divide-x divide-x-reverse divide-[#e0e8f0]">
