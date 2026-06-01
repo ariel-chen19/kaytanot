@@ -41,4 +41,8 @@
     font-family: var(--font-assistant), sans-serif;
     direction: rtl;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heebo), var(--font-assistant), sans-serif;
+  }
 }
