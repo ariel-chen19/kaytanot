@@ -437,14 +437,11 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           <div className="hidden lg:block">
             <div id="contact-form" className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sticky top-6">
 
-              {/* Price teaser */}
-              {c.price_basic && (
-                <div className="bg-[#182e86] rounded-xl p-4 mb-5 text-center">
-                  <p className="text-blue-200 text-xs mb-1">החל מ</p>
-                  <p className="text-3xl font-black text-white">{c.price_basic.toLocaleString("he-IL")} <span className="text-lg">₪</span></p>
-                  <p className="text-blue-200 text-xs mt-1">למחזור</p>
-                </div>
-              )}
+              {/* Camp name header */}
+              <div className="bg-[#182e86] rounded-xl p-4 mb-5 text-center">
+                <p className="text-blue-200 text-xs mb-1">קייטנת</p>
+                <p className="text-xl font-black text-white leading-tight">{c.name}</p>
+              </div>
 
               <h2 className="text-xl font-black text-[#182e86] mb-1">שריינו מקום עכשיו</h2>
               <p className="text-gray-900 text-sm mb-4">נציג יחזור אליכם תוך 24 שעות</p>
