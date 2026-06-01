@@ -258,6 +258,17 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
       )}
 
       {/* ══════════════════════════════════
+          ABOUT
+      ══════════════════════════════════ */}
+      {c.description && (
+        <div className="container mx-auto px-4 py-8">
+          <h2 className="text-2xl font-black text-[#182e86] mb-1">על הקייטנה</h2>
+          <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-5" />
+          <p className="text-gray-900 leading-relaxed whitespace-pre-wrap text-base md:text-lg max-w-3xl">{c.description}</p>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════
           MAIN LAYOUT
       ══════════════════════════════════ */}
       <div className="container mx-auto px-4 py-12">
@@ -266,14 +277,6 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           {/* ── Main content (2/3) ── */}
           <div className="lg:col-span-2 space-y-12">
 
-            {/* Description */}
-            {c.description && (
-              <section>
-                <h2 className="text-2xl font-black text-[#182e86] mb-1">על הקייטנה</h2>
-                <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-5" />
-                <p className="text-gray-900 leading-relaxed whitespace-pre-wrap text-base md:text-lg">{c.description}</p>
-              </section>
-            )}
 
             {/* Activities */}
             {c.activities && c.activities.length > 0 && (
