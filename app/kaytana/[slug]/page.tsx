@@ -207,16 +207,16 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
           FEATURES BAR
       ══════════════════════════════════ */}
       {c.features && c.features.length > 0 && (
-        <div className="bg-white border-t border-[#e0e8f0] shadow-sm">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-5 divide-x divide-x-reverse divide-[#e0e8f0]">
+        <div className="bg-[#F5F7FA] px-4 pb-6 -mt-6">
+          <div className="container mx-auto">
+            <div className="bg-white rounded-2xl shadow-md grid grid-cols-2 md:grid-cols-5 divide-x divide-x-reverse divide-[#e0e8f0]">
               {c.features.slice(0, 5).map((feat, i) => {
-                const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#003087]" };
+                const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#182e86]" };
                 const Icon = iconDef.icon;
                 return (
-                  <div key={i} className="flex flex-col items-center text-center gap-2 px-4 py-6">
-                    <Icon className={`w-7 h-7 ${iconDef.color}`} />
-                    <p className="font-bold text-[#003087] text-sm">{feat.label}</p>
+                  <div key={i} className="flex flex-col items-center text-center gap-2 px-4 py-7">
+                    <Icon className={`w-8 h-8 ${iconDef.color}`} />
+                    <p className="font-black text-[#182e86] text-sm leading-tight">{feat.label}</p>
                     {feat.desc && <p className="text-gray-400 text-xs leading-snug">{feat.desc}</p>}
                   </div>
                 );
