@@ -37,6 +37,7 @@ interface Camp {
   faq: FaqItem[] | null;
   features?: Feature[] | null;
   city_prices?: CityPrice[] | null;
+  why_us?: string[] | null;
 }
 
 /* ─── Feature icon mapping ───────────────────────────────── */
@@ -230,6 +231,26 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
                 );
               })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════
+          WHY US
+      ══════════════════════════════════ */}
+      {c.why_us && c.why_us.length > 0 && (
+        <div className="container mx-auto px-4 py-12">
+          <h2 className="text-2xl font-black text-[#182e86] mb-1">למה לבחור דווקא בנו?</h2>
+          <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-8" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
+            {c.why_us.slice(0, 10).map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#F5C400] flex items-center justify-center mt-0.5">
+                  <CheckCircle className="w-4 h-4 text-[#182e86]" />
+                </div>
+                <p className="text-gray-900 text-base font-medium">{item}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
