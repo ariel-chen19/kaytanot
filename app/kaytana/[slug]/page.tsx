@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import {
   MapPin, Users, Calendar,
   Phone, CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
-  Waves, Star, Trees, Target, Music2, Zap, Anchor, ShoppingBag, Bike, Wind, Film,
+  Waves, Trees, Target, Music2,
 } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import CyclesAndPricing from "@/components/CyclesAndPricing";
