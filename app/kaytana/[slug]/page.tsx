@@ -4,9 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import {
   MapPin, Users, Calendar,
-  Phone, Waves, Star, Anchor, Trees, Film,
-  Target, Wind, Zap, Music2, ShoppingBag, Bike,
-  CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
+  Phone, CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
+  Waves, Star, Trees, Target, Music2, Zap, Anchor, ShoppingBag, Bike, Wind, Film,
 } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import CyclesAndPricing from "@/components/CyclesAndPricing";
@@ -59,34 +58,6 @@ const FEATURE_ICONS: Record<string, { icon: React.ElementType; color: string }> 
 
 /* ─── Activity icons (keyword match → icon + color) ─── */
 
-const ACTIVITY_STYLES: { keywords: string[]; icon: React.ElementType; bg: string; text: string }[] = [
-  { keywords: ["מים","שחיי","בריכה","שייט","ים"],             icon: Waves,      bg: "bg-blue-100",   text: "text-blue-600"   },
-  { keywords: ["לונה","פארק","אטרקציה","תיאטרון"],             icon: Star,       bg: "bg-yellow-100", text: "text-yellow-600" },
-  { keywords: ["קולנוע","סרט"],                               icon: Film,       bg: "bg-purple-100", text: "text-purple-600" },
-  { keywords: ["גן חיות","טבע","חי"],                         icon: Trees,      bg: "bg-green-100",  text: "text-green-600"  },
-  { keywords: ["כדור","ספורט","כושר","טניס"],                  icon: Target,     bg: "bg-red-100",    text: "text-red-600"    },
-  { keywords: ["ריקוד","מוזיקה"],                              icon: Music2,     bg: "bg-pink-100",   text: "text-pink-600"   },
-  { keywords: ["אופניים","רכיבה"],                            icon: Bike,       bg: "bg-orange-100", text: "text-orange-600" },
-  { keywords: ["מתנפחים","משחק"],                             icon: Wind,       bg: "bg-teal-100",   text: "text-teal-600"   },
-  { keywords: ["קניות","שוק"],                                icon: ShoppingBag,bg: "bg-indigo-100", text: "text-indigo-600" },
-  { keywords: ["עוגן","ספינה","אנייה"],                       icon: Anchor,     bg: "bg-cyan-100",   text: "text-cyan-600"   },
-];
-
-const FALLBACK_STYLES = [
-  { bg: "bg-blue-100",   text: "text-blue-600",   icon: Zap     },
-  { bg: "bg-yellow-100", text: "text-yellow-600", icon: Star    },
-  { bg: "bg-green-100",  text: "text-green-600",  icon: CheckCircle },
-  { bg: "bg-purple-100", text: "text-purple-600", icon: Wind    },
-  { bg: "bg-pink-100",   text: "text-pink-600",   icon: Music2  },
-  { bg: "bg-orange-100", text: "text-orange-600", icon: Target  },
-];
-
-function getActivityStyle(name: string, idx: number) {
-  const lower = name.toLowerCase();
-  const match = ACTIVITY_STYLES.find(s => s.keywords.some(k => lower.includes(k)));
-  if (match) return match;
-  return FALLBACK_STYLES[idx % FALLBACK_STYLES.length];
-}
 
 /* ─── Metadata ──────────────────────────────────────── */
 
