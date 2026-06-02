@@ -9,6 +9,7 @@ import {
   CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
 } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
+import CyclesAndPricing from "@/components/CyclesAndPricing";
 import FaqAccordion from "@/components/FaqAccordion";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -296,84 +297,16 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
               </section>
             )}
 
-            {/* Cycles + City Prices */}
+            {/* Cycles + Pricing */}
             {c.cycles && c.cycles.length > 0 && (
               <section>
-                <h2 className="text-2xl font-black text-[#182e86] mb-1">תאריכים ומחירים</h2>
+                <h2 className="text-2xl font-black text-[#182e86] mb-1">מחזורים ומחירים</h2>
                 <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-6" />
-
-                {/* Cycle cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-                  {c.cycles.map((cycle, i) => (
-                    <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-3">
-                      <span className="inline-block bg-[#182e86] text-white text-sm font-black px-4 py-1.5 rounded-full self-start">
-                        {cycle.label}
-                      </span>
-                      <ul className="space-y-2.5">
-                        {cycle.dates && (
-                          <li className="flex items-center gap-2 text-gray-900 font-semibold text-base">
-                            <Calendar className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                            {cycle.dates}
-                          </li>
-                        )}
-                        {cycle.days && (
-                          <li className="flex items-center gap-2 text-gray-900">
-                            <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                            {cycle.days}
-                          </li>
-                        )}
-                        {cycle.hours && (
-                          <li className="flex items-center gap-2 text-gray-900">
-                            <Clock className="w-4 h-4 text-[#182e86]/40 flex-shrink-0" />
-                            {cycle.hours}
-                          </li>
-                        )}
-                      </ul>
-                      <a href="#contact-form" className="mt-auto block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black py-3 rounded-xl transition-colors">
-                        שריינו מקום
-                      </a>
-                    </div>
-                  ))}
-                </div>
-
-                {/* City prices table */}
-                {c.city_prices && c.city_prices.length > 0 && (() => {
-                  // Group cities by price
-                  const groups = c.city_prices!.reduce((acc, cp) => {
-                    const key = cp.price;
-                    if (!acc[key]) acc[key] = [];
-                    acc[key].push(cp.city);
-                    return acc;
-                  }, {} as Record<number, string[]>);
-                  const sorted = Object.entries(groups).sort((a, b) => Number(a[0]) - Number(b[0]));
-                  return (
-                    <div>
-                      <h3 className="text-lg font-black text-[#182e86] mb-4 flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-[#F5C400]" />
-                        מחיר לפי עיר
-                      </h3>
-                      <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                        {sorted.map(([price, cities], i) => (
-                          <div key={price} className={`flex items-center gap-4 px-6 py-4 ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
-                            <div className="flex-shrink-0 text-center min-w-[90px]">
-                              <span className="text-2xl font-black text-[#182e86]">{Number(price).toLocaleString("he-IL")}</span>
-                              <span className="text-base font-bold text-[#182e86]"> ₪</span>
-                              <p className="text-xs text-gray-500">למחזור</p>
-                            </div>
-                            <div className="w-px h-10 bg-gray-200 flex-shrink-0" />
-                            <div className="flex flex-wrap gap-2">
-                              {cities.map(city => (
-                                <span key={city} className="inline-flex items-center gap-1 bg-[#182e86]/8 text-[#182e86] font-medium text-sm px-3 py-1 rounded-full">
-                                  {city}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()}
+                <CyclesAndPricing
+                  cycles={c.cycles}
+                  cityPrices={c.city_prices}
+                  priceBasic={c.price_basic}
+                />
               </section>
             )}
 
