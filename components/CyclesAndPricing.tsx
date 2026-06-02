@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, CheckCircle, MapPin, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, MapPin, CheckCircle, ArrowLeft } from "lucide-react";
 
 interface Cycle { label: string; dates: string; days: string; hours: string }
 interface CityPrice { city: string; price: number }
@@ -11,6 +11,13 @@ interface Props {
   cityPrices?: CityPrice[] | null;
   priceBasic?: number | null;
 }
+
+const CARD_COLORS = [
+  { badge: "bg-[#182e86]", btn: "bg-[#182e86] hover:bg-[#111f5c]", price: "text-[#182e86]" },
+  { badge: "bg-emerald-600",  btn: "bg-emerald-600 hover:bg-emerald-700",  price: "text-emerald-600"  },
+  { badge: "bg-[#182e86]", btn: "bg-[#182e86] hover:bg-[#111f5c]", price: "text-[#182e86]" },
+  { badge: "bg-emerald-600",  btn: "bg-emerald-600 hover:bg-emerald-700",  price: "text-emerald-600"  },
+];
 
 export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Props) {
   const [selectedCity, setSelectedCity] = useState<string>(
@@ -25,82 +32,113 @@ export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Pro
 
   return (
     <div>
+      {/* Subtitle */}
+      {hasCityPrices && (
+        <p className="text-gray-500 text-sm mb-5">
+          המחיר משתנה לפי עיר ונקודת איסוף – בחרו עיר כדי לראות מחיר מדויק
+        </p>
+      )}
+
       {/* City selector */}
       {hasCityPrices && (
-        <div className="bg-gray-50 rounded-2xl p-5 mb-6 border border-gray-100">
-          <label className="flex items-center gap-2 text-sm font-bold text-[#182e86] mb-3">
-            <MapPin className="w-4 h-4 text-[#F5C400]" />
-            בחרו עיר לראות מחיר מדויק
+        <div className="border border-gray-200 rounded-2xl p-5 mb-6 bg-white shadow-sm">
+          <label className="flex items-center justify-end gap-2 text-sm font-bold text-gray-700 mb-3">
+            בחרו עיר
+            <MapPin className="w-4 h-4 text-[#182e86]" />
           </label>
-          <select
-            value={selectedCity}
-            onChange={e => setSelectedCity(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-medium bg-white focus:outline-none focus:border-[#182e86] text-base"
-          >
-            {cityPrices!.map(cp => (
-              <option key={cp.city} value={cp.city}>{cp.city}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedCity}
+              onChange={e => setSelectedCity(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-medium bg-white focus:outline-none focus:border-[#182e86] text-base appearance-none"
+              style={{ direction: "rtl" }}
+            >
+              {cityPrices!.map(cp => (
+                <option key={cp.city} value={cp.city}>{cp.city}</option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              ▼
+            </div>
+          </div>
           {selectedCity && (
-            <p className="mt-2 text-sm text-green-600 font-medium flex items-center gap-1.5">
+            <p className="mt-3 text-sm text-emerald-600 font-medium flex items-center justify-end gap-1.5">
+              המחירים מעודכנים עבור: <span className="font-bold">{selectedCity}</span>
               <CheckCircle className="w-4 h-4" />
-              המחירים מעודכנים עבור: {selectedCity}
             </p>
           )}
         </div>
       )}
 
-      {/* Cycles grid */}
+      {/* Dynamic city title */}
+      {hasCityPrices && selectedCity && (
+        <h3 className="text-lg font-black text-[#182e86] mb-4 text-right">
+          המחירים בעיר {selectedCity}
+        </h3>
+      )}
+
+      {/* Cycle cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {cycles.map((cycle, i) => (
-          <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
-            <span className="inline-block bg-[#182e86] text-white text-sm font-black px-4 py-1.5 rounded-full self-start">
-              {cycle.label}
-            </span>
+        {cycles.map((cycle, i) => {
+          const color = CARD_COLORS[i % CARD_COLORS.length];
+          return (
+            <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
 
-            <ul className="space-y-2.5">
+              {/* Badge */}
+              <span className={`inline-block ${color.badge} text-white text-sm font-black px-4 py-1.5 rounded-full self-start`}>
+                {cycle.label}
+              </span>
+
+              {/* Dates — large */}
               {cycle.dates && (
-                <li className="flex items-center gap-2 text-gray-900 font-semibold text-base">
-                  <Calendar className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                  {cycle.dates}
-                </li>
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  <span className="text-2xl font-black text-gray-900">{cycle.dates}</span>
+                </div>
               )}
-              {cycle.days && (
-                <li className="flex items-center gap-2 text-gray-900">
-                  <CheckCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                  {cycle.days}
-                </li>
-              )}
-              {cycle.hours && (
-                <li className="flex items-center gap-2 text-gray-700">
-                  <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  {cycle.hours}
-                </li>
-              )}
-            </ul>
 
-            {/* Price */}
-            {currentPrice && (
-              <div className="border-t border-gray-100 pt-4">
-                <p className="text-xs text-gray-500 mb-0.5">מחיר למחזור</p>
-                <p className="text-3xl font-black text-[#182e86]">
-                  ₪ {currentPrice.toLocaleString("he-IL")}
-                  {hasCityPrices && selectedCity && (
-                    <span className="text-sm font-medium text-gray-400 mr-2">ב{selectedCity}</span>
-                  )}
-                </p>
+              {/* Days + Hours inline */}
+              <div className="flex items-center gap-4 text-sm text-gray-700">
+                {cycle.days && (
+                  <span className="font-medium">{cycle.days}</span>
+                )}
+                {cycle.days && cycle.hours && <span className="text-gray-300">|</span>}
+                {cycle.hours && (
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-gray-400" />
+                    {cycle.hours}
+                  </span>
+                )}
               </div>
-            )}
 
-            <a
-              href="#contact-form"
-              className="mt-auto flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#182e86] font-black py-3 rounded-xl transition-colors text-base"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              להרשמה
-            </a>
-          </div>
-        ))}
+              {/* Price */}
+              {currentPrice && (
+                <div className="flex items-baseline gap-1">
+                  <span className={`text-4xl font-black ${color.price}`}>
+                    ₪ {currentPrice.toLocaleString("he-IL")}
+                  </span>
+                </div>
+              )}
+
+              {/* Dates detail box */}
+              {cycle.dates && (
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
+                  <p className="text-xs text-gray-400 mb-1">תאריכים</p>
+                  <p className="font-bold text-gray-900 text-sm">{cycle.dates}</p>
+                </div>
+              )}
+
+              {/* CTA */}
+              <a
+                href="#contact-form"
+                className={`flex items-center justify-center gap-2 ${color.btn} text-white font-black py-3.5 rounded-xl transition-colors text-base mt-auto`}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                להרשמה
+              </a>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
