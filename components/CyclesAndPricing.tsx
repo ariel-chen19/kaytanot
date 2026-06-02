@@ -14,9 +14,9 @@ interface Props {
 
 const CARD_COLORS = [
   { badge: "bg-[#182e86]", btn: "bg-[#182e86] hover:bg-[#111f5c]", price: "text-[#182e86]" },
-  { badge: "bg-emerald-600",  btn: "bg-emerald-600 hover:bg-emerald-700",  price: "text-emerald-600"  },
+  { badge: "bg-emerald-600", btn: "bg-emerald-600 hover:bg-emerald-700", price: "text-emerald-600" },
   { badge: "bg-[#182e86]", btn: "bg-[#182e86] hover:bg-[#111f5c]", price: "text-[#182e86]" },
-  { badge: "bg-emerald-600",  btn: "bg-emerald-600 hover:bg-emerald-700",  price: "text-emerald-600"  },
+  { badge: "bg-emerald-600", btn: "bg-emerald-600 hover:bg-emerald-700", price: "text-emerald-600" },
 ];
 
 export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Props) {
@@ -35,7 +35,7 @@ export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Pro
       {/* Subtitle */}
       {hasCityPrices && (
         <p className="text-gray-500 text-sm mb-5">
-          המחיר משתנה לפי עיר ונקודת איסוף – בחרו עיר כדי לראות מחיר מדויק
+          בחרו עיר כדי לראות את המחיר המדויק עבורכם
         </p>
       )}
 
@@ -57,9 +57,7 @@ export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Pro
                 <option key={cp.city} value={cp.city}>{cp.city}</option>
               ))}
             </select>
-            <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-              ▼
-            </div>
+            <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">▼</div>
           </div>
           {selectedCity && (
             <p className="mt-3 text-sm text-emerald-600 font-medium flex items-center justify-end gap-1.5">
@@ -82,26 +80,24 @@ export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Pro
         {cycles.map((cycle, i) => {
           const color = CARD_COLORS[i % CARD_COLORS.length];
           return (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
+            <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4 items-center text-center">
 
-              {/* Badge */}
-              <span className={`inline-block ${color.badge} text-white text-sm font-black px-4 py-1.5 rounded-full self-start`}>
+              {/* Badge — bigger */}
+              <span className={`inline-block ${color.badge} text-white text-base font-black px-5 py-2 rounded-full`}>
                 {cycle.label}
               </span>
 
               {/* Dates — large */}
               {cycle.dates && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   <span className="text-2xl font-black text-gray-900">{cycle.dates}</span>
                 </div>
               )}
 
               {/* Days + Hours inline */}
-              <div className="flex items-center gap-4 text-sm text-gray-700">
-                {cycle.days && (
-                  <span className="font-medium">{cycle.days}</span>
-                )}
+              <div className="flex items-center justify-center gap-4 text-sm text-gray-700">
+                {cycle.days && <span className="font-medium">{cycle.days}</span>}
                 {cycle.days && cycle.hours && <span className="text-gray-300">|</span>}
                 {cycle.hours && (
                   <span className="flex items-center gap-1">
@@ -113,25 +109,15 @@ export default function CyclesAndPricing({ cycles, cityPrices, priceBasic }: Pro
 
               {/* Price */}
               {currentPrice && (
-                <div className="flex items-baseline gap-1">
-                  <span className={`text-4xl font-black ${color.price}`}>
-                    ₪ {currentPrice.toLocaleString("he-IL")}
-                  </span>
-                </div>
-              )}
-
-              {/* Dates detail box */}
-              {cycle.dates && (
-                <div className="bg-gray-50 rounded-xl p-4 text-center">
-                  <p className="text-xs text-gray-400 mb-1">תאריכים</p>
-                  <p className="font-bold text-gray-900 text-sm">{cycle.dates}</p>
-                </div>
+                <span className={`text-4xl font-black ${color.price}`}>
+                  ₪ {currentPrice.toLocaleString("he-IL")}
+                </span>
               )}
 
               {/* CTA */}
               <a
                 href="#contact-form"
-                className={`flex items-center justify-center gap-2 ${color.btn} text-white font-black py-3.5 rounded-xl transition-colors text-base mt-auto`}
+                className={`w-full flex items-center justify-center gap-2 ${color.btn} text-white font-black py-3.5 rounded-xl transition-colors text-base mt-auto`}
               >
                 <ArrowLeft className="w-4 h-4" />
                 להרשמה
