@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import {
-  MapPin, Users, Calendar, Clock,
+  MapPin, Users, Calendar,
   Phone, Waves, Star, Anchor, Trees, Film,
   Target, Wind, Zap, Music2, ShoppingBag, Bike,
   CheckCircle, ArrowLeft, Shield, Bus, UtensilsCrossed, Award,
