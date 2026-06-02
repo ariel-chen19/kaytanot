@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import CyclesAndPricing from "@/components/CyclesAndPricing";
+import ActivitiesGallery from "@/components/ActivitiesGallery";
 import FaqAccordion from "@/components/FaqAccordion";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -39,6 +40,7 @@ interface Camp {
   features?: Feature[] | null;
   city_prices?: CityPrice[] | null;
   why_us?: string[] | null;
+  activities_gallery?: { name: string; image: string }[] | null;
 }
 
 /* ─── Feature icon mapping ───────────────────────────────── */
@@ -275,25 +277,12 @@ export default async function KaytanaPage({ params }: { params: { slug: string }
             )}
 
 
-            {/* Activities */}
-            {c.activities && c.activities.length > 0 && (
+            {/* Activities Gallery */}
+            {c.activities_gallery && c.activities_gallery.length > 0 && (
               <section>
                 <h2 className="text-2xl font-black text-[#182e86] mb-1">מה עושים בקייטנה?</h2>
                 <div className="w-10 h-1 bg-[#F5C400] rounded-full mb-6" />
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {c.activities.map((act, i) => {
-                    const style = getActivityStyle(act, i);
-                    const Icon = style.icon;
-                    return (
-                      <div key={i} className="flex flex-col items-center gap-3 p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all text-center group bg-white">
-                        <div className={`w-14 h-14 rounded-2xl ${style.bg} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                          <Icon className={`w-6 h-6 ${style.text}`} />
-                        </div>
-                        <span className="text-sm font-bold text-gray-900">{act}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+                <ActivitiesGallery items={c.activities_gallery} />
               </section>
             )}
 
