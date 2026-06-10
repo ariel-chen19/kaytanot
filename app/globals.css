@@ -8,6 +8,60 @@
   }
 }
 
+@keyframes organization-logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.organization-logo-marquee {
+  overflow: hidden;
+}
+
+.organization-logo-track {
+  display: flex;
+  width: max-content;
+  animation: organization-logo-scroll 55s linear infinite;
+  will-change: transform;
+}
+
+.organization-logo-marquee:hover .organization-logo-track {
+  animation-play-state: paused;
+}
+
+.organization-logo-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.organization-logo-card {
+  display: flex;
+  height: 92px;
+  width: 158px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dfe7f2;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0.625rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organization-logo-marquee {
+    overflow-x: auto;
+  }
+
+  .organization-logo-track {
+    animation: none;
+  }
+}
+
 @layer base {
   :root {
     --background: #ffffff;

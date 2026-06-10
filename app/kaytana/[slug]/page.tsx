@@ -26,6 +26,7 @@ import ActivitiesGallery from "@/components/ActivitiesGallery";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import FaqAccordion from "@/components/FaqAccordion";
 import ExperienceGalleryCarousel from "@/components/ExperienceGalleryCarousel";
+import OrganizationBenefitsCarousel from "@/components/OrganizationBenefitsCarousel";
 import type { Metadata } from "next";
 
 interface Cycle {
@@ -759,6 +760,8 @@ export default async function KaytanaPage({
               </div>
             </section>
           )}
+
+          {c.slug === "mitgalgalim" && <OrganizationBenefitsCarousel />}
 
           {displayWhyUs.length > 0 && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
