@@ -166,7 +166,7 @@ const MITGALGALIM_TESTIMONIALS: Testimonial[] = [
   {
     name: "אמא של נועם",
     city: "ראשון לציון",
-    text: "הרגשנו שיש עם מי לדבר מהרגע הראשון. התוכנית ברורה, הצוות מסודר, והילד חזר כל יום עם חיוך ענק.",
+    text: "הרגשנו שיש עם מי לדבר מהרגע הראשון. התוכנית ברורה, ההסעות מסודרות, והילד חזר כל יום עם חיוך ענק.",
   },
   {
     name: "אבא של יעל",
@@ -288,9 +288,9 @@ export async function generateMetadata({
   if (!data) return {};
 
   if (params.slug === "mitgalgalim") {
-    const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות לילדים";
+    const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר";
     const description =
-      "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: 27+ שנות ניסיון, צוות הדרכה מקצועי ואטרקציות מובילות בכל יום.";
+      "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: 27+ שנות ניסיון, צוות הדרכה מקצועי, הסעות מבית הספר הקרוב לבית ואטרקציות מובילות בכל יום.";
     const image = data.image_url || data.logo_url || "/mitgalgalim/mitgalgalim.webp";
 
     return {
@@ -299,6 +299,7 @@ export async function generateMetadata({
       keywords: [
         "קייטנת מתגלגלים ונהנים",
         "קייטנת אטרקציות",
+        "קייטנה עם הסעות",
         "קייטנת קיץ 2026",
         "קייטנה לילדים",
         "סופרלנד",
@@ -407,6 +408,7 @@ export default async function KaytanaPage({
         "ליווי, סדר וארגון ברמה הגבוהה ביותר",
         "כל יום אטרקציה חדשה וחוויה אחרת",
         "יחס אישי לכל ילד וילדה",
+        "הסעות נוחות ומאובטחות מ-23 ערים",
       ]
     : c.why_us ?? [];
   const displayActivitiesGallery = c.slug === "mitgalgalim" ? MITGALGALIM_ACTIVITIES_GALLERY : c.activities_gallery ?? [];
@@ -474,7 +476,7 @@ export default async function KaytanaPage({
       name: c.slug === "mitgalgalim" ? "קייטנת מתגלגלים ונהנים" : c.name,
       description:
         c.slug === "mitgalgalim"
-          ? "קייטנת אטרקציות לילדים עם 27+ שנות ניסיון, צוות הדרכה מקצועי ויום פעילות חדש בכל יום."
+          ? "קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית, 27+ שנות ניסיון וצוות הדרכה מקצועי."
           : c.description ?? `קייטנה ב${c.city}`,
       url: pageUrl,
       image: heroImageUrl,
@@ -513,7 +515,7 @@ export default async function KaytanaPage({
       />
       <section className="px-4 pt-4">
         {c.slug === "mitgalgalim" && (
-          <h1 className="sr-only">קייטנת מתגלגלים ונהנים - קייטנת אטרקציות לילדים</h1>
+          <h1 className="sr-only">קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית</h1>
         )}
         <div className="mx-auto w-full max-w-[1880px] overflow-hidden rounded-[28px] border border-[#dfe7f2] bg-white shadow-xl shadow-[#003087]/10">
           <div className="flex flex-col md:flex-row-reverse">
@@ -670,60 +672,6 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {displayWhyUs.length > 0 && (
-            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
-              <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">למה לבחור דווקא בנו?</h2>
-              <div className="mb-6 h-1 w-10 rounded-full bg-[#F5C400]" />
-              <div className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-                {displayWhyUs.slice(0, 10).map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#182e86]">
-                      <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none">
-                        <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    <p className="text-lg font-semibold leading-7 text-slate-950">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {displaySocialProofs.length > 0 && (
-            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
-              <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
-                    {c.slug === "mitgalgalim" ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
-                  </h2>
-                  <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
-                  <p className="max-w-2xl text-base leading-7 text-slate-700">
-                    {c.slug === "mitgalgalim"
-                      ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות והתחושה לאורך הקייטנה."
-                      : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות ותחושת ביטחון לאורך כל היום."}
-                  </p>
-                </div>
-                {c.slug !== "mitgalgalim" && (
-                  <div className="flex min-w-[260px] items-center gap-4 self-start rounded-2xl border border-[#dfe7f2] bg-white px-4 py-3 shadow-sm">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f8fbff] text-[#182e86]">
-                      <Users className="h-7 w-7" />
-                    </div>
-                    <div className="flex flex-col leading-tight">
-                      <span className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{socialProofSummaryTitle}</span>
-                      <div className="flex items-center gap-2 text-[#182e86]">
-                        <span className="text-sm font-bold">{averageRating ? `${averageRating}/5` : "ביקורות"}</span>
-                        <span className="text-base tracking-[0.18em] text-[#F5C400]">★★★★★</span>
-                      </div>
-                      <span className="text-xs text-slate-600">{socialProofSummaryText}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <ReviewsCarousel items={displaySocialProofs.slice(0, 8)} />
-            </section>
-          )}
-
           {displayActivitiesGallery.length > 0 && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
@@ -764,6 +712,60 @@ export default async function KaytanaPage({
                   </a>
                 </div>
               )}
+            </section>
+          )}
+
+          {displayWhyUs.length > 0 && (
+            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
+              <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">למה לבחור דווקא בנו?</h2>
+              <div className="mb-6 h-1 w-10 rounded-full bg-[#F5C400]" />
+              <div className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+                {displayWhyUs.slice(0, 10).map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#182e86]">
+                      <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none">
+                        <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <p className="text-lg font-semibold leading-7 text-slate-950">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {displaySocialProofs.length > 0 && (
+            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
+              <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
+                    {c.slug === "mitgalgalim" ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
+                  </h2>
+                  <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
+                  <p className="max-w-2xl text-base leading-7 text-slate-700">
+                    {c.slug === "mitgalgalim"
+                      ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות, ההסעות והתחושה לאורך הקייטנה."
+                      : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות, הסעות ותחושת ביטחון לאורך כל היום."}
+                  </p>
+                </div>
+                {c.slug !== "mitgalgalim" && (
+                  <div className="flex min-w-[260px] items-center gap-4 self-start rounded-2xl border border-[#dfe7f2] bg-white px-4 py-3 shadow-sm">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f8fbff] text-[#182e86]">
+                      <Users className="h-7 w-7" />
+                    </div>
+                    <div className="flex flex-col leading-tight">
+                      <span className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{socialProofSummaryTitle}</span>
+                      <div className="flex items-center gap-2 text-[#182e86]">
+                        <span className="text-sm font-bold">{averageRating ? `${averageRating}/5` : "ביקורות"}</span>
+                        <span className="text-base tracking-[0.18em] text-[#F5C400]">★★★★★</span>
+                      </div>
+                      <span className="text-xs text-slate-600">{socialProofSummaryText}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <ReviewsCarousel items={displaySocialProofs.slice(0, 8)} />
             </section>
           )}
 
