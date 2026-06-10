@@ -719,7 +719,7 @@ export default async function KaytanaPage({
               {c.slug === "mitgalgalim" && (
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
                   <a
-                    href="/mitgalgalim/mitgalgalim%20m1.png"
+                    href="/mitgalgalim/mitgalgalim%20m1.webp"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#182e86]/15 bg-[#182e86] px-5 py-3.5 text-base font-black text-white shadow-sm transition-colors hover:bg-[#111f5c]"
@@ -728,7 +728,7 @@ export default async function KaytanaPage({
                     תוכנית מחזור 1
                   </a>
                   <a
-                    href="/mitgalgalim/mitgalgalim%20m2.png"
+                    href="/mitgalgalim/mitgalgalim%20m2.webp"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#F5C400]/40 bg-[#F5C400] px-5 py-3.5 text-base font-black text-[#182e86] shadow-sm transition-colors hover:bg-[#e0b200]"
