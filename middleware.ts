@@ -4,12 +4,10 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Keep the public site closed while allowing the live landing page,
-  // authentication, the dashboard, API routes and required static files.
+  // API routes and required static files.
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
-    pathname.startsWith('/auth') ||
-    pathname.startsWith('/dashboard') ||
     pathname.startsWith('/coming-soon') ||
     pathname === '/kaytana/mitgalgalim' ||
     pathname === '/robots.txt' ||
