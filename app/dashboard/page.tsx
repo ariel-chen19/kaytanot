@@ -426,7 +426,7 @@ export default async function DashboardPage({
                           <input
                             name="owner_whatsapp"
                             defaultValue={settings?.owner_whatsapp ?? ""}
-                            placeholder="055-999-9139"
+                            placeholder="054-302-4343"
                             className="mt-1 w-full rounded-xl border border-[#d7e1ea] bg-white px-4 py-3 text-sm outline-none focus:border-[#003087]"
                           />
                         </label>

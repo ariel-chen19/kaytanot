@@ -430,7 +430,7 @@ export default async function KaytanaPage({
     ? `/mitgalgalim/mitgalgalim-logo.webp?v=${MITGALGALIM_ASSET_VERSION}`
     : c.logo_url ?? "/kaytanot_logo.webp";
   const leadFormTitle = c.slug === "mitgalgalim" ? "השאירו פרטים לקבלת מידע נוסף" : "בדיקת מקום פנוי";
-  const whatsappPhone = c.slug === "mitgalgalim" ? "972559999139" : c.whatsapp ?? "972559999139";
+  const whatsappPhone = c.slug === "mitgalgalim" ? "972543024343" : c.whatsapp ?? "972543024343";
   const displayWhyUs = c.slug === "mitgalgalim"
     ? [
         "ניסיון של 27+ שנים",
