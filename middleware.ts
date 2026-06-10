@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/auth') ||
+    pathname === '/lp/mitgalgalim' ||
     pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)
   ) {
     return NextResponse.next()

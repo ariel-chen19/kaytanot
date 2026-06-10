@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Assistant, Heebo, Rubik } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -60,9 +59,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${assistant.variable} ${heebo.variable} ${rubik.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-assistant">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
