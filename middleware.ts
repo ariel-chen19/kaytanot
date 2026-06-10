@@ -13,7 +13,6 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/api') ||
     pathname.startsWith('/auth') ||
     pathname === '/kaytana/mitgalgalim' ||
-    pathname === '/lp/mitgalgalim' ||
     pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)
   ) {
     return NextResponse.next()
