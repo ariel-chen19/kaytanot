@@ -628,7 +628,7 @@ export default async function KaytanaPage({
               )}
 
               <p className="mb-2.5 text-base font-bold text-slate-600">
-                ניסיון של 27+ שנים | מובילים בתחום הקייטנות
+                מחירים מיוחדים והטבות דרך חברות, ארגונים וועדי עובדים
               </p>
 
               <a
@@ -638,11 +638,6 @@ export default async function KaytanaPage({
                 <ArrowLeft className="h-5 w-5" />
                 לפרטים נוספים והרשמה
               </a>
-              {c.slug === "mitgalgalim" && (
-                <p className="mt-3 max-w-md text-sm font-bold leading-6 text-slate-600">
-                  מחירים מיוחדים והטבות דרך חברות, ארגונים וועדי עובדים
-                </p>
-              )}
             </div>
 
           </div>
