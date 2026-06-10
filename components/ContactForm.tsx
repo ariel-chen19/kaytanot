@@ -14,6 +14,9 @@ const fullContactSchema = z.object({
     .min(9, "מספר טלפון חייב להכיל לפחות 9 ספרות")
     .regex(/^[0-9+\-\s]+$/, "מספר טלפון אינו תקין"),
   message: z.string().optional(),
+  privacy_consent: z.literal(true, {
+    error: "יש לאשר את מדיניות הפרטיות",
+  }),
 });
 
 const inlineContactSchema = fullContactSchema.extend({
@@ -49,8 +52,10 @@ export default function ContactForm({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        ...data,
+        parent_name: data.parent_name,
+        parent_phone: data.parent_phone,
         parent_email: data.parent_email || undefined,
+        message: data.message,
         camp_id: campId,
       }),
     });
@@ -114,6 +119,29 @@ export default function ContactForm({
           </button>
         </div>
 
+        <label className="flex cursor-pointer items-start gap-2 text-sm leading-6 text-slate-600">
+          <input
+            type="checkbox"
+            {...register("privacy_consent")}
+            className="mt-1 h-4 w-4 flex-shrink-0 accent-[#182e86]"
+          />
+          <span>
+            אני מאשר/ת את העברת הפרטים לצורך יצירת קשר בהתאם ל
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-[#182e86] underline"
+            >
+              מדיניות הפרטיות
+            </a>
+            .
+          </span>
+        </label>
+        {errors.privacy_consent && (
+          <p className="text-sm text-red-500">{errors.privacy_consent.message}</p>
+        )}
+
         {error && <p className="text-center text-sm text-red-500">{error}</p>}
       </form>
     );
@@ -170,6 +198,29 @@ export default function ContactForm({
           className="w-full rounded-2xl border border-[#e0e8f0] bg-[#F5F7FA] px-4 py-3 text-[15px] focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087] resize-none"
         />
       </div>
+
+      <label className="flex cursor-pointer items-start gap-2 px-2 text-sm leading-6 text-slate-600">
+        <input
+          type="checkbox"
+          {...register("privacy_consent")}
+          className="mt-1 h-4 w-4 flex-shrink-0 accent-[#003087]"
+        />
+        <span>
+          אני מאשר/ת את העברת הפרטים לצורך יצירת קשר בהתאם ל
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-[#003087] underline"
+          >
+            מדיניות הפרטיות
+          </a>
+          .
+        </span>
+      </label>
+      {errors.privacy_consent && (
+        <p className="px-2 text-xs text-red-500">{errors.privacy_consent.message}</p>
+      )}
 
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 

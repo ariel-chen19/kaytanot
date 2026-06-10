@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/api') ||
     pathname.startsWith('/coming-soon') ||
     pathname === '/kaytana/mitgalgalim' ||
+    pathname === '/privacy' ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
     pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)

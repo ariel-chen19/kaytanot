@@ -21,7 +21,7 @@ const rubik = Rubik({
   weight: ["700", "800", "900"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kaytanot.co.il";
+const siteUrl = "https://www.kaytanot.co.il";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -7,7 +7,9 @@ import Footer from "@/components/Footer";
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isStandalone =
-    pathname === "/kaytana/mitgalgalim" || pathname.startsWith("/coming-soon");
+    pathname === "/kaytana/mitgalgalim" ||
+    pathname === "/privacy" ||
+    pathname.startsWith("/coming-soon");
 
   if (isStandalone) {
     return <main className="flex-1">{children}</main>;

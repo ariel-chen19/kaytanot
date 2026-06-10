@@ -29,6 +29,8 @@ import ExperienceGalleryCarousel from "@/components/ExperienceGalleryCarousel";
 import OrganizationBenefitsCarousel from "@/components/OrganizationBenefitsCarousel";
 import type { Metadata } from "next";
 
+const PUBLIC_SITE_URL = "https://www.kaytanot.co.il";
+
 interface Cycle {
   label: string;
   dates: string;
@@ -314,7 +316,8 @@ export async function generateMetadata({
     const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר";
     const description =
       "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: 27+ שנות ניסיון, צוות הדרכה מקצועי, הסעות מבית הספר הקרוב לבית ואטרקציות מובילות בכל יום.";
-    const image = data.image_url || data.logo_url || "/mitgalgalim/mitgalgalim.webp";
+    const pageUrl = `${PUBLIC_SITE_URL}/kaytana/${data.slug}`;
+    const image = `${PUBLIC_SITE_URL}/mitgalgalim/mitgalgalim.webp`;
 
     return {
       title,
@@ -330,14 +333,14 @@ export async function generateMetadata({
         "קייטנה עם בריכה",
       ],
       alternates: {
-        canonical: `/kaytana/${data.slug}`,
+        canonical: pageUrl,
       },
       openGraph: {
         title,
         description,
         type: "website",
         locale: "he_IL",
-        url: `/kaytana/${data.slug}`,
+        url: pageUrl,
         images: [{ url: image, alt: "קייטנת מתגלגלים ונהנים" }],
       },
       twitter: {
@@ -498,7 +501,7 @@ export default async function KaytanaPage({
         ).toFixed(1)
       : null;
   const displayFaq = c.slug === "mitgalgalim" ? MITGALGALIM_EXTRA_FAQ_ITEMS : c.faq ?? [];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kaytanot.co.il";
+  const siteUrl = PUBLIC_SITE_URL;
   const pageUrl = `${siteUrl}/kaytana/${c.slug}`;
   const structuredData = [
     {
