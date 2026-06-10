@@ -166,7 +166,7 @@ const MITGALGALIM_TESTIMONIALS: Testimonial[] = [
   {
     name: "אמא של נועם",
     city: "ראשון לציון",
-    text: "הרגשנו שיש עם מי לדבר מהרגע הראשון. התוכנית ברורה, ההסעות מסודרות, והילד חזר כל יום עם חיוך ענק.",
+    text: "הרגשנו שיש עם מי לדבר מהרגע הראשון. התוכנית ברורה, הצוות מסודר, והילד חזר כל יום עם חיוך ענק.",
   },
   {
     name: "אבא של יעל",
@@ -288,9 +288,9 @@ export async function generateMetadata({
   if (!data) return {};
 
   if (params.slug === "mitgalgalim") {
-    const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר";
+    const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות לילדים";
     const description =
-      "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: מעל 27 שנות ניסיון, צוות הדרכה מקצועי, הסעות מבית הספר הקרוב לבית ואטרקציות מובילות בכל יום.";
+      "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: 27+ שנות ניסיון, צוות הדרכה מקצועי ואטרקציות מובילות בכל יום.";
     const image = data.image_url || data.logo_url || "/mitgalgalim/mitgalgalim.webp";
 
     return {
@@ -299,7 +299,6 @@ export async function generateMetadata({
       keywords: [
         "קייטנת מתגלגלים ונהנים",
         "קייטנת אטרקציות",
-        "קייטנה עם הסעות",
         "קייטנת קיץ 2026",
         "קייטנה לילדים",
         "סופרלנד",
@@ -402,12 +401,12 @@ export default async function KaytanaPage({
   const whatsappPhone = c.slug === "mitgalgalim" ? "972559999139" : c.whatsapp ?? "972559999139";
   const displayWhyUs = c.slug === "mitgalgalim"
     ? [
-        "מעל 27 שנות ניסיון בתחום הקייטנות",
+        "ניסיון של 27+ שנים",
+        "מובילים בתחום הקייטנות",
         "צוות מקצועי, מסור ובעל הכשרה מלאה",
         "ליווי, סדר וארגון ברמה הגבוהה ביותר",
-        "קייטנות קיץ עם מגוון האטרקציות הגדול בישראל",
+        "כל יום אטרקציה חדשה וחוויה אחרת",
         "יחס אישי לכל ילד וילדה",
-        "הסעות נוחות ומאובטחות מ-23 ערים",
       ]
     : c.why_us ?? [];
   const displayActivitiesGallery = c.slug === "mitgalgalim" ? MITGALGALIM_ACTIVITIES_GALLERY : c.activities_gallery ?? [];
@@ -475,7 +474,7 @@ export default async function KaytanaPage({
       name: c.slug === "mitgalgalim" ? "קייטנת מתגלגלים ונהנים" : c.name,
       description:
         c.slug === "mitgalgalim"
-          ? "קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית, מעל 27 שנות ניסיון וצוות הדרכה מקצועי."
+          ? "קייטנת אטרקציות לילדים עם 27+ שנות ניסיון, צוות הדרכה מקצועי ויום פעילות חדש בכל יום."
           : c.description ?? `קייטנה ב${c.city}`,
       url: pageUrl,
       image: heroImageUrl,
@@ -514,7 +513,7 @@ export default async function KaytanaPage({
       />
       <section className="px-4 pt-4">
         {c.slug === "mitgalgalim" && (
-          <h1 className="sr-only">קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית</h1>
+          <h1 className="sr-only">קייטנת מתגלגלים ונהנים - קייטנת אטרקציות לילדים</h1>
         )}
         <div className="mx-auto w-full max-w-[1880px] overflow-hidden rounded-[28px] border border-[#dfe7f2] bg-white shadow-xl shadow-[#003087]/10">
           <div className="flex flex-col md:flex-row-reverse">
@@ -598,7 +597,7 @@ export default async function KaytanaPage({
               )}
 
               <p className="mb-2.5 text-base font-bold text-slate-600">
-                מעל 27 שנות ניסיון בתחום הקייטנות
+                ניסיון של 27+ שנים | מובילים בתחום הקייטנות
               </p>
 
               <a
@@ -626,7 +625,12 @@ export default async function KaytanaPage({
               {c.features.slice(0, 5).map((feat, i) => {
                 const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#182e86]" };
                 const Icon = iconDef.icon;
-                const label = c.slug === "mitgalgalim" && feat.type === "ratio" ? "יחס מדריכים" : feat.label;
+                const label =
+                  c.slug === "mitgalgalim" && feat.type === "transport"
+                    ? "פריסה ארצית"
+                    : c.slug === "mitgalgalim" && feat.type === "ratio"
+                      ? "יחס מדריכים"
+                      : feat.label;
                 const description =
                   c.slug === "mitgalgalim" && feat.type === "transport"
                     ? "23 ערים ברחבי הארץ"
@@ -660,7 +664,7 @@ export default async function KaytanaPage({
               <div className="mb-5 h-1 w-10 rounded-full bg-[#F5C400]" />
               <p className="whitespace-pre-wrap text-lg leading-8 text-slate-900">
                 {c.slug === "mitgalgalim"
-                  ? "קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית.\n\nקייטנת מתגלגלים ונהנים מביאה איתה מעל 27 שנות ניסיון בתחום הקייטנות, עם צוות הדרכה מקצועי שעובר הכשרה מסודרת ומלווה את הילדים לאורך כל היום. בכל בוקר הילדים נאספים מבית הספר הקרוב לבית ויוצאים יחד לאטרקציה אחרת, במסגרת בטוחה, מאורגנת וברורה. במקום לחפש פתרון לכל יום מחדש - הילדים נהנים מקייטנה אחת שמרכזת הסעות, פעילויות, מים, אטרקציות וחברים באווירה שמחה ומבוקרת."
+                  ? "קייטנת מתגלגלים ונהנים פועלת כבר 27+ שנים, ומביאה לילדים קיץ מלא בתנועה, חברים, אטרקציות והרפתקאות שנשארות איתם הרבה אחרי שהחופש נגמר.\n\nבכל יום מחכה לילדים יום פעילות אחר: פארקי מים, לונה פארק, שייט, גן חיות, קולנוע, באולינג, מתנפחים ועוד חוויות שמכניסות לקיץ קצב, צחוק והמון עניין. המטרה פשוטה: שלא יהיה עוד יום רגיל בחופש - אלא יום שהילדים חוזרים ממנו עם סיפור.\n\nהקייטנה מופעלת על ידי מפעלי קיץ - קייטנות, מחנות, צהרונים והפקות בפריסה ארצית, בניהולו של ניר מאור, בוגר וינגייט ומאמן בכיר מוסמך. מאחורי הפעילות עומדות עשרות שנות ניסיון בעבודה עם ילדים, קייטנות ומחנות עבור מוסדות, ארגונים, חברות ומשפחות פרטיות.\n\nאנחנו משלבים חוויה גדולה עם ארגון מקצועי, בטיחות, יחס אישי וצוות הדרכה מנוסה שמלווה את הילדים לאורך כל היום. זה קיץ פעיל, שמח ומסודר - כזה שהילדים נהנים ממנו וההורים יכולים להיות רגועים לגביו."
                   : c.description}
               </p>
             </section>
@@ -695,8 +699,8 @@ export default async function KaytanaPage({
                   <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
                   <p className="max-w-2xl text-base leading-7 text-slate-700">
                     {c.slug === "mitgalgalim"
-                      ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות, ההסעות והתחושה לאורך הקייטנה."
-                      : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות, הסעות ותחושת ביטחון לאורך כל היום."}
+                      ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות והתחושה לאורך הקייטנה."
+                      : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות ותחושת ביטחון לאורך כל היום."}
                   </p>
                 </div>
                 {c.slug !== "mitgalgalim" && (
