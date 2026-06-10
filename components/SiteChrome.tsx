@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLandingOnly = pathname?.startsWith("/lp/");
+  const isLandingOnly = pathname === "/kaytana/mitgalgalim" || pathname?.startsWith("/lp/");
 
   if (isLandingOnly) {
     return <main className="flex-1">{children}</main>;
