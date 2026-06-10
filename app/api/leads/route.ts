@@ -187,6 +187,20 @@ export async function POST(req: NextRequest) {
         const { error: jobsError } = await supabase.from("lead_delivery_jobs").insert(deliveryJobs);
         if (jobsError) {
           console.error("Create lead delivery jobs error:", jobsError);
+        } else {
+          const deliverySecret = process.env.LEAD_DELIVERY_SECRET || process.env.CRON_SECRET;
+
+          if (deliverySecret) {
+            const deliveryUrl = new URL("/api/lead-delivery?limit=25", req.url);
+            await fetch(deliveryUrl, {
+              method: "POST",
+              headers: {
+                authorization: `Bearer ${deliverySecret}`,
+              },
+            }).catch((error) => {
+              console.error("Immediate lead delivery trigger failed:", error);
+            });
+          }
         }
       }
     }
