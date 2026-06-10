@@ -638,6 +638,8 @@ export default async function KaytanaPage({
                     ? "23 ערים ברחבי הארץ"
                     : c.slug === "mitgalgalim" && feat.type === "ratio"
                       ? "יחס מדריכים עד 1:15"
+                      : c.slug === "mitgalgalim" && feat.type === "experience"
+                        ? "מובילים בתחום הקייטנות"
                       : feat.desc;
 
                 return (
