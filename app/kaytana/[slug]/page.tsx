@@ -704,7 +704,7 @@ export default async function KaytanaPage({
               <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
               {c.slug === "mitgalgalim" && (
                 <p className="mb-6 max-w-3xl text-base leading-7 text-slate-700">
-                  בכל יום אוספים את הילדים מבית הספר הקרוב לבית ויוצאים לחוויה אחרת: סופרלנד /לונה פארק, באולינג, ימי בריכה, קולנוע, יום ספורט ועוד הרבה הפתעות
+                  בכל יום אוספים את הילדים מבית הספר הקרוב לבית ויוצאים לחוויה באטרקציה אחרת:
                 </p>
               )}
               <ActivitiesGallery items={displayActivitiesGallery} />
