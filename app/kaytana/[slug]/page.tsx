@@ -414,6 +414,14 @@ export default async function KaytanaPage({
   const seasonLabel = c.slug === "mitgalgalim" ? "קיץ 2026" : cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`;
   const cityLabel = c.slug === "mitgalgalim" ? "23 ערים ברחבי הארץ" : `${cityCount} ערים ברחבי הארץ`;
   const displayPrice = c.slug === "mitgalgalim" ? Math.min(...cityPrices.map((item) => item.price)) : c.price_basic;
+  const displayPriceLabel =
+    c.slug === "mitgalgalim"
+      ? `${Math.min(...cityPrices.map((item) => item.price)).toLocaleString("he-IL")}–${Math.max(
+          ...cityPrices.map((item) => item.price),
+        ).toLocaleString("he-IL")} ₪`
+      : displayPrice
+        ? `${displayPrice.toLocaleString("he-IL")} ₪`
+        : null;
   const heroImageUrl = c.slug === "mitgalgalim"
     ? `/mitgalgalim/mitgalgalim.webp?v=${MITGALGALIM_ASSET_VERSION}`
     : c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80";
@@ -504,7 +512,7 @@ export default async function KaytanaPage({
       image: heroImageUrl,
       logo: logoUrl,
       areaServed: c.slug === "mitgalgalim" ? "ישראל" : c.city,
-      priceRange: displayPrice ? `החל מ-${displayPrice.toLocaleString("he-IL")} ₪` : undefined,
+      priceRange: displayPriceLabel ?? undefined,
       audience: {
         "@type": "PeopleAudience",
         suggestedMinAge: c.age_min,
@@ -613,9 +621,8 @@ export default async function KaytanaPage({
 
               {displayPrice && (
                 <div className="mb-2.5">
-                  <p className="text-base text-slate-600">החל מ-</p>
                   <p className="font-heebo text-4xl font-black leading-none text-[#182e86]">
-                    ₪ {displayPrice.toLocaleString("he-IL")}
+                    {displayPriceLabel}
                   </p>
                 </div>
               )}
@@ -863,6 +870,7 @@ export default async function KaytanaPage({
               <CyclesAndPricing
                 cycles={c.cycles}
                 priceBasic={displayPrice}
+                priceLabel={displayPriceLabel ?? undefined}
               />
             </section>
           )}

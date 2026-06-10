@@ -7,6 +7,7 @@ interface Cycle { label: string; dates: string; days: string; hours: string }
 interface Props {
   cycles: Cycle[];
   priceBasic?: number | null;
+  priceLabel?: string;
 }
 
 const CARD_COLORS = [
@@ -16,7 +17,7 @@ const CARD_COLORS = [
   { badge: "bg-emerald-600", btn: "bg-emerald-600 hover:bg-emerald-700", price: "text-emerald-600" },
 ];
 
-export default function CyclesAndPricing({ cycles, priceBasic }: Props) {
+export default function CyclesAndPricing({ cycles, priceBasic, priceLabel }: Props) {
   return (
     <div>
       {/* Cycle cards */}
@@ -54,9 +55,8 @@ export default function CyclesAndPricing({ cycles, priceBasic }: Props) {
               {/* Price */}
               {priceBasic && (
                 <div>
-                  <p className="mb-1 text-sm font-bold text-slate-500">החל מ-</p>
                   <span className={`font-heebo text-4xl font-black ${color.price}`}>
-                    ₪ {priceBasic.toLocaleString("he-IL")}
+                    {priceLabel ?? `₪ ${priceBasic.toLocaleString("he-IL")}`}
                   </span>
                 </div>
               )}
