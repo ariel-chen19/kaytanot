@@ -10,6 +10,8 @@ export function middleware(request: NextRequest) {
   // 1. Always allow _next internals and static assets
   if (
     pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/auth') ||
     pathname.match(/\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)
   ) {
     return NextResponse.next()

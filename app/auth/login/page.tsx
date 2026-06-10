@@ -21,6 +21,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const oauthFailed = searchParams.get("error") === "oauth";
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
 
@@ -42,9 +43,40 @@ function LoginForm() {
     }
   };
 
+  const signInWithGoogle = async () => {
+    setError(null);
+    const callbackUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`;
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: callbackUrl,
+      },
+    });
+
+    if (authError) {
+      setError("לא הצלחנו להתחבר עם Google. נסו שוב בעוד רגע.");
+    }
+  };
+
   const inputCls = "w-full h-11 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-sm focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]";
 
   return (
+    <div className="space-y-4">
+      <button
+        type="button"
+        onClick={signInWithGoogle}
+        className="w-full h-12 rounded-full border border-[#e0e8f0] bg-white hover:bg-[#F5F7FA] text-[#003087] font-black transition-colors flex items-center justify-center gap-3"
+      >
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white border border-[#e0e8f0] text-sm font-black">G</span>
+        התחברות עם Google
+      </button>
+
+      <div className="flex items-center gap-3 text-xs text-gray-400">
+        <span className="h-px flex-1 bg-[#e0e8f0]" />
+        או התחברות עם סיסמה
+        <span className="h-px flex-1 bg-[#e0e8f0]" />
+      </div>
+
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
       <div>
         <input
@@ -70,9 +102,9 @@ function LoginForm() {
         {errors.password && <p className="text-red-500 text-xs mt-1 pr-3">{errors.password.message}</p>}
       </div>
 
-      {error && (
+      {(error || oauthFailed) && (
         <div className="bg-red-50 text-red-600 text-sm p-3 rounded-2xl border border-red-200">
-          {error}
+          {error || "ההתחברות עם Google לא הושלמה. נסו שוב."}
         </div>
       )}
 
@@ -84,6 +116,7 @@ function LoginForm() {
         {isSubmitting ? "מתחבר..." : "כניסה »"}
       </button>
     </form>
+    </div>
   );
 }
 

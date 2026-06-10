@@ -56,6 +56,8 @@ const config: Config = {
       },
       fontFamily: {
         assistant: ["var(--font-assistant)", "sans-serif"],
+        heebo: ["var(--font-heebo)", "var(--font-assistant)", "sans-serif"],
+        rubik: ["var(--font-rubik)", "var(--font-heebo)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -32,6 +32,20 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
+  const signInWithGoogle = async () => {
+    setError(null);
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+      },
+    });
+
+    if (authError) {
+      setError("לא הצלחנו להתחבר עם Google. נסו שוב בעוד רגע.");
+    }
+  };
+
   const onSubmit = async (data: RegisterFormValues) => {
     setError(null);
     const { error: authError } = await supabase.auth.signUp({
@@ -71,6 +85,22 @@ export default function RegisterPage() {
               <p className="text-gray-500 text-sm">החשבון נוצר בהצלחה. מועברים ללוח הבקרה...</p>
             </div>
           ) : (
+            <div className="space-y-4">
+              <button
+                type="button"
+                onClick={signInWithGoogle}
+                className="w-full h-12 rounded-full border border-[#e0e8f0] bg-white hover:bg-[#F5F7FA] text-[#003087] font-black transition-colors flex items-center justify-center gap-3"
+              >
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white border border-[#e0e8f0] text-sm font-black">G</span>
+                הרשמה עם Google
+              </button>
+
+              <div className="flex items-center gap-3 text-xs text-gray-400">
+                <span className="h-px flex-1 bg-[#e0e8f0]" />
+                או הרשמה עם סיסמה
+                <span className="h-px flex-1 bg-[#e0e8f0]" />
+              </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
               <div>
                 <input id="email" type="email" {...register("email")} placeholder="אימייל" dir="ltr" className={inputCls} />
@@ -99,6 +129,7 @@ export default function RegisterPage() {
                 {isSubmitting ? "נרשם..." : "הרשמה »"}
               </button>
             </form>
+            </div>
           )}
 
           <p className="text-center text-sm text-gray-500 mt-6">

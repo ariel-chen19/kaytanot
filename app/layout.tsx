@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Assistant, Heebo } from "next/font/google";
+import { Assistant, Heebo, Rubik } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,6 +14,12 @@ const heebo = Heebo({
   subsets: ["hebrew", "latin"],
   variable: "--font-heebo",
   weight: ["400", "500", "700", "800", "900"],
+});
+
+const rubik = Rubik({
+  subsets: ["hebrew", "latin"],
+  variable: "--font-rubik",
+  weight: ["700", "800", "900"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kaytanot.co.il";
@@ -52,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${heebo.variable}`}>
+    <html lang="he" dir="rtl" className={`${assistant.variable} ${heebo.variable} ${rubik.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-assistant">
         <Header />
         <main className="flex-1">{children}</main>
