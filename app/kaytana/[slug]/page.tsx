@@ -162,6 +162,28 @@ const MITGALGALIM_CITY_PRICES: CityPrice[] = [
   { city: "גן יבנה", price: 2690 },
 ];
 
+const MITGALGALIM_DEPARTURE_CITIES = [
+  "נתניה",
+  "כפר יונה",
+  "יישובי לב השרון (קדימה, צורן, אבן יהודה, תל מונד)",
+  "תל אביב",
+  "רמת גן",
+  "גבעתיים",
+  "חולון",
+  "בת ים",
+  "ראשון לציון",
+  "מ.א. גן רווה",
+  "רחובות",
+  "נס ציונה",
+  "באר יעקב",
+  "רמלה (נאות שמיר)",
+  "יבנה",
+  "אשדוד",
+  "אשקלון",
+  "ראש העין",
+  "פתח תקווה",
+];
+
 const MITGALGALIM_TESTIMONIALS: Testimonial[] = [
   {
     name: "אמא של נועם",
@@ -714,6 +736,25 @@ export default async function KaytanaPage({
                   </a>
                 </div>
               )}
+            </section>
+          )}
+
+          {c.slug === "mitgalgalim" && (
+            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
+              <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
+                הקייטנה יוצאת מערים:
+              </h2>
+              <div className="mb-5 h-1 w-10 rounded-full bg-[#F5C400]" />
+              <div className="flex flex-wrap gap-2.5">
+                {MITGALGALIM_DEPARTURE_CITIES.map((city) => (
+                  <span
+                    key={city}
+                    className="rounded-full border border-[#dfe7f2] bg-[#f6f8fc] px-4 py-2 text-sm font-bold text-[#182e86]"
+                  >
+                    {city}
+                  </span>
+                ))}
+              </div>
             </section>
           )}
 
