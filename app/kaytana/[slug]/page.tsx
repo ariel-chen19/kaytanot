@@ -640,7 +640,7 @@ export default async function KaytanaPage({
               </a>
               {c.slug === "mitgalgalim" && (
                 <p className="mt-3 max-w-md text-sm font-bold leading-6 text-slate-600">
-                  קבוצות קטנות | יחס מדריכים גבוה | קייטנה מאושרת ומבוטחת
+                  מחירים מיוחדים והטבות דרך חברות, ארגונים וועדי עובדים
                 </p>
               )}
             </div>
