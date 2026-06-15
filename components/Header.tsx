@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, User } from "lucide-react";
+import { Menu, X, MessageCircle, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
@@ -95,13 +95,15 @@ export default function Header() {
             </>
           )}
 
-          {/* Phone */}
+          {/* WhatsApp number */}
           <a
-            href="tel:054-302-4343"
+            href="https://wa.me/972559999139"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-gray-600 hover:text-[#003087] text-sm font-medium px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors"
           >
-            <Phone className="w-4 h-4" />
-            054-302-4343
+            <MessageCircle className="w-4 h-4" />
+            055-999-9139
           </a>
 
           <div className="w-px h-5 bg-gray-200 mx-1" />
@@ -144,9 +146,14 @@ export default function Header() {
             </Link>
           ))}
           <div className="flex flex-col gap-2 pt-4">
-            <a href="tel:054-302-4343" className="flex items-center justify-center gap-2 py-2.5 text-[#003087] font-medium">
-              <Phone className="w-4 h-4" />
-              054-302-4343
+            <a
+              href="https://wa.me/972559999139"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-2.5 text-[#003087] font-medium"
+            >
+              <MessageCircle className="w-4 h-4" />
+              055-999-9139
             </a>
             {user ? (
               <>

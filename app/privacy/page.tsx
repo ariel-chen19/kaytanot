@@ -84,9 +84,14 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-heebo text-xl font-black text-[#182e86]">יצירת קשר</h2>
             <p>
-              לשאלות או לבקשות בנושא פרטיות ניתן לפנות בטלפון{" "}
-              <a className="font-bold text-[#182e86] underline" href="tel:0543024343">
-                054-302-4343
+              לשאלות או לבקשות בנושא פרטיות ניתן לפנות ב-WhatsApp{" "}
+              <a
+                className="font-bold text-[#182e86] underline"
+                href="https://wa.me/972559999139"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                055-999-9139
               </a>{" "}
               או בדוא״ל{" "}
               <a className="font-bold text-[#182e86] underline" href="mailto:info@kaytanot.co.il">

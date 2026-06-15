@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { MessageCircle, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -81,9 +81,14 @@ export default function Footer() {
             <h3 className="font-bold text-base mb-4 text-[#F5C400]">צור קשר</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-blue-200 text-sm">
-                <Phone className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
-                <a href="tel:054-302-4343" className="hover:text-white transition-colors">
-                  054-302-4343
+                <MessageCircle className="w-4 h-4 text-[#F5C400] flex-shrink-0" />
+                <a
+                  href="https://wa.me/972559999139"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  055-999-9139
                 </a>
               </li>
               <li className="flex items-center gap-2 text-blue-200 text-sm">
