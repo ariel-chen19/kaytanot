@@ -32,7 +32,7 @@ const ORGANIZATIONS = [
 
 const whatsappMessage =
   "היי, אני רוצה לבדוק זכאות להטבה ואופן הרשמה לקייטנת מתגלגלים ונהנים.";
-const whatsappHref = `https://wa.me/972543024343?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappHref = `https://wa.me/972559999139?text=${encodeURIComponent(whatsappMessage)}`;
 
 function LogoGroup({ hidden = false }: { hidden?: boolean }) {
   return (
