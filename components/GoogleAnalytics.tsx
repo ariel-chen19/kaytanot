@@ -7,54 +7,41 @@ import {
   GA_MEASUREMENT_ID,
 } from "@/lib/analytics";
 
-type ConsentChoice = "granted" | "denied" | null;
-
 export default function GoogleAnalytics() {
-  const [consent, setConsent] = useState<ConsentChoice>(null);
   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     const savedConsent = window.localStorage.getItem(ANALYTICS_CONSENT_KEY);
-    if (savedConsent === "granted" || savedConsent === "denied") {
-      setConsent(savedConsent);
-    } else {
+    if (savedConsent !== "granted" && savedConsent !== "denied") {
       setShowSettings(true);
     }
   }, []);
 
-  const saveConsent = (choice: Exclude<ConsentChoice, null>) => {
+  const saveConsent = (choice: "granted" | "denied") => {
     window.localStorage.setItem(ANALYTICS_CONSENT_KEY, choice);
-    setConsent(choice);
+    window.gtag?.("consent", "update", {
+      analytics_storage: choice,
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
     setShowSettings(false);
   };
 
   return (
     <>
-      {consent === "granted" && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              window.gtag = gtag;
-              gtag('js', new Date());
-              gtag('consent', 'default', {
-                analytics_storage: 'granted',
-                ad_storage: 'denied',
-                ad_user_data: 'denied',
-                ad_personalization: 'denied'
-              });
-              gtag('config', '${GA_MEASUREMENT_ID}', {
-                anonymize_ip: true
-              });
-            `}
-          </Script>
-        </>
-      )}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          gtag('js', new Date());
+          gtag('config', '${GA_MEASUREMENT_ID}', {
+            anonymize_ip: true
+          });
+        `}
+      </Script>
 
       {showSettings ? (
         <aside
