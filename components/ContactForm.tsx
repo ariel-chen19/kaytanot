@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const fullContactSchema = z.object({
   parent_name: z.string().min(2, "שם חייב להכיל לפחות 2 תווים"),
@@ -60,6 +61,11 @@ export default function ContactForm({
       }),
     });
     if (res.ok) {
+      trackEvent("generate_lead", {
+        camp_id: campId,
+        camp_name: campName,
+        form_variant: variant,
+      });
       setSubmitted(true);
     } else {
       setError("אירעה שגיאה. אנא נסו שוב.");

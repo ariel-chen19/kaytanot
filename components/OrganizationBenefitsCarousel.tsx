@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const ORGANIZATIONS = [
   { name: "חבר", file: "hever-logo.webp" },
@@ -80,6 +83,12 @@ export default function OrganizationBenefitsCarousel() {
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("benefits_whatsapp_click", {
+              camp_name: "mitgalgalim",
+              link_location: "organization_benefits",
+            })
+          }
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#182e86] px-6 py-3 text-base font-black text-white transition-colors hover:bg-[#111f5c]"
         >
           <MessageCircle className="h-5 w-5" />

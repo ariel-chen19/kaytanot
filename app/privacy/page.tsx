@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           מדיניות פרטיות
         </h1>
         <div className="mb-6 mt-2 h-1 w-12 rounded-full bg-[#F5C400]" />
-        <p className="mb-7 text-sm text-slate-500">עודכן לאחרונה: 10 ביוני 2026</p>
+        <p className="mb-7 text-sm text-slate-500">עודכן לאחרונה: 15 ביוני 2026</p>
 
         <div className="space-y-7 text-base leading-8">
           <section>
@@ -38,6 +38,18 @@ export default function PrivacyPage() {
               המידע משמש לטיפול בפנייה, מסירת פרטים על הקייטנה, בדיקת זמינות,
               יצירת קשר, תפעול מערכת הלידים ושיפור השירות. מסירת המידע אינה חובה
               על פי חוק, אך ללא פרטי קשר לא נוכל לחזור אליכם.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-heebo text-xl font-black text-[#182e86]">
+              Google Analytics ועוגיות מדידה
+            </h2>
+            <p>
+              רק לאחר קבלת הסכמה האתר מפעיל את Google Analytics לצורך מדידת
+              צפיות ופעולות באתר, כגון שליחת טופס, לחיצה על WhatsApp והורדת
+              תוכנית קייטנה. איננו מפעילים באמצעותו עוגיות פרסום. ניתן לשנות
+              את הבחירה בכל עת באמצעות הכפתור &quot;הגדרות פרטיות&quot; באתר.
             </p>
           </section>
 

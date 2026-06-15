@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Assistant, Heebo, Rubik } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -60,6 +61,7 @@ export default function RootLayout({
     <html lang="he" dir="rtl" className={`${assistant.variable} ${heebo.variable} ${rubik.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-assistant">
         <SiteChrome>{children}</SiteChrome>
+        <GoogleAnalytics />
       </body>
     </html>
   );

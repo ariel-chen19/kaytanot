@@ -27,6 +27,7 @@ import ReviewsCarousel from "@/components/ReviewsCarousel";
 import FaqAccordion from "@/components/FaqAccordion";
 import ExperienceGalleryCarousel from "@/components/ExperienceGalleryCarousel";
 import OrganizationBenefitsCarousel from "@/components/OrganizationBenefitsCarousel";
+import TrackedLink from "@/components/TrackedLink";
 import type { Metadata } from "next";
 
 const PUBLIC_SITE_URL = "https://www.kaytanot.co.il";
@@ -722,24 +723,28 @@ export default async function KaytanaPage({
 
               {c.slug === "mitgalgalim" && (
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <a
+                  <TrackedLink
                     href="/mitgalgalim/mitgalgalim%20m1.webp"
                     target="_blank"
                     rel="noopener noreferrer"
+                    eventName="schedule_download"
+                    eventParams={{ camp_name: "mitgalgalim", cycle: 1 }}
                     className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#182e86]/15 bg-[#182e86] px-5 py-3.5 text-base font-black text-white shadow-sm transition-colors hover:bg-[#111f5c]"
                   >
                     <FileText className="h-5 w-5" />
                     תוכנית מחזור 1
-                  </a>
-                  <a
+                  </TrackedLink>
+                  <TrackedLink
                     href="/mitgalgalim/mitgalgalim%20m2.webp"
                     target="_blank"
                     rel="noopener noreferrer"
+                    eventName="schedule_download"
+                    eventParams={{ camp_name: "mitgalgalim", cycle: 2 }}
                     className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#F5C400]/40 bg-[#F5C400] px-5 py-3.5 text-base font-black text-[#182e86] shadow-sm transition-colors hover:bg-[#e0b200]"
                   >
                     <FileText className="h-5 w-5" />
                     תוכנית מחזור 2
-                  </a>
+                  </TrackedLink>
                 </div>
               )}
             </section>
@@ -961,9 +966,15 @@ export default async function KaytanaPage({
           >
             לפרטים נוספים
           </a>
-          <a href={`https://wa.me/${whatsappPhone}`} className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-[#25D366]/30" aria-label="וואטסאפ">
+          <TrackedLink
+            href={`https://wa.me/${whatsappPhone}`}
+            eventName="whatsapp_click"
+            eventParams={{ camp_name: c.slug, link_location: "mobile_sticky" }}
+            className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-[#25D366]/30"
+            aria-label="וואטסאפ"
+          >
             <MessageCircle className="h-6 w-6 text-white" />
-          </a>
+          </TrackedLink>
         </div>
       </div>
       <div className="h-20 lg:hidden" />
