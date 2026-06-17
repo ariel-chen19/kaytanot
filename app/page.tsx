@@ -8,7 +8,7 @@ import { Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, W
 
 /* ─── IMAGE CONSTANTS ─────────────────────────────────── */
 
-const HERO_IMG = "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=800";
+const HERO_IMG = "/homepage/kaytanot-hero-general.jpg";
 
 const PLACEHOLDER_CAMPS = [
   {
@@ -104,7 +104,7 @@ const BENEFITS = [
 const HERO_BULLETS = [
   { Icon: Search,  title: "מוצאים קייטנה בקלות", sub: "השוואה פשוטה במקום אחד" },
   { Icon: MapPin,  title: "קייטנות לפי אזור וגיל", sub: "חיפוש מהיר ומדויק" },
-  { Icon: Star,    title: "בחירה חכמה לקיץ", sub: "כל האפשרויות במקום אחד" },
+  { Icon: Star,    title: "בחירה חכמה לילדים", sub: "כל האפשרויות במקום אחד" },
 ];
 
 /* ─── PAGE ──────────────────────────────────────────────── */
@@ -128,16 +128,16 @@ export default async function HomePage() {
 
           {/* Right col (RTL start): Text hero + arrow + bullets */}
           <div className="flex flex-col justify-center px-8 md:px-14 py-14 bg-white z-10 order-1">
-            <h1 className="text-5xl md:text-6xl font-black text-[#003087] leading-tight mb-2">
-              קייטנות
-            </h1>
-            <p className="text-2xl md:text-3xl font-black text-[#003087] mb-1">
-              הכיף שלהם מתחיל כאן
-            </p>
-            <p className="text-lg md:text-xl font-bold text-gray-700 mb-1">
-              כל הקייטנות במקום אחד
-            </p>
-            <p className="text-sm md:text-base text-gray-500 leading-relaxed mb-2">
+            <div className="mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/kaytanot/kaytanot_logo.webp"
+                alt="קייטנות"
+                className="h-20 w-auto object-contain md:h-24"
+                loading="eager"
+              />
+            </div>
+            <p className="max-w-xl text-2xl font-black leading-snug text-[#003087] md:text-3xl">
               מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם
             </p>
 
