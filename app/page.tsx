@@ -8,7 +8,7 @@ import { Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, W
 
 /* ─── IMAGE CONSTANTS ─────────────────────────────────── */
 
-const HERO_IMG = "/homepage/kaytanot-hero-general.jpg";
+const HERO_IMG = "/kaytanot/kaytanot-israel-hero.webp";
 
 const PLACEHOLDER_CAMPS = [
   {
