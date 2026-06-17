@@ -127,26 +127,19 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[520px]">
 
           {/* Right col (RTL start): Text hero + arrow + bullets */}
-          <div className="flex flex-col justify-center px-8 md:px-14 py-14 bg-white z-10 order-1">
+          <div className="flex flex-col items-center justify-center px-8 py-14 text-center md:px-14 bg-white z-10 order-1">
             <div className="mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/kaytanot/kaytanot_logo.webp"
                 alt="קייטנות"
-                className="h-20 w-auto object-contain md:h-24"
+                className="mx-auto h-20 w-auto object-contain md:h-24"
                 loading="eager"
               />
             </div>
-            <p className="max-w-xl text-2xl font-black leading-snug text-[#003087] md:text-3xl">
+            <p className="mb-8 max-w-lg text-lg font-extrabold leading-snug text-[#003087] md:text-xl">
               מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם
             </p>
-
-            {/* Yellow curved arrow */}
-            <svg viewBox="0 0 280 55" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-56 h-10 mb-8">
-              <path d="M 260 12 C 220 48 80 58 18 38" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
-              <path d="M 18 38 L 6 26" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
-              <path d="M 18 38 L 8 50" stroke="#F5C400" strokeWidth="5" strokeLinecap="round"/>
-            </svg>
 
             {/* 3 horizontal bullets */}
             <div className="grid grid-cols-3 gap-4">
