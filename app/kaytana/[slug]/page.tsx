@@ -968,6 +968,8 @@ export default async function KaytanaPage({
           </a>
           <TrackedLink
             href={`https://wa.me/${whatsappPhone}`}
+            target="_blank"
+            rel="noopener noreferrer"
             eventName="whatsapp_click"
             eventParams={{ camp_name: c.slug, link_location: "mobile_sticky" }}
             className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-[#25D366]/30"

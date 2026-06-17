@@ -80,7 +80,7 @@ export default function ContactForm({
         </div>
         <h3 className="font-heebo text-xl font-black text-[#003087]">פנייתך התקבלה!</h3>
         <p className="text-[15px] leading-7 text-slate-500">
-          תודה! פנייתך לקייטנת <strong>{campName}</strong> התקבלה. בעל הקייטנה יצור קשר בקרוב.
+          תודה! פנייתך לקייטנת <strong>{campName}</strong> התקבלה. צוות הקייטנה יחזור אליכם בקרוב.
         </p>
       </div>
     );
@@ -95,6 +95,8 @@ export default function ContactForm({
               id="parent_name_inline"
               {...register("parent_name")}
               placeholder="שם מלא *"
+              autoComplete="name"
+              required
               className="h-[52px] w-full rounded-xl border border-[#d6deea] bg-white px-4 text-base focus:border-[#003087] focus:outline-none focus:ring-1 focus:ring-[#003087] md:h-14 md:px-5"
             />
             {errors.parent_name && (
@@ -109,6 +111,9 @@ export default function ContactForm({
               {...register("parent_phone")}
               placeholder="טלפון *"
               dir="ltr"
+              inputMode="tel"
+              autoComplete="tel"
+              required
               className="h-[52px] w-full rounded-xl border border-[#d6deea] bg-white px-4 text-base focus:border-[#003087] focus:outline-none focus:ring-1 focus:ring-[#003087] md:h-14 md:px-5"
             />
             {errors.parent_phone && (
@@ -129,6 +134,7 @@ export default function ContactForm({
           <input
             type="checkbox"
             {...register("privacy_consent")}
+            required
             className="mt-1 h-4 w-4 flex-shrink-0 accent-[#182e86]"
           />
           <span>
@@ -160,6 +166,8 @@ export default function ContactForm({
           id="parent_name"
           {...register("parent_name")}
           placeholder="שם מלא *"
+          autoComplete="name"
+          required
           className="w-full h-12 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-[15px] focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]"
         />
         {errors.parent_name && (
@@ -174,6 +182,8 @@ export default function ContactForm({
           {...register("parent_email")}
           placeholder="אימייל *"
           dir="ltr"
+          autoComplete="email"
+          required
           className="w-full h-12 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-[15px] focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]"
         />
         {errors.parent_email && (
@@ -188,6 +198,9 @@ export default function ContactForm({
           {...register("parent_phone")}
           placeholder="טלפון *"
           dir="ltr"
+          inputMode="tel"
+          autoComplete="tel"
+          required
           className="w-full h-12 rounded-full border border-[#e0e8f0] bg-[#F5F7FA] px-4 text-[15px] focus:outline-none focus:border-[#003087] focus:ring-1 focus:ring-[#003087]"
         />
         {errors.parent_phone && (
@@ -209,6 +222,7 @@ export default function ContactForm({
         <input
           type="checkbox"
           {...register("privacy_consent")}
+          required
           className="mt-1 h-4 w-4 flex-shrink-0 accent-[#003087]"
         />
         <span>
