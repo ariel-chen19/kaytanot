@@ -1,113 +1,267 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-import { createClient } from "@/lib/supabase/server";
-import CampCard from "@/components/CampCard";
-import LeadFormSection from "@/components/LeadFormSection";
 import Link from "next/link";
-import { Shield, Star, Trophy, Heart, Calendar, Users, Lock, Music2, Activity, Waves, Target, Search, MapPin, ChevronDown } from "lucide-react";
-
-/* ─── IMAGE CONSTANTS ─────────────────────────────────── */
+import { createClient } from "@/lib/supabase/server";
+import {
+  Activity,
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  HeartHandshake,
+  MapPin,
+  MessageCircle,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  TicketPercent,
+  Users,
+} from "lucide-react";
 
 const HERO_IMG = "/kaytanot/kaytanot-israel-hero.webp";
+const LOGO_IMG = "/kaytanot/kaytanot_logo.webp";
 
-const PLACEHOLDER_CAMPS = [
+const CITIES = [
+  "אזור",
+  "אשדוד",
+  "אשקלון",
+  "באר יעקב",
+  "בת ים",
+  "גבעתיים",
+  "גן יבנה",
+  "הוד השרון",
+  "חולון",
+  "יבנה",
+  "יישובי לב השרון",
+  "כפר יונה",
+  "מ.א. גן רווה",
+  "נס ציונה",
+  "נתניה",
+  "פתח תקווה",
+  "ראש העין",
+  "ראשון לציון",
+  "רחובות",
+  "רמלה",
+  "רמת גן",
+  "תל אביב",
+];
+
+const CAMP_TYPES = ["אטרקציות", "ספורט", "שחייה", "אומנות", "טכנולוגיה", "צהרונים"];
+const AGE_RANGES = ["3-5", "6-8", "9-11", "12-14"];
+
+const FEATURED_FALLBACK = [
+  {
+    name: "קייטנת מתגלגלים ונהנים",
+    subtitle: "קייטנת אטרקציות עם איסוף מבית הספר הקרוב לבית",
+    city: "23 ערים ברחבי הארץ",
+    ages: "6-13",
+    price: "החל מ-2,690 ₪",
+    image: "/mitgalgalim/mitgalgalim.webp",
+    href: "/kaytana/mitgalgalim",
+    badges: ["אטרקציות", "27+ שנות ניסיון", "הטבות דרך ארגונים"],
+  },
   {
     name: "קייטנת חוויה אולימפית",
-    subtitle: "בוחרים מסלול אחד ומתמקצעים",
-    img: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=400",
-  },
-  {
-    name: "קייטנת ספורט מקצועית",
-    subtitle: "תכנית אינטנסיבית לאוהבי הספורט",
-    img: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400",
-  },
-  {
-    name: "קייטנת שחייה ומים",
-    subtitle: "ספורט מים, בטיחות ומיומנויות",
-    img: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400",
-  },
-  {
-    name: "קייטנת ריקוד ואומנות",
-    subtitle: "ביטוי עצמי, קצב ויצירתיות",
-    img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400",
+    subtitle: "מסלולי ספורט, תנועה וחוויה לילדים שאוהבים לזוז",
+    city: "ערים נבחרות",
+    ages: "6-14",
+    price: "פרטים בקרוב",
+    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900",
+    href: "/search",
+    badges: ["ספורט", "קבוצות גיל", "צוות מקצועי"],
   },
 ];
 
-const CATEGORIES = [
-  {
-    Icon: Music2,
-    label: "ריקוד",
-    desc: "פיתוח קואורדינציה, קצב וביטוי עצמי עם מדריכים מקצועיים",
-    images: [
-      "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400",
-      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400",
-      "https://images.unsplash.com/photo-1535525153412-5a0dfab02a30?w=400",
-    ],
-  },
-  {
-    Icon: Activity,
-    label: "טניס",
-    desc: "ללמוד את המשחק, הטכניקה ולשפר יכולות עם מאמנים מוסמכים",
-    images: [
-      "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=400",
-      "https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400",
-      "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=400",
-    ],
-  },
-  {
-    Icon: Waves,
-    label: "שחייה",
-    desc: "לחוות ספורט מים מהנה ולשפר יחד עם מדריכים מוסמכים",
-    images: [
-      "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400",
-      "https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=400",
-      "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=400",
-    ],
-  },
-  {
-    Icon: Target,
-    label: "כדורגל",
-    desc: "שיפור טכניקה, עבודת צוות ותחרות עם מאמן מקצועי",
-    images: [
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400",
-      "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400",
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400",
-    ],
-  },
+const CATEGORY_CARDS = [
+  { icon: Sparkles, title: "קייטנות אטרקציות", text: "ימי פעילות משתנים, פארקים, מים, קולנוע, באולינג וחוויות גדולות." },
+  { icon: Activity, title: "קייטנות ספורט", text: "כדורגל, טניס, תנועה, משחקי קבוצה ומסלולים לילדים פעילים." },
+  { icon: BookOpen, title: "קייטנות העשרה", text: "יצירה, טכנולוגיה, מדע, אומנות ותוכן שמפתח סקרנות." },
+  { icon: Users, title: "צהרונים ומסגרות", text: "פתרונות להורים שמחפשים רצף יום, יחס אישי וסביבה קבועה." },
 ];
 
-const GALLERY_IMGS = [
-  "https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=400",
-  "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400",
-  "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400",
-  "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400",
+const TRUST_ITEMS = [
+  { icon: Search, title: "חיפוש במקום אחד", text: "עיר, גיל, תאריכים וסוג פעילות בלי לפתוח עשרות אתרים." },
+  { icon: ShieldCheck, title: "מידע ברור לפני פנייה", text: "גילאים, אזורי יציאה, אופי הפעילות, מחיר והטבות כשיש." },
+  { icon: HeartHandshake, title: "עזרה בהחלטה", text: "אם לא בטוחים מה מתאים, משאירים פרטים ונכוון לקייטנה הנכונה." },
 ];
 
-const PARTNERS = [
-  { name: "הסתדרות", color: "bg-blue-100 text-blue-800 border-blue-200" },
-  { name: "שווה", color: "bg-green-100 text-green-800 border-green-200" },
-  { name: "קרן טוב", color: "bg-orange-100 text-orange-800 border-orange-200" },
-  { name: "אנוש", color: "bg-purple-100 text-purple-800 border-purple-200" },
-  { name: "קרנות", color: "bg-red-100 text-red-800 border-red-200" },
-  { name: "מפעל הפיס", color: "bg-yellow-100 text-yellow-800 border-yellow-200" },
+const STEPS = [
+  { step: "01", title: "בוחרים עיר וגיל", text: "מתחילים מהפרטים הכי חשובים ומצמצמים רעש." },
+  { step: "02", title: "משווים קייטנות", text: "בודקים פעילות, מחיר, הסעות, הטבות והתאמה לילד." },
+  { step: "03", title: "משאירים פרטים", text: "מקבלים המשך הרשמה או שיחה מסודרת מול הקייטנה." },
 ];
 
-const BENEFITS = [
-  { icon: Users, label: "צוות מקצועי", desc: "מדריכים מוסמכים ומנוסים" },
-  { icon: Shield, label: "בטיחות מעל הכל", desc: "פיקוח צמוד על כל ילד" },
-  { icon: Heart, label: "יחס אישי", desc: "מכירים כל ילד ומשפחה" },
-  { icon: Trophy, label: "פיתוח והצלחה", desc: "מטרות ברורות ותוצאות" },
-  { icon: Star, label: "סביבה חיובית", desc: "חברה, ערכים ואווירה חמה" },
-  { icon: Calendar, label: "תכנית מגובשת", desc: "פעילויות יומיות מסודרות" },
+const BLOG_POSTS = [
+  { title: "איך לבחור קייטנה שמתאימה לילד שלכם", href: "/blog/how-to-choose-summer-camp" },
+  { title: "רשימת בדיקות לפני הרשמה לקייטנה", href: "/blog/summer-camps-2026-checklist" },
+  { title: "מה חשוב לדעת על קייטנה עם הסעות", href: "/blog/camp-with-transportation" },
 ];
 
-const HERO_BULLETS = [
-  { Icon: Search,  title: "מוצאים קייטנה בקלות", sub: "השוואה פשוטה במקום אחד" },
-  { Icon: MapPin,  title: "קייטנות לפי אזור וגיל", sub: "חיפוש מהיר ומדויק" },
-  { Icon: Star,    title: "בחירה חכמה לילדים", sub: "כל האפשרויות במקום אחד" },
+const FAQ = [
+  { q: "האם כל הקייטנות מופיעות באתר?", a: "לא. אנחנו מציגים קייטנות שעוברות אצלנו בדיקה בסיסית ושיש להן פרטים ברורים להורים." },
+  { q: "אפשר לקבל עזרה בהתאמה?", a: "כן. אם לא מצאתם התאמה מדויקת, אפשר להשאיר פרטים ונחזור אליכם עם אפשרויות רלוונטיות." },
+  { q: "איך יודעים אם יש הטבה דרך ארגון?", a: "בעמודי הקייטנות נציג הטבות זמינות, ואפשר לפנות בוואטסאפ לבירור זכאות ואופן הרשמה." },
 ];
 
-/* ─── PAGE ──────────────────────────────────────────────── */
+const PARTNER_LOGOS = [
+  { src: "/logo/hever-logo.webp", alt: "חבר" },
+  { src: "/logo/ashmoret-logo.webp", alt: "אשמורת" },
+  { src: "/logo/tov-plus-logo.webp", alt: "טוב פלוס" },
+  { src: "/logo/histadrut-logo.webp", alt: "הסתדרות" },
+  { src: "/logo/bank-leumi-logo.webp", alt: "לאומי" },
+  { src: "/logo/mizrahi-tefahot-logo.webp", alt: "מזרחי טפחות" },
+  { src: "/logo/discount-logo.webp", alt: "דיסקונט" },
+  { src: "/logo/israel-teachers-union-logo.webp", alt: "ארגון המורים" },
+];
+
+const WHATSAPP_URL = "https://wa.me/972559999139?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%97%D7%A4%D7%A9%2F%D7%AA%20%D7%A7%D7%99%D7%99%D7%98%D7%A0%D7%94%20%D7%9E%D7%AA%D7%90%D7%99%D7%9E%D7%94%20%D7%9C%D7%99%D7%9C%D7%93%D7%99%D7%9D";
+
+type CampRow = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  city: string | null;
+  age_min: number | null;
+  age_max: number | null;
+  image_url: string | null;
+  price_basic: number | null;
+};
+
+function SectionTitle({ eyebrow, title, text }: { eyebrow: string; title: string; text?: string }) {
+  return (
+    <div className="mx-auto mb-10 max-w-3xl text-center">
+      <p className="mb-2 text-sm font-black text-[#F5C400]">{eyebrow}</p>
+      <h2 className="text-3xl font-black leading-tight text-[#003087] md:text-4xl">{title}</h2>
+      {text && <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-slate-600">{text}</p>}
+    </div>
+  );
+}
+
+function SearchPanel() {
+  return (
+    <div className="relative z-20 mx-auto max-w-6xl rounded-2xl border border-slate-200 bg-white p-5 shadow-xl md:p-7">
+      <h2 className="mb-6 text-center text-2xl font-black text-[#003087] md:text-3xl">
+        חפשו קייטנה שמתאימה לילדים שלכם
+      </h2>
+      <div className="flex flex-col items-stretch gap-3 lg:flex-row">
+        <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-4">
+          <label className="flex h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 transition hover:border-[#003087]">
+            <MapPin className="h-5 w-5 shrink-0 text-[#003087]" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-bold text-[#003087]">עיר</span>
+              <select className="w-full cursor-pointer appearance-none bg-transparent text-sm text-slate-500 outline-none">
+                <option value="">בחרו עיר</option>
+                {CITIES.map((city) => (
+                  <option key={city}>{city}</option>
+                ))}
+              </select>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+          </label>
+
+          <label className="flex h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 transition hover:border-[#003087]">
+            <Users className="h-5 w-5 shrink-0 text-[#003087]" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-bold text-[#003087]">גיל הילד/ה</span>
+              <select className="w-full cursor-pointer appearance-none bg-transparent text-sm text-slate-500 outline-none">
+                <option value="">בחרו גיל</option>
+                {AGE_RANGES.map((age) => (
+                  <option key={age}>{age}</option>
+                ))}
+              </select>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+          </label>
+
+          <label className="flex h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 transition hover:border-[#003087]">
+            <Activity className="h-5 w-5 shrink-0 text-[#003087]" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-bold text-[#003087]">סוג קייטנה</span>
+              <select className="w-full cursor-pointer appearance-none bg-transparent text-sm text-slate-500 outline-none">
+                <option value="">בחרו תחום</option>
+                {CAMP_TYPES.map((type) => (
+                  <option key={type}>{type}</option>
+                ))}
+              </select>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+          </label>
+
+          <label className="flex h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 transition hover:border-[#003087]">
+            <Calendar className="h-5 w-5 shrink-0 text-[#003087]" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-bold text-[#003087]">תאריכים</span>
+              <select className="w-full cursor-pointer appearance-none bg-transparent text-sm text-slate-500 outline-none">
+                <option value="">בחרו תאריכים</option>
+                <option>יולי 2026</option>
+                <option>אוגוסט 2026</option>
+                <option>יולי-אוגוסט 2026</option>
+              </select>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+          </label>
+        </div>
+
+        <Link
+          href="/search"
+          className="flex h-14 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#F5C400] px-8 text-base font-black text-[#003087] transition hover:bg-[#e0b200]"
+        >
+          <Search className="h-5 w-5" />
+          מצאו קייטנה
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function CampPreviewCard({ camp }: { camp: (typeof FEATURED_FALLBACK)[number] }) {
+  return (
+    <Link href={camp.href} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative h-52 overflow-hidden bg-slate-100">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={camp.image} alt={camp.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        <div className="absolute right-3 top-3 rounded-full bg-[#F5C400] px-3 py-1 text-xs font-black text-[#003087]">
+          {camp.price}
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="mb-3 flex flex-wrap gap-2">
+          {camp.badges.map((badge) => (
+            <span key={badge} className="rounded-full bg-[#003087]/8 px-3 py-1 text-xs font-bold text-[#003087]">
+              {badge}
+            </span>
+          ))}
+        </div>
+        <h3 className="text-xl font-black text-[#003087]">{camp.name}</h3>
+        <p className="mt-2 min-h-12 text-sm leading-relaxed text-slate-600">{camp.subtitle}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+          <span className="inline-flex items-center gap-1"><MapPin className="h-4 w-4 text-[#003087]" />{camp.city}</span>
+          <span className="inline-flex items-center gap-1"><Users className="h-4 w-4 text-[#003087]" />גילאי {camp.ages}</span>
+        </div>
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#003087]">
+          לפרטים נוספים והרשמה <ArrowLeft className="h-4 w-4" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function buildCampCards(camps: CampRow[] | null) {
+  if (!camps?.length) return FEATURED_FALLBACK;
+
+  return camps.slice(0, 6).map((camp) => ({
+    name: camp.slug === "mitgalgalim" ? "קייטנת מתגלגלים ונהנים" : camp.name,
+    subtitle: camp.description || "פרטים מלאים על הקייטנה, גילאים, פעילות ואפשרויות הרשמה.",
+    city: camp.city || "ערים נבחרות",
+    ages: camp.age_min && camp.age_max ? `${camp.age_min}-${camp.age_max}` : "לפי הקייטנה",
+    price: camp.price_basic ? `החל מ-${camp.price_basic.toLocaleString("he-IL")} ₪` : "פרטים בקייטנה",
+    image: camp.image_url || HERO_IMG,
+    href: `/kaytana/${camp.slug}`,
+    badges: ["פרטים ברורים", "השארת פרטים", "בדיקת התאמה"],
+  }));
+}
 
 export default async function HomePage() {
   const supabase = createClient();
@@ -115,441 +269,183 @@ export default async function HomePage() {
     .from("camps")
     .select("id, name, slug, description, city, age_min, age_max, image_url, price_basic")
     .eq("is_active", true)
-    .limit(4);
+    .limit(6);
+
+  const campCards = buildCampCards(camps as CampRow[] | null);
 
   return (
-    <div className="overflow-x-hidden">
-
-      {/* ══════════════════════════════════════════════
-          1. HERO - image left fades to white, logo+bullets right
-      ══════════════════════════════════════════════ */}
-      <section className="relative bg-white overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[520px]">
-
-          {/* Right col (RTL start): Text hero + arrow + bullets */}
-          <div className="flex flex-col items-center justify-center px-8 py-14 text-center md:px-14 bg-white z-10 order-1">
-            <div className="mb-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/kaytanot/kaytanot_logo.webp"
-                alt="קייטנות"
-                className="mx-auto h-24 w-auto object-contain md:h-28"
-                loading="eager"
-              />
-            </div>
-            <p className="mb-8 max-w-lg text-lg font-extrabold leading-snug text-[#003087] md:text-xl">
-              מוצאים, משווים ונרשמים<br />
-              לקייטנה המתאימה ביותר לילדים שלכם
-            </p>
-
-            {/* 3 horizontal bullets */}
-            <div className="grid grid-cols-3 gap-4">
-              {HERO_BULLETS.map(({ Icon, title, sub }) => (
-                <div key={title} className="flex flex-col items-center text-center gap-2">
-                  <div className="w-12 h-12 rounded-full border-2 border-[#003087]/20 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-[#003087]" />
-                  </div>
-                  <div>
-                    <p className="text-[#003087] font-bold text-sm leading-tight">{title}</p>
-                    <p className="text-gray-500 text-xs leading-snug mt-0.5">{sub}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <main className="overflow-x-hidden bg-white text-slate-900">
+      <section className="relative bg-white">
+        <div className="grid min-h-[620px] grid-cols-1 lg:grid-cols-2">
+          <div className="order-2 relative min-h-[320px] overflow-hidden lg:order-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={HERO_IMG} alt="ילדים בפעילות קייטנה" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-l from-white via-white/55 to-transparent lg:bg-gradient-to-r" />
           </div>
 
-          {/* Left col (RTL end): Hero image with fade to white */}
-          <div className="relative order-2 overflow-hidden min-h-[320px]">
+          <div className="order-1 flex flex-col items-center justify-center px-5 py-14 text-center lg:order-2 lg:px-12">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={HERO_IMG}
-              alt="ילדים רצים בקייטנה"
-              className="w-full h-full object-cover object-center"
-              loading="eager"
-            />
-            {/* Gradient fade from image towards white text column (right side in RTL = physical right) */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: "linear-gradient(to right, transparent 40%, white 100%)" }}
-            />
+            <img src={LOGO_IMG} alt="קייטנות" className="mb-5 h-24 w-auto object-contain md:h-28" />
+            <h1 className="max-w-2xl text-3xl font-black leading-tight text-[#003087] md:text-5xl">
+              מוצאים קייטנה שמתאימה לילדים שלכם
+            </h1>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-600">
+              משווים לפי עיר, גיל, סוג פעילות ותאריכים ומתקדמים להרשמה בצורה פשוטה וברורה.
+            </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3 text-sm font-bold text-[#003087]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#003087]/8 px-4 py-2"><CheckCircle className="h-4 w-4" />קייטנות פעילות</span>
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#003087]/8 px-4 py-2"><TicketPercent className="h-4 w-4" />הטבות למשפחות</span>
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#003087]/8 px-4 py-2"><ShieldCheck className="h-4 w-4" />מידע מסודר להורים</span>
+            </div>
           </div>
         </div>
+        <div className="container mx-auto px-4 pb-12 lg:-mt-16">
+          <SearchPanel />
+        </div>
+      </section>
 
-        {/* ── Search bar floating over hero bottom ── */}
-        <div className="relative z-20 container mx-auto px-4 -mt-6 pb-10">
-          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 md:p-8">
-            {/* Title */}
-            <div className="text-center mb-6">
-              <h2 className="text-2xl md:text-3xl font-black text-[#003087] inline-block relative">
-                חפשו קייטנה שמתאימה לילדים שלכם
-                <span className="absolute -bottom-1.5 right-0 left-0 h-1 rounded-full bg-[#F5C400]" />
-              </h2>
-            </div>
+      <section className="bg-[#F5F7FA] px-4 py-16">
+        <div className="container mx-auto">
+          <SectionTitle
+            eyebrow="קייטנות זמינות"
+            title="הורים בוחרים קייטנה שמתאימה לילד, לא רק כזו שנראית יפה בפרסום"
+            text="התחילו מהקייטנות שכבר זמינות באתר, בדקו התאמה והשאירו פרטים להמשך הרשמה."
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {campCards.map((camp) => (
+              <CampPreviewCard key={camp.name} camp={camp} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Fields + button row */}
-            <div className="flex flex-col lg:flex-row items-stretch gap-3">
-              {/* 4 filter fields */}
-              <div className="flex flex-col sm:flex-row flex-1 gap-3">
-                {/* עיר */}
-                <div className="flex-1 relative">
-                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors group">
-                    <MapPin className="w-5 h-5 text-[#003087] flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[#003087] font-bold text-xs">עיר</p>
-                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option value="">בחרו עיר</option>
-                        <option>אזור</option>
-                        <option>אשדוד</option>
-                        <option>אשקלון</option>
-                        <option>באר יעקב</option>
-                        <option>בת ים</option>
-                        <option>גבעתיים</option>
-                        <option>גן יבנה</option>
-                        <option>הוד השרון</option>
-                        <option>חולון</option>
-                        <option>יבנה</option>
-                        <option>יישובי לב השרון</option>
-                        <option>כפר יונה</option>
-                        <option>מ.א. גן רווה</option>
-                        <option>נס ציונה</option>
-                        <option>נתניה</option>
-                        <option>פתח תקווה</option>
-                        <option>ראש העין</option>
-                        <option>ראשון לציון</option>
-                        <option>רחובות</option>
-                        <option>רמלה</option>
-                        <option>רמת גן</option>
-                        <option>תל אביב</option>
-                      </select>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  </div>
+      <section className="px-4 py-16">
+        <div className="container mx-auto">
+          <SectionTitle
+            eyebrow="סוגי קייטנות"
+            title="כל משפחה מחפשת משהו קצת אחר"
+            text="יש ילדים שרוצים לזוז כל היום, יש כאלה שאוהבים ליצור, ויש הורים שחייבים פתרון קרוב ונוח."
+          />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {CATEGORY_CARDS.map(({ icon: Icon, title, text }) => (
+              <Link key={title} href="/search" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#003087] text-white">
+                  <Icon className="h-6 w-6" />
                 </div>
-
-                {/* גיל הילד */}
-                <div className="flex-1 relative">
-                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
-                    <Users className="w-5 h-5 text-[#003087] flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[#003087] font-bold text-xs">גיל הילד/ה</p>
-                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option value="">בחרו גיל</option>
-                        <option>3-5</option>
-                        <option>6-8</option>
-                        <option>9-11</option>
-                        <option>12-14</option>
-                      </select>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  </div>
-                </div>
-
-                {/* סוג קייטנה */}
-                <div className="flex-1 relative">
-                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
-                    <Activity className="w-5 h-5 text-[#003087] flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[#003087] font-bold text-xs">סוג קייטנה</p>
-                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option value="">בחרו תחום</option>
-                        <option>ספורט</option>
-                        <option>שחייה</option>
-                        <option>ריקוד</option>
-                        <option>אמנות</option>
-                        <option>טכנולוגיה</option>
-                      </select>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  </div>
-                </div>
-
-                {/* תאריכים */}
-                <div className="flex-1 relative">
-                  <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors">
-                    <Calendar className="w-5 h-5 text-[#003087] flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[#003087] font-bold text-xs">תאריכים</p>
-                      <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option value="">בחרו תאריכים</option>
-                        <option>יולי 2026</option>
-                        <option>אוגוסט 2026</option>
-                        <option>יולי-אוגוסט 2026</option>
-                      </select>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Search button */}
-              <Link
-                href="/search"
-                className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-4 rounded-xl transition-colors"
-              >
-                <Search className="w-5 h-5" />
-                מצאו קייטנה
+                <h3 className="text-xl font-black text-[#003087]">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">{text}</p>
               </Link>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Advanced search */}
-            <div className="text-center mt-4">
-              <Link href="/search" className="inline-flex items-center gap-1 text-[#003087] hover:text-[#F5C400] text-sm font-medium transition-colors">
-                <ChevronDown className="w-4 h-4" />
-                חיפוש מתקדם
-              </Link>
+      <section className="bg-[#003087] px-4 py-16 text-white">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="mb-3 text-sm font-black text-[#F5C400]">למה קייטנות?</p>
+              <h2 className="text-3xl font-black leading-tight md:text-4xl">פחות חיפוש מתיש, יותר החלטה בטוחה</h2>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-blue-100">
+                המטרה של האתר היא לתת להורים תמונה ברורה: מה יש באזור, למי זה מתאים, איך נרשמים ומה חשוב לבדוק לפני שמשלמים.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {TRUST_ITEMS.map(({ icon: Icon, title, text }) => (
+                <div key={title} className="rounded-2xl border border-white/15 bg-white/10 p-5">
+                  <Icon className="mb-4 h-7 w-7 text-[#F5C400]" />
+                  <h3 className="font-black">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-blue-100">{text}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          3. CAMPS - "הורים בוחרים"
-      ══════════════════════════════════════════════ */}
-      <section id="camps" className="py-16 px-4 bg-white">
+      <section className="bg-[#F5F7FA] px-4 py-16">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[#003087]/60 text-sm font-semibold uppercase tracking-widest mb-2">הורים בוחרים</p>
-            <h2 className="text-3xl md:text-4xl font-black text-[#003087]">
-              את הקייטנה שמתאימה לילד שלכם
-            </h2>
+          <SectionTitle
+            eyebrow="הטבות למשפחות"
+            title="יכול להיות שמגיעה לכם הנחה דרך מקום העבודה"
+            text="אנחנו מרכזים קייטנות שעובדות עם חברות, ארגונים וועדי עובדים. בשלב הראשון הבירור מתבצע בוואטסאפ בצורה מהירה."
+          />
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-8">
+            {PARTNER_LOGOS.map((logo) => (
+              <div key={logo.alt} className="flex h-20 items-center justify-center rounded-xl border border-slate-200 bg-white p-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={logo.src} alt={logo.alt} className="max-h-12 max-w-full object-contain" />
+              </div>
+            ))}
           </div>
-
-          {camps && camps.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-              {camps.map((camp) => (
-                <CampCard key={camp.id} camp={camp} />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-              {PLACEHOLDER_CAMPS.map((c) => (
-                <div key={c.name} className="bg-white rounded-2xl shadow-md border border-[#e0e8f0] overflow-hidden flex flex-col">
-                  <div className="relative h-48 overflow-hidden flex-shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={c.img}
-                      alt={c.name}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1 p-5">
-                    <h3 className="font-extrabold text-lg text-[#003087] mb-1 leading-tight">{c.name}</h3>
-                    <p className="text-gray-500 text-sm mb-5 flex-1">{c.subtitle}</p>
-                    <Link
-                      href="/search"
-                      className="block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-bold py-3 rounded-full transition-colors text-sm"
-                    >
-                      לפרטים והרשמה
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-8">
-            <Link
-              href="/search"
-              className="inline-flex items-center gap-2 border-2 border-[#003087] text-[#003087] hover:bg-[#003087] hover:text-white font-bold px-8 py-3 rounded-full transition-colors"
-            >
-              כל הקייטנות
+          <div className="mt-8 text-center">
+            <Link href={WHATSAPP_URL} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C400] px-7 py-4 font-black text-[#003087] transition hover:bg-[#e0b200]">
+              <MessageCircle className="h-5 w-5" />
+              לבירור זכאות ואופן הרשמה
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          4. CATEGORIES - icon + desc + 3 images
-      ══════════════════════════════════════════════ */}
-      <section id="categories" className="py-16 px-4 bg-[#F5F7FA]">
+      <section className="px-4 py-16">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[#003087]/60 text-sm font-semibold uppercase tracking-widest mb-2">מסלולים</p>
-            <h2 className="text-3xl md:text-4xl font-black text-[#003087]">
-              בחרו מסלול שמתאים לילד שלכם
-            </h2>
-            <p className="text-gray-500 mt-3 max-w-xl mx-auto text-sm">
-              מסלולי הספורט שלנו מפולחים מקצועית, על ידי מדריכים מנוסים לכל גיל
-            </p>
+          <SectionTitle eyebrow="איך זה עובד" title="שלושה צעדים פשוטים עד קייטנה מתאימה" />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {STEPS.map((item) => (
+              <div key={item.step} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <span className="text-4xl font-black text-[#F5C400]">{item.step}</span>
+                <h3 className="mt-4 text-xl font-black text-[#003087]">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.text}</p>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CATEGORIES.map((cat) => {
-              const CatIcon = cat.Icon;
-              return (
-                <Link
-                  key={cat.label}
-                  href={`/search?category=${encodeURIComponent(cat.label)}`}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-[#e0e8f0] group"
-                >
-                  <div className="p-5 pb-3">
-                    <div className="w-10 h-10 rounded-full bg-[#003087]/10 flex items-center justify-center mb-3">
-                      <CatIcon className="w-5 h-5 text-[#003087]" />
-                    </div>
-                    <h3 className="font-extrabold text-lg text-[#003087] mb-1">{cat.label}</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed">{cat.desc}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-1 p-2 pt-1">
-                    {cat.images.map((src, n) => (
-                      <div key={n} className="h-20 rounded-lg overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={src}
-                          alt={cat.label}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
+      <section className="bg-[#F5F7FA] px-4 py-16">
+        <div className="container mx-auto grid grid-cols-1 gap-10 lg:grid-cols-2">
+          <div>
+            <SectionTitle eyebrow="מדריכים להורים" title="לפני שנרשמים, כדאי לדעת מה לבדוק" />
+            <div className="space-y-3">
+              {BLOG_POSTS.map((post) => (
+                <Link key={post.href} href={post.href} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 font-bold text-[#003087] transition hover:border-[#003087]">
+                  {post.title}
+                  <ArrowLeft className="h-4 w-4" />
                 </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          5. BENEFITS - 6 icons in a row
-      ══════════════════════════════════════════════ */}
-      <section id="benefits" className="py-16 px-4 bg-white">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[#003087]/60 text-sm font-semibold uppercase tracking-widest mb-2">היתרונות שלנו</p>
-            <h2 className="text-3xl md:text-4xl font-black text-[#003087]">למה לבחור בנו?</h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {BENEFITS.map((b) => {
-              const Icon = b.icon;
-              return (
-                <div key={b.label} className="flex flex-col items-center text-center group cursor-default">
-                  <div className="w-16 h-16 rounded-full bg-[#003087]/8 flex items-center justify-center mb-3 group-hover:bg-[#003087] transition-colors duration-300">
-                    <Icon className="w-7 h-7 text-[#003087] group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <h3 className="font-bold text-sm text-[#003087] mb-1">{b.label}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed">{b.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          6. PARTNERSHIP BANNER
-      ══════════════════════════════════════════════ */}
-      <section className="bg-[#F5F7FA] py-12 px-4">
-        <div className="container mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-black text-[#003087] mb-3">
-            קייטנות מובילות מכל רחבי הארץ פועלות עם ועדי עובדים וארגונים
-          </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-sm leading-relaxed">
-            הגופים הגדולים לעובדים במשק בהסדרים מיוחדים ומסובסדים. לפרטים ולהרשמה לחצו על הקישור
-            ובחרו את הקייטנה שלכם - אל תפספסו את הקיץ הכי טוב!
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            {PARTNERS.map(({ name, color }) => (
-              <div
-                key={name}
-                className={`border rounded-2xl px-6 py-3 font-bold text-sm shadow-sm ${color} hover:shadow-md transition-shadow cursor-default`}
-              >
-                {name}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          7. LEAD FORM - split layout
-      ══════════════════════════════════════════════ */}
-      <section id="contact">
-        <LeadFormSection />
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          8. PHOTO GALLERY
-      ══════════════════════════════════════════════ */}
-      <section className="py-10 bg-[#F5F7FA]">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-black text-[#003087] text-center mb-6">הצצה לחוויית הקייטנות</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {GALLERY_IMGS.map((src, i) => (
-              <div key={i} className="h-40 md:h-52 rounded-2xl overflow-hidden group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`קייטנה תמונה ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          9. BOTTOM CTA
-      ══════════════════════════════════════════════ */}
-      <section className="bg-[#003087] text-white py-14 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <div className="inline-block bg-[#F5C400] text-[#003087] text-xs font-black px-4 py-1.5 rounded-full mb-4">
-                מקומות מוגבלים!
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black mb-3">
-                הפכו מוקדם כבר עכשיו!
-              </h2>
-              <p className="text-blue-200 text-lg">
-                אל תפספסו את הקיץ הכי טוב של ילדכם - הבטיחו מקום לפני שייגמרו.
-              </p>
+              ))}
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <p className="font-bold text-lg mb-4 text-center">השאירו פרטים ונחזור אליכם</p>
-              <div className="grid grid-cols-2 gap-3 mb-3">
-                <input
-                  type="text"
-                  placeholder="שם הילד"
-                  className="h-11 rounded-full bg-white/20 border border-white/30 px-4 text-white placeholder:text-white/60 text-sm focus:outline-none focus:border-[#F5C400]"
-                />
-                <input
-                  type="text"
-                  placeholder="שם משפחה"
-                  className="h-11 rounded-full bg-white/20 border border-white/30 px-4 text-white placeholder:text-white/60 text-sm focus:outline-none focus:border-[#F5C400]"
-                />
-                <input
-                  type="tel"
-                  placeholder="טלפון"
-                  dir="ltr"
-                  className="h-11 rounded-full bg-white/20 border border-white/30 px-4 text-white placeholder:text-white/60 text-sm focus:outline-none focus:border-[#F5C400]"
-                />
-                <input
-                  type="number"
-                  placeholder="גיל הילד"
-                  min={3}
-                  max={18}
-                  className="h-11 rounded-full bg-white/20 border border-white/30 px-4 text-white placeholder:text-white/60 text-sm focus:outline-none focus:border-[#F5C400]"
-                />
-              </div>
-              <Link
-                href="/search"
-                className="block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black py-3 rounded-full transition-colors"
-              >
-                שלח פרטים
-              </Link>
-              <p className="text-center text-blue-200/60 text-xs mt-3 flex items-center justify-center gap-1.5">
-                <Lock className="w-3 h-3" />
-                הפרטים מוצפנים ולא יועברו לגורם אחר
-              </p>
+          </div>
+          <div>
+            <SectionTitle eyebrow="שאלות נפוצות" title="התשובות שהורים מחפשים לפני הרשמה" />
+            <div className="space-y-3">
+              {FAQ.map((item) => (
+                <details key={item.q} className="group rounded-xl border border-slate-200 bg-white p-4">
+                  <summary className="cursor-pointer list-none font-black text-[#003087]">{item.q}</summary>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-    </div>
+      <section className="bg-white px-4 py-16">
+        <div className="container mx-auto rounded-2xl bg-[#003087] px-6 py-12 text-center text-white md:px-12">
+          <p className="mb-3 text-sm font-black text-[#F5C400]">לא מצאתם התאמה מדויקת?</p>
+          <h2 className="text-3xl font-black md:text-4xl">נכוון אתכם לקייטנה שמתאימה לילדים שלכם</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-blue-100">שלחו לנו עיר, גיל וסוג פעילות שמעניין אתכם ונחזור עם אפשרויות רלוונטיות.</p>
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href={WHATSAPP_URL} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C400] px-7 py-4 font-black text-[#003087] transition hover:bg-[#e0b200]">
+              <MessageCircle className="h-5 w-5" />
+              שלחו הודעה בוואטסאפ
+            </Link>
+            <Link href="/search" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-7 py-4 font-black text-white transition hover:bg-white/10">
+              <Search className="h-5 w-5" />
+              המשיכו לחיפוש
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
