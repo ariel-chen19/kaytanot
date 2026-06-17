@@ -181,37 +181,45 @@ export default async function HomePage() {
             {/* Title */}
             <div className="text-center mb-6">
               <h2 className="text-2xl md:text-3xl font-black text-[#003087] inline-block relative">
-                חפשו קייטנה שמתאימה לכם
+                חפשו קייטנה שמתאימה לילדים שלכם
                 <span className="absolute -bottom-1.5 right-0 left-0 h-1 rounded-full bg-[#F5C400]" />
               </h2>
             </div>
 
             {/* Fields + button row */}
             <div className="flex flex-col lg:flex-row items-stretch gap-3">
-              {/* Search button - far left (RTL end) */}
-              <Link
-                href="/search"
-                className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-4 rounded-xl transition-colors"
-              >
-                <Search className="w-5 h-5" />
-                מצאו קייטנה
-              </Link>
-
               {/* 4 filter fields */}
               <div className="flex flex-col sm:flex-row flex-1 gap-3">
-                {/* עיר / אזור */}
+                {/* עיר */}
                 <div className="flex-1 relative">
                   <div className="flex items-center border border-gray-200 rounded-xl px-4 h-14 gap-3 cursor-pointer hover:border-[#003087] transition-colors group">
                     <MapPin className="w-5 h-5 text-[#003087] flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[#003087] font-bold text-xs">עיר / אזור</p>
+                      <p className="text-[#003087] font-bold text-xs">עיר</p>
                       <select className="w-full bg-transparent text-gray-400 text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option value="">בחרו אזור</option>
-                        <option>תל אביב</option>
-                        <option>ירושלים</option>
-                        <option>חיפה</option>
-                        <option>באר שבע</option>
+                        <option value="">בחרו עיר</option>
+                        <option>אזור</option>
+                        <option>אשדוד</option>
+                        <option>אשקלון</option>
+                        <option>באר יעקב</option>
+                        <option>בת ים</option>
+                        <option>גבעתיים</option>
+                        <option>גן יבנה</option>
+                        <option>הוד השרון</option>
+                        <option>חולון</option>
+                        <option>יבנה</option>
+                        <option>יישובי לב השרון</option>
+                        <option>כפר יונה</option>
+                        <option>מ.א. גן רווה</option>
+                        <option>נס ציונה</option>
+                        <option>נתניה</option>
                         <option>פתח תקווה</option>
+                        <option>ראש העין</option>
+                        <option>ראשון לציון</option>
+                        <option>רחובות</option>
+                        <option>רמלה</option>
+                        <option>רמת גן</option>
+                        <option>תל אביב</option>
                       </select>
                     </div>
                     <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
@@ -230,7 +238,6 @@ export default async function HomePage() {
                         <option>6-8</option>
                         <option>9-11</option>
                         <option>12-14</option>
-                        <option>15-18</option>
                       </select>
                     </div>
                     <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
@@ -273,6 +280,15 @@ export default async function HomePage() {
                   </div>
                 </div>
               </div>
+
+              {/* Search button */}
+              <Link
+                href="/search"
+                className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-4 rounded-xl transition-colors"
+              >
+                <Search className="w-5 h-5" />
+                מצאו קייטנה
+              </Link>
             </div>
 
             {/* Advanced search */}
