@@ -31,7 +31,7 @@ export default function ContactForm({
   campName,
   variant = "default",
 }: {
-  campId: string;
+  campId?: string | null;
   campName: string;
   variant?: "default" | "inline";
 }) {
@@ -57,12 +57,12 @@ export default function ContactForm({
         parent_phone: data.parent_phone,
         parent_email: data.parent_email || undefined,
         message: data.message,
-        camp_id: campId,
+        ...(campId ? { camp_id: campId } : {}),
       }),
     });
     if (res.ok) {
       trackEvent("generate_lead", {
-        camp_id: campId,
+        camp_id: campId ?? undefined,
         camp_name: campName,
         form_variant: variant,
       });

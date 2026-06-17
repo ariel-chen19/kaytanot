@@ -299,6 +299,126 @@ const MITGALGALIM_EXTRA_FAQ_ITEMS: FaqItem[] = [
   },
 ];
 
+const OLYMPIC_SLUG = "havaya-olympit";
+const OLYMPIC_SLUGS = new Set([OLYMPIC_SLUG, "olympic-experience"]);
+const OLYMPIC_HERO_IMAGE = "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400&q=80";
+const OLYMPIC_LOGO = "/kaytanot_logo.webp";
+const OLYMPIC_TAGLINE = "ספורט, תנועה וחוויה לילדים שאוהבים לזוז";
+const OLYMPIC_DESCRIPTION =
+  "קייטנת חוויה אולימפית משלבת פעילות ספורטיבית, משחקי קבוצה, תנועה, אתגר והרבה חוויות חברתיות.\nבכל יום הילדים עוברים בין תחנות פעילות מגוונות, מתנסים בענפי ספורט שונים, משחקים, מתגבשים וצוברים ביטחון דרך הצלחות קטנות.\nהקייטנה מתאימה לילדים שאוהבים לזוז, לפרוק אנרגיה ולהיות חלק מקבוצה, עם צוות הדרכה שמלווה את היום, שומר על סדר ובטיחות ונותן לכל ילד מקום להשתלב בקצב שלו.\nהמטרה שלנו פשוטה: יום פעיל, שמח ומסודר שבו הילדים חוזרים הביתה עייפים מהנאה ועם חוויה טובה לספר עליה.";
+
+const OLYMPIC_DEPARTURE_CITIES = ["נתניה", "כפר יונה", "קדימה צורן", "אבן יהודה", "תל מונד", "תל אביב", "רמת גן", "גבעתיים", "חולון", "בת ים", "ראשון לציון", "רחובות", "נס ציונה", "באר יעקב", "רמלה", "יבנה", "אשדוד", "אשקלון", "ראש העין", "פתח תקווה"];
+
+const OLYMPIC_FEATURES: Feature[] = [
+  { type: "sport", label: "חוויה ספורטיבית", desc: "תחנות פעילות, משחקי קבוצה ואתגר" },
+  { type: "experience", label: "יום מלא אנרגיה", desc: "תנועה, גיבוש וחוויות לילדים" },
+  { type: "ratio", label: "קבוצות גיל", desc: "חלוקה מותאמת לפי גיל ורמה" },
+  { type: "safety", label: "בטיחות מעל הכל", desc: "מסגרת מסודרת וצוות מלווה" },
+  { type: "personal", label: "יחס אישי", desc: "מקום לכל ילד להשתלב בקצב שלו" },
+];
+
+const OLYMPIC_ACTIVITIES_GALLERY: ActivityGalleryItem[] = [
+  { name: "משחקי כדור", image: "/mitgalgalim/kaduregel-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "ימי בריכה", image: "/mitgalgalim/brikha-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "פארק מתנפחים", image: "/mitgalgalim/mishtanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "באולינג", image: "/mitgalgalim/bowling-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "פארק מים", image: "/mitgalgalim/park-maim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "מופעי קיץ", image: "/mitgalgalim/mofaa-omanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+];
+
+const OLYMPIC_DAY_SCHEDULE: DayScheduleItem[] = [
+  { time: "08:00", title: "התכנסות והיכרות", icon: Users },
+  { time: "08:30", title: "חימום ומשחקי פתיחה", icon: Target },
+  { time: "09:15", title: "תחנות ספורט ואתגר", icon: Award },
+  { time: "10:30", title: "ארוחת בוקר", icon: Utensils },
+  { time: "11:00", title: "טורנירים ומשחקי קבוצה", icon: Shield },
+  { time: "13:00", title: "סיכום יום ופיזור", icon: CheckCircle },
+];
+
+const OLYMPIC_EXPERIENCE_GALLERY: ExperienceGalleryItem[] = [
+  { image: "/mitgalgalim/kaduregel-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "ילדים בפעילות ספורט בקייטנה" },
+  { image: "/mitgalgalim/brikha-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "פעילות מים בקייטנה" },
+  { image: "/mitgalgalim/mishtanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "מתנפחים ופעילות אתגר בקייטנה" },
+  { image: "/mitgalgalim/bowling-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "באולינג כחלק מפעילות הקייטנה" },
+];
+
+const OLYMPIC_TESTIMONIALS: CampSocialProof[] = [
+  { id: "olympic-parent-1", proof_type: "manual_text", source: "site", author_name: "אמא של איתי", author_city: "פתח תקווה", rating: 5, body_text: "הילד חזר בכל יום עם אנרגיות וחיוך. אהבנו במיוחד את הסדר, החלוקה לקבוצות והתחושה שיש צוות שמכיר את הילדים.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
+  { id: "olympic-parent-2", proof_type: "manual_text", source: "site", author_name: "אבא של נועה", author_city: "רמת גן", rating: 5, body_text: "קייטנה מעולה לילדים שאוהבים לזוז. הרבה פעילות, אווירה טובה, ועדכונים ברורים להורים.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
+  { id: "olympic-parent-3", proof_type: "manual_text", source: "site", author_name: "אמא של יובל", author_city: "ראשון לציון", rating: 5, body_text: "הרגשנו שהילדים מקבלים גם כיף וגם מסגרת. הצוות היה נעים, מקצועי וזמין לאורך כל הדרך.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
+];
+
+const OLYMPIC_FAQ_ITEMS: FaqItem[] = [
+  { q: "לאילו גילאים הקייטנה מתאימה?", a: "הקייטנה מיועדת בדרך כלל לילדים בגילאי 6-14, עם חלוקה לקבוצות גיל כדי להתאים את הפעילות לקצב ולרמה של הילדים." },
+  { q: "האם צריך ניסיון קודם בספורט?", a: "לא. הפעילות בנויה כך שגם ילדים שאוהבים ספורט וגם ילדים שרק רוצים ליהנות מתנועה ומשחקי קבוצה יוכלו להשתלב." },
+  { q: "מה כדאי להביא בכל יום?", a: "בקבוק מים, כובע, נעליים נוחות, ארוחת בוקר ובגדים שמתאימים לפעילות. לפני תחילת הקייטנה נשלחת רשימת ציוד מסודרת להורים." },
+  { q: "איך נרשמים ומקבלים פרטים?", a: "משאירים פרטים בטופס או שולחים הודעת וואטסאפ, ונחזור עם מידע מלא על מיקום, מחזורים, מחירים ואפשרויות הרשמה." },
+];
+
+const OLYMPIC_WHY_US = [
+  "פעילות ספורטיבית מגוונת ולא תחרותית מדי",
+  "חלוקה לקבוצות גיל ורמות פעילות",
+  "צוות הדרכה מקצועי ומלווה לאורך כל היום",
+  "מסגרת מסודרת עם דגש על בטיחות ויחס אישי",
+  "שילוב של תנועה, גיבוש, משחקים וחוויות",
+  "מתאים לילדים שאוהבים לזוז ולהיות חלק מקבוצה",
+];
+
+const OLYMPIC_CYCLES: Cycle[] = [
+  { label: "מחזור יולי", dates: "יולי 2026", days: "א-ה", hours: "08:00-13:00" },
+  { label: "מחזור אוגוסט", dates: "אוגוסט 2026", days: "א-ה", hours: "08:00-13:00" },
+];
+
+function isOlympicCampSlug(slug: string) {
+  return OLYMPIC_SLUGS.has(slug);
+}
+
+function getFallbackCamp(slug: string): Camp | null {
+  if (!isOlympicCampSlug(slug)) return null;
+  return {
+    id: "00000000-0000-0000-0000-000000000000",
+    name: "קייטנת חוויה אולימפית",
+    slug: OLYMPIC_SLUG,
+    description: OLYMPIC_DESCRIPTION,
+    city: "ערים נבחרות",
+    location: null,
+    age_min: 6,
+    age_max: 14,
+    price_basic: null,
+    price_advanced: null,
+    image_url: OLYMPIC_HERO_IMAGE,
+    logo_url: OLYMPIC_LOGO,
+    tagline: OLYMPIC_TAGLINE,
+    whatsapp: "972559999139",
+    activities: ["ספורט", "משחקי קבוצה", "אתגר", "פעילות מים"],
+    cycles: OLYMPIC_CYCLES,
+    cities: OLYMPIC_DEPARTURE_CITIES,
+    faq: OLYMPIC_FAQ_ITEMS,
+    features: OLYMPIC_FEATURES,
+    city_prices: [],
+    why_us: OLYMPIC_WHY_US,
+    activities_gallery: OLYMPIC_ACTIVITIES_GALLERY,
+  };
+}
+
+function CampComingSoonPage() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#003087] px-4 text-center" dir="rtl">
+      <img
+        src="/kaytanot_logo.webp"
+        alt="קייטנות"
+        className="mb-10 h-28 w-auto object-contain md:h-32"
+      />
+      <h1 className="mb-4 font-heebo text-4xl font-black text-white md:text-5xl">
+        עמוד הקייטנה בבנייה
+      </h1>
+      <p className="max-w-xl text-lg leading-8 text-blue-100 md:text-xl">
+        קייטנת חוויה אולימפית תעלה לאוויר בקרוב עם כל הפרטים, המחזורים ואפשרויות ההרשמה.
+      </p>
+    </div>
+  );
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -311,13 +431,16 @@ export async function generateMetadata({
     .eq("slug", params.slug)
     .single();
 
-  if (!data) return {};
+  const fallbackData = getFallbackCamp(params.slug);
+  const metaCamp = data ?? fallbackData;
+
+  if (!metaCamp) return {};
 
   if (params.slug === "mitgalgalim") {
     const title = "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר";
     const description =
       "קייטנת מתגלגלים ונהנים לילדים בגילאי 6-13: 27+ שנות ניסיון, צוות הדרכה מקצועי, הסעות מבית הספר הקרוב לבית ואטרקציות מובילות בכל יום.";
-    const pageUrl = `${PUBLIC_SITE_URL}/kaytana/${data.slug}`;
+    const pageUrl = `${PUBLIC_SITE_URL}/kaytana/${metaCamp.slug}`;
     const image = `${PUBLIC_SITE_URL}/mitgalgalim/mitgalgalim.webp`;
 
     return {
@@ -353,19 +476,26 @@ export async function generateMetadata({
     };
   }
 
+  if (isOlympicCampSlug(params.slug)) {
+    const title = "קייטנת חוויה אולימפית - בקרוב";
+    const description = "עמוד קייטנת חוויה אולימפית בבנייה ויעלה בקרוב עם כל הפרטים.";
+    const pageUrl = `${PUBLIC_SITE_URL}/kaytana/${OLYMPIC_SLUG}`;
+    return { title, description, robots: { index: false, follow: false }, alternates: { canonical: pageUrl }, openGraph: { title, description, type: "website", locale: "he_IL", url: pageUrl } };
+  }
+
   return {
-    title: `${data.name} - קייטנות`,
-    description: data.description?.slice(0, 155) ?? `קייטנה ב${data.city}`,
+    title: `${metaCamp.name} - קייטנות`,
+    description: metaCamp.description?.slice(0, 155) ?? `קייטנה ב${metaCamp.city}`,
     alternates: {
-      canonical: `/kaytana/${data.slug}`,
+      canonical: `/kaytana/${metaCamp.slug}`,
     },
     openGraph: {
-      title: `${data.name} - קייטנות`,
-      description: data.description?.slice(0, 155) ?? `קייטנה ב${data.city}`,
+      title: `${metaCamp.name} - קייטנות`,
+      description: metaCamp.description?.slice(0, 155) ?? `קייטנה ב${metaCamp.city}`,
       type: "website",
       locale: "he_IL",
-      url: `/kaytana/${data.slug}`,
-      images: data.image_url ? [{ url: data.image_url, alt: data.name }] : undefined,
+      url: `/kaytana/${metaCamp.slug}`,
+      images: metaCamp.image_url ? [{ url: metaCamp.image_url, alt: metaCamp.name }] : undefined,
     },
   };
 }
@@ -375,6 +505,10 @@ export default async function KaytanaPage({
 }: {
   params: { slug: string };
 }) {
+  if (isOlympicCampSlug(params.slug)) {
+    return <CampComingSoonPage />;
+  }
+
   const supabase = createClient();
   const { data: camp } = await supabase
     .from("camps")
@@ -383,26 +517,28 @@ export default async function KaytanaPage({
     .eq("is_active", true)
     .single();
 
-  if (!camp) notFound();
+  const fallbackCamp = getFallbackCamp(params.slug);
+  if (!camp && !fallbackCamp) notFound();
 
-  const c = camp as Camp;
-  const { data: socialProofsData } = await supabase
+  const c = (camp ?? fallbackCamp) as Camp;
+  const hasDatabaseCamp = Boolean(camp);
+  const { data: socialProofsData } = hasDatabaseCamp ? await supabase
     .from("camp_social_proofs")
     .select("id, proof_type, source, author_name, author_city, rating, body_text, image_url, review_date, source_label, source_url")
     .eq("camp_id", c.id)
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })
     .order("review_date", { ascending: false })
-    .limit(12);
+    .limit(12) : { data: null };
 
-  const { data: reviewsData } = await supabase
+  const { data: reviewsData } = hasDatabaseCamp ? await supabase
     .from("camp_reviews")
     .select("id, source, author_name, author_city, rating, review_text, review_date, review_url")
     .eq("camp_id", c.id)
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })
     .order("review_date", { ascending: false })
-    .limit(8);
+    .limit(8) : { data: null };
 
   if (c.features && typeof c.features === "string") c.features = JSON.parse(c.features);
   if (c.cycles && typeof c.cycles === "string") c.cycles = JSON.parse(c.cycles);
@@ -412,30 +548,37 @@ export default async function KaytanaPage({
   if (c.why_us && typeof c.why_us === "string") c.why_us = JSON.parse(c.why_us);
   if (c.activities_gallery && typeof c.activities_gallery === "string") c.activities_gallery = JSON.parse(c.activities_gallery);
 
-  const cityPrices = c.slug === "mitgalgalim" ? MITGALGALIM_CITY_PRICES : c.city_prices ?? [];
-  const cityCount = c.slug === "mitgalgalim" ? 23 : c.cities?.length ?? 0;
+  const isMitgalgalim = c.slug === "mitgalgalim";
+  const isOlympic = isOlympicCampSlug(c.slug);
+  const usesFeaturedLanding = isMitgalgalim || isOlympic;
+  const cityPrices = isMitgalgalim ? MITGALGALIM_CITY_PRICES : c.city_prices ?? [];
+  const cityCount = isMitgalgalim ? 23 : isOlympic ? OLYMPIC_DEPARTURE_CITIES.length : c.cities?.length ?? 0;
   const cycleCount = c.cycles?.length ?? 0;
-  const ageLabel = c.slug === "mitgalgalim" ? "גילאי 6-13" : `גילאי ${c.age_min}-${c.age_max}`;
-  const seasonLabel = c.slug === "mitgalgalim" ? "קיץ 2026" : cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`;
-  const cityLabel = c.slug === "mitgalgalim" ? "23 ערים ברחבי הארץ" : `${cityCount} ערים ברחבי הארץ`;
-  const displayPrice = c.slug === "mitgalgalim" ? Math.min(...cityPrices.map((item) => item.price)) : c.price_basic;
+  const ageLabel = isMitgalgalim ? "גילאי 6-13" : isOlympic ? "גילאי 6-14" : `גילאי ${c.age_min}-${c.age_max}`;
+  const seasonLabel = isMitgalgalim ? "קיץ 2026" : isOlympic ? "מחזורי 2026" : cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`;
+  const cityLabel = isMitgalgalim ? "23 ערים ברחבי הארץ" : isOlympic ? "ערים נבחרות ברחבי הארץ" : `${cityCount} ערים ברחבי הארץ`;
+  const displayPrice = isMitgalgalim ? Math.min(...cityPrices.map((item) => item.price)) : c.price_basic;
   const displayPriceLabel =
-    c.slug === "mitgalgalim"
+    isMitgalgalim
       ? `${Math.min(...cityPrices.map((item) => item.price)).toLocaleString("he-IL")}-${Math.max(
           ...cityPrices.map((item) => item.price),
         ).toLocaleString("he-IL")} ₪`
       : displayPrice
         ? `${displayPrice.toLocaleString("he-IL")} ₪`
         : null;
-  const heroImageUrl = c.slug === "mitgalgalim"
+  const heroImageUrl = isMitgalgalim
     ? `/mitgalgalim/mitgalgalim.webp?v=${MITGALGALIM_ASSET_VERSION}`
-    : c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80";
-  const logoUrl = c.slug === "mitgalgalim"
+    : isOlympic
+      ? OLYMPIC_HERO_IMAGE
+      : c.image_url ?? "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80";
+  const logoUrl = isMitgalgalim
     ? `/mitgalgalim/mitgalgalim-logo.webp?v=${MITGALGALIM_ASSET_VERSION}`
-    : c.logo_url ?? "/kaytanot_logo.webp";
-  const leadFormTitle = c.slug === "mitgalgalim" ? "השאירו פרטים לקבלת מידע נוסף" : "בדיקת מקום פנוי";
-  const whatsappPhone = c.slug === "mitgalgalim" ? "972559999139" : c.whatsapp ?? "972559999139";
-  const displayWhyUs = c.slug === "mitgalgalim"
+    : isOlympic
+      ? OLYMPIC_LOGO
+      : c.logo_url ?? "/kaytanot_logo.webp";
+  const leadFormTitle = usesFeaturedLanding ? "השאירו פרטים לקבלת מידע נוסף" : "בדיקת מקום פנוי";
+  const whatsappPhone = usesFeaturedLanding ? "972559999139" : c.whatsapp ?? "972559999139";
+  const displayWhyUs = isMitgalgalim
     ? [
         "ניסיון של 27+ שנים",
         "מובילים בתחום הקייטנות",
@@ -445,11 +588,15 @@ export default async function KaytanaPage({
         "יחס אישי לכל ילד וילדה",
         "הסעות נוחות ומאובטחות מ-23 ערים",
       ]
-    : c.why_us ?? [];
-  const displayActivitiesGallery = c.slug === "mitgalgalim" ? MITGALGALIM_ACTIVITIES_GALLERY : c.activities_gallery ?? [];
+    : isOlympic
+      ? OLYMPIC_WHY_US
+      : c.why_us ?? [];
+  const displayActivitiesGallery = isMitgalgalim ? MITGALGALIM_ACTIVITIES_GALLERY : isOlympic ? OLYMPIC_ACTIVITIES_GALLERY : c.activities_gallery ?? [];
   const displaySocialProofs: CampSocialProof[] =
-    c.slug === "mitgalgalim"
+    isMitgalgalim
       ? MITGALGALIM_WHATSAPP_REVIEWS
+      : isOlympic
+      ? OLYMPIC_TESTIMONIALS
       : socialProofsData && socialProofsData.length > 0
       ? (socialProofsData as CampSocialProof[])
       : reviewsData && reviewsData.length > 0
@@ -466,7 +613,7 @@ export default async function KaytanaPage({
             source_label: item.source === "google" ? "Google Reviews" : "המלצה באתר",
             source_url: item.review_url,
           }))
-        : c.slug === "mitgalgalim"
+        : isMitgalgalim
           ? MITGALGALIM_TESTIMONIALS.map((item, index) => ({
               id: `fallback-${index}`,
               proof_type: "google_review" as const,
@@ -483,11 +630,11 @@ export default async function KaytanaPage({
           : [];
   const googleReviewCount = displaySocialProofs.filter((item) => item.source === "google").length;
   const hasMixedSocialProofs = displaySocialProofs.some((item) => item.source !== "google");
-  const socialProofSummaryTitle = c.slug === "mitgalgalim" ? "ביקורות מוואטסאפ" : "המלצות הורים";
+  const socialProofSummaryTitle = isMitgalgalim ? "ביקורות מוואטסאפ" : "המלצות הורים";
   const nonGoogleProofCount = displaySocialProofs.length - googleReviewCount;
   const nonGoogleProofLabel = nonGoogleProofCount === 1 ? "המלצה אחת" : `${nonGoogleProofCount} המלצות`;
   const socialProofSummaryText =
-    c.slug === "mitgalgalim"
+    isMitgalgalim
       ? `${displaySocialProofs.length} צילומי מסך של הורים`
       : googleReviewCount > 0 && hasMixedSocialProofs
       ? `${googleReviewCount} ביקורות גוגל + ${nonGoogleProofLabel}`
@@ -501,22 +648,24 @@ export default async function KaytanaPage({
           displaySocialProofs.filter((item) => item.rating !== null).length
         ).toFixed(1)
       : null;
-  const displayFaq = c.slug === "mitgalgalim" ? MITGALGALIM_EXTRA_FAQ_ITEMS : c.faq ?? [];
+  const displayFaq = isMitgalgalim ? MITGALGALIM_EXTRA_FAQ_ITEMS : isOlympic ? OLYMPIC_FAQ_ITEMS : c.faq ?? [];
   const siteUrl = PUBLIC_SITE_URL;
   const pageUrl = `${siteUrl}/kaytana/${c.slug}`;
   const structuredData = [
     {
       "@context": "https://schema.org",
       "@type": "ChildCare",
-      name: c.slug === "mitgalgalim" ? "קייטנת מתגלגלים ונהנים" : c.name,
+      name: isMitgalgalim ? "קייטנת מתגלגלים ונהנים" : isOlympic ? "קייטנת חוויה אולימפית" : c.name,
       description:
-        c.slug === "mitgalgalim"
+        isMitgalgalim
           ? "קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית, 27+ שנות ניסיון וצוות הדרכה מקצועי."
-          : c.description ?? `קייטנה ב${c.city}`,
+          : isOlympic
+            ? OLYMPIC_DESCRIPTION
+            : c.description ?? `קייטנה ב${c.city}`,
       url: pageUrl,
       image: heroImageUrl,
       logo: logoUrl,
-      areaServed: c.slug === "mitgalgalim" ? "ישראל" : c.city,
+      areaServed: usesFeaturedLanding ? "ישראל" : c.city,
       priceRange: displayPriceLabel ?? undefined,
       audience: {
         "@type": "PeopleAudience",
@@ -549,12 +698,16 @@ export default async function KaytanaPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <section className="px-4 pt-4">
-        {c.slug === "mitgalgalim" && (
-          <h1 className="sr-only">קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית</h1>
+        {usesFeaturedLanding && (
+          <h1 className="sr-only">
+            {isMitgalgalim
+              ? "קייטנת מתגלגלים ונהנים - קייטנת אטרקציות עם הסעות מבית הספר הקרוב לבית"
+              : "קייטנת חוויה אולימפית - קייטנת ספורט ותנועה לילדים"}
+          </h1>
         )}
         <div className="mx-auto w-full max-w-[1880px] overflow-hidden rounded-[28px] border border-[#dfe7f2] bg-white shadow-xl shadow-[#003087]/10">
           <div className="flex flex-col md:flex-row-reverse">
-            {c.slug === "mitgalgalim" && (
+            {usesFeaturedLanding && (
               <div className="flex flex-col items-center px-6 pb-3 pt-6 text-center md:hidden">
                 <img src={logoUrl} alt={c.name} className="mb-1.5 h-24 max-w-[280px] object-contain" />
                 <p className="mb-0.5 font-rubik text-3xl font-black leading-none text-[#182e86]">
@@ -564,7 +717,7 @@ export default async function KaytanaPage({
                   {c.name}
                 </p>
                 <p className="max-w-xs text-base font-semibold leading-7 text-slate-700">
-                  כל האטרקציות המובילות בארץ
+                  {isMitgalgalim ? "כל האטרקציות המובילות בארץ" : OLYMPIC_TAGLINE}
                 </p>
                 <div className="mt-2 h-1 w-14 rounded-full bg-[#F5C400]" />
               </div>
@@ -578,13 +731,13 @@ export default async function KaytanaPage({
             </div>
 
             <div className="flex w-full flex-col items-center justify-center px-8 py-8 text-center md:w-[45%] md:px-12 md:py-10 lg:px-16">
-              <div className={c.slug === "mitgalgalim" ? "hidden md:block" : ""}>
+              <div className={usesFeaturedLanding ? "hidden md:block" : ""}>
                 <img src={logoUrl} alt={c.name} className="mx-auto mb-1.5 h-28 max-w-[340px] object-contain" />
 
                 <p className="mb-0.5 font-rubik text-4xl font-black leading-none text-[#182e86] md:text-5xl lg:text-[52px]">
                   קייטנת
                 </p>
-                {c.slug === "mitgalgalim" ? (
+                {usesFeaturedLanding ? (
                   <p className="mb-1.5 font-rubik text-4xl font-black leading-[0.95] text-[#182e86] md:text-5xl lg:text-[52px]">
                     {c.name}
                   </p>
@@ -595,9 +748,11 @@ export default async function KaytanaPage({
                 )}
 
                 <p className="mb-0.5 max-w-xl self-center text-lg leading-relaxed text-slate-700">
-                  {c.slug === "mitgalgalim"
+                  {isMitgalgalim
                     ? "כל האטרקציות המובילות בארץ"
-                    : c.tagline ??
+                    : isOlympic
+                      ? OLYMPIC_TAGLINE
+                      : c.tagline ??
                       (c.activities?.length
                         ? "כל יום אטרקציה חדשה והרפתקה אחרת!"
                         : `קייטנה לגילאי ${c.age_min}-${c.age_max}`)}
@@ -657,17 +812,17 @@ export default async function KaytanaPage({
                 const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#182e86]" };
                 const Icon = iconDef.icon;
                 const label =
-                  c.slug === "mitgalgalim" && feat.type === "transport"
+                  isMitgalgalim && feat.type === "transport"
                     ? "פריסה ארצית"
-                    : c.slug === "mitgalgalim" && feat.type === "ratio"
+                    : isMitgalgalim && feat.type === "ratio"
                       ? "יחס מדריכים"
                       : feat.label;
                 const description =
-                  c.slug === "mitgalgalim" && feat.type === "transport"
+                  isMitgalgalim && feat.type === "transport"
                     ? "23 ערים ברחבי הארץ"
-                    : c.slug === "mitgalgalim" && feat.type === "ratio"
+                    : isMitgalgalim && feat.type === "ratio"
                       ? "יחס מדריכים עד 1:15"
-                      : c.slug === "mitgalgalim" && feat.type === "experience"
+                      : isMitgalgalim && feat.type === "experience"
                         ? "מובילים בתחום הקייטנות"
                       : feat.desc;
 
@@ -696,9 +851,11 @@ export default async function KaytanaPage({
               </h2>
               <div className="mb-5 h-1 w-10 rounded-full bg-[#F5C400]" />
               <p className="whitespace-pre-wrap text-lg leading-8 text-slate-900">
-                {c.slug === "mitgalgalim"
+                {isMitgalgalim
                   ? "קייטנת מתגלגלים ונהנים פועלת כבר 27+ שנים.\nבכל יום אנו אוספים את הילדים מבית הספר הקרוב לבית ונוסעים לחוויה באטרקציה אחרת: בריכות, לונה פארק / סופרלנד, שייט, גן חיות, קולנוע, באולינג, מתחם ענק של מתנפחים ועוד הרבה חוויות.\nהקייטנה מופעלת על ידי מפעלי קיץ - קייטנות, מחנות, צהרונים והפקות בפריסה ארצית, בניהולו של ניר מאור, בוגר וינגייט ומאמן בכיר מוסמך. מאחורי הפעילות עומדות עשרות שנות ניסיון בעבודה עם ילדים, קייטנות ומחנות עבור מוסדות, ארגונים וחברות.\nאנחנו משלבים חוויה גדולה עם ארגון מקצועי, בטיחות, יחס אישי וצוות הדרכה מנוסה שמלווה את הילדים לאורך כל היום.\nאנחנו דוגלים במשפט: בקיץ הזה ההורים נחים והילדים מחייכים!"
-                  : c.description}
+                  : isOlympic
+                    ? OLYMPIC_DESCRIPTION
+                    : c.description}
               </p>
             </section>
           )}
@@ -706,22 +863,24 @@ export default async function KaytanaPage({
           {displayActivitiesGallery.length > 0 && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
-                {c.slug === "mitgalgalim" ? "חלק מהאטרקציות שמחכות לילדים" : "מה עושים בקייטנה?"}
+                {usesFeaturedLanding ? "חלק מהפעילויות שמחכות לילדים" : "מה עושים בקייטנה?"}
               </h2>
               <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
-              {c.slug === "mitgalgalim" && (
+              {usesFeaturedLanding && (
                 <p className="mb-6 max-w-3xl text-base leading-7 text-slate-700">
-                  בכל יום אוספים את הילדים מבית הספר הקרוב לבית ויוצאים לחוויה באטרקציה אחרת:
+                  {isMitgalgalim
+                    ? "בכל יום אוספים את הילדים מבית הספר הקרוב לבית ויוצאים לחוויה באטרקציה אחרת:"
+                    : "בכל יום הילדים עוברים בין תחנות פעילות, משחקי קבוצה וחוויות ספורטיביות מגוונות:"}
                 </p>
               )}
               <ActivitiesGallery items={displayActivitiesGallery} />
-              {c.slug === "mitgalgalim" && (
+              {usesFeaturedLanding && (
                 <p className="mt-4 text-sm font-semibold text-slate-500">
-                  *האטרקציות משתנות לפי עיר ולפי מחזור
+                  *התוכנית והפעילויות עשויות להשתנות לפי עיר, מחזור ותנאי הפעילות
                 </p>
               )}
 
-              {c.slug === "mitgalgalim" && (
+              {isMitgalgalim && (
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
                   <TrackedLink
                     href="/mitgalgalim/mitgalgalim%20m1.webp"
@@ -750,14 +909,14 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {c.slug === "mitgalgalim" && (
+          {usesFeaturedLanding && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
                 הקייטנה יוצאת מערים:
               </h2>
               <div className="mb-5 h-1 w-10 rounded-full bg-[#F5C400]" />
               <div className="flex flex-wrap gap-2.5">
-                {MITGALGALIM_DEPARTURE_CITIES.map((city) => (
+                {(isMitgalgalim ? MITGALGALIM_DEPARTURE_CITIES : OLYMPIC_DEPARTURE_CITIES).map((city) => (
                   <span
                     key={city}
                     className="rounded-full border border-[#dfe7f2] bg-[#f6f8fc] px-4 py-2 text-sm font-bold text-[#182e86]"
@@ -769,7 +928,7 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {c.slug === "mitgalgalim" && <OrganizationBenefitsCarousel />}
+          {usesFeaturedLanding && <OrganizationBenefitsCarousel />}
 
           {displayWhyUs.length > 0 && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
@@ -795,16 +954,18 @@ export default async function KaytanaPage({
               <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
-                    {c.slug === "mitgalgalim" ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
+                    {isMitgalgalim ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
                   </h2>
                   <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
                   <p className="max-w-2xl text-base leading-7 text-slate-700">
-                    {c.slug === "mitgalgalim"
+                    {isMitgalgalim
                       ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות, ההסעות והתחושה לאורך הקייטנה."
-                      : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות, הסעות ותחושת ביטחון לאורך כל היום."}
+                      : isOlympic
+                        ? "הורים מספרים על פעילות מסודרת, צוות זמין וילדים שחוזרים הביתה עם אנרגיות טובות."
+                        : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות, הסעות ותחושת ביטחון לאורך כל היום."}
                   </p>
                 </div>
-                {c.slug !== "mitgalgalim" && (
+                {!isMitgalgalim && (
                   <div className="flex min-w-[260px] items-center gap-4 self-start rounded-2xl border border-[#dfe7f2] bg-white px-4 py-3 shadow-sm">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f8fbff] text-[#182e86]">
                       <Users className="h-7 w-7" />
@@ -825,18 +986,20 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {c.slug === "mitgalgalim" && (
+          {usesFeaturedLanding && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <div className="mb-8 text-right">
                 <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">איך נראה יום בקייטנה?</h2>
                 <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
                 <p className="max-w-2xl text-base leading-7 text-slate-700">
-                  בכל יום יוצאים לאטרקציה אחרת, אבל המסגרת היומית נשארת ברורה ומסודרת.
+                  {isMitgalgalim
+                    ? "בכל יום יוצאים לאטרקציה אחרת, אבל המסגרת היומית נשארת ברורה ומסודרת."
+                    : "יום הפעילות בנוי בצורה ברורה, עם מעבר מסודר בין תחנות, משחקים ואתגרים."}
                 </p>
               </div>
 
               <div className="grid gap-3 md:grid-cols-6 md:gap-2">
-                {MITGALGALIM_DAY_SCHEDULE.map((item, index) => {
+                {(isMitgalgalim ? MITGALGALIM_DAY_SCHEDULE : OLYMPIC_DAY_SCHEDULE).map((item, index) => {
                   const Icon = item.icon;
                   const isLast = index === MITGALGALIM_DAY_SCHEDULE.length - 1;
 
@@ -881,16 +1044,18 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {c.slug === "mitgalgalim" && (
+          {usesFeaturedLanding && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <div className="mb-6 text-right">
                 <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">הצצה לחוויות מהקייטנה</h2>
                 <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
                 <p className="max-w-2xl text-base leading-7 text-slate-700">
-                  רגעים קטנים מהפעילויות, האטרקציות והחוויות שמחכות לילדים לאורך הקיץ.
+                  {isMitgalgalim
+                    ? "רגעים קטנים מהפעילויות, האטרקציות והחוויות שמחכות לילדים לאורך הקיץ."
+                    : "רגעים קטנים מהפעילויות, המשחקים והאנרגיה שמחכים לילדים בקייטנה."}
                 </p>
               </div>
-              <ExperienceGalleryCarousel items={MITGALGALIM_EXPERIENCE_GALLERY} />
+              <ExperienceGalleryCarousel items={isMitgalgalim ? MITGALGALIM_EXPERIENCE_GALLERY : OLYMPIC_EXPERIENCE_GALLERY} />
             </section>
           )}
 
@@ -902,7 +1067,7 @@ export default async function KaytanaPage({
             </section>
           )}
 
-          {c.slug !== "mitgalgalim" && (
+          {!usesFeaturedLanding && (
             <section id="contact-form-bottom" className="scroll-mt-24 rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-xl shadow-[#003087]/10 md:p-8">
               <div className="mb-6 text-center">
                 <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">{leadFormTitle}</h2>
@@ -917,7 +1082,7 @@ export default async function KaytanaPage({
         </div>
       </main>
 
-      {c.slug === "mitgalgalim" ? (
+      {usesFeaturedLanding ? (
         <section
           id="contact-form-bottom"
           className="relative mt-6 scroll-mt-24 bg-[#003087] px-4 py-10 md:py-12"
@@ -938,7 +1103,7 @@ export default async function KaytanaPage({
                   className="mx-auto mt-3 h-14 w-auto object-contain md:h-16"
                 />
               </div>
-              <ContactForm campId={c.id} campName={c.name} variant="inline" />
+              <ContactForm campId={hasDatabaseCamp ? c.id : null} campName={c.name} variant="inline" />
             </div>
           </div>
         </section>

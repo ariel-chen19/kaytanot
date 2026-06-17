@@ -68,7 +68,7 @@ const FEATURED_FALLBACK = [
     ages: "6-14",
     price: "פרטים בקרוב",
     image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900",
-    href: "/search",
+    href: "/kaytana/havaya-olympit",
     badges: ["ספורט", "קבוצות גיל", "צוות מקצועי"],
   },
 ];
