@@ -7,8 +7,8 @@ export const metadata: Metadata = {
     canonical: "https://www.kaytanot.co.il/privacy",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CheckCircle, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -62,9 +61,14 @@ export default function AboutPage() {
           <p className="mt-3 max-w-2xl leading-8 text-blue-100">
             אפשר ליצור עמוד נחיתה לקייטנה, לקבל פניות ולנהל את המידע בצורה מסודרת.
           </p>
-          <Link href="/publish" className="mt-5 inline-flex rounded-2xl bg-[#F5C400] px-6 py-3 font-black text-[#182e86]">
-            יצירת עמוד קייטנה
-          </Link>
+          <a
+            href="https://wa.me/972559999139?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%A2%D7%9E%D7%95%D7%93%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%9C%D7%A7%D7%99%D7%99%D7%98%D7%A0%D7%94"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex rounded-2xl bg-[#F5C400] px-6 py-3 font-black text-[#182e86]"
+          >
+            דברו איתנו בוואטסאפ
+          </a>
         </section>
       </main>
     </div>

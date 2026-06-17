@@ -8,7 +8,6 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const isStandalone =
     pathname === "/kaytana/mitgalgalim" ||
-    pathname === "/privacy" ||
     pathname.startsWith("/coming-soon");
 
   if (isStandalone) {
