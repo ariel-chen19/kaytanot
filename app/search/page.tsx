@@ -10,11 +10,11 @@ interface SearchPageProps {
 }
 
 const CITIES = ["תל אביב", "ירושלים", "חיפה", "באר שבע", "רחובות", "פתח תקווה", "ראשון לציון"];
-const AGES   = [{ label: "3–5",  value: "4"  },
-                { label: "6–8",  value: "7"  },
-                { label: "9–11", value: "10" },
-                { label: "12–14",value: "13" },
-                { label: "15–18",value: "16" }];
+const AGES   = [{ label: "3-5",  value: "4"  },
+                { label: "6-8",  value: "7"  },
+                { label: "9-11", value: "10" },
+                { label: "12-14",value: "13" },
+                { label: "15-18",value: "16" }];
 const CATEGORIES = ["ספורט", "שחייה", "ריקוד", "אמנות", "טכנולוגיה", "כדורגל", "טניס"];
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

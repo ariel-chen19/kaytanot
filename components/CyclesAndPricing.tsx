@@ -27,12 +27,12 @@ export default function CyclesAndPricing({ cycles, priceBasic, priceLabel }: Pro
           return (
             <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4 items-center text-center">
 
-              {/* Badge — bigger */}
+              {/* Badge - bigger */}
               <span className={`inline-block ${color.badge} text-white text-[15px] font-black px-5 py-2 rounded-full`}>
                 {cycle.label}
               </span>
 
-              {/* Dates — large */}
+              {/* Dates - large */}
               {cycle.dates && (
                 <div className="flex items-center justify-center gap-2">
                   <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />

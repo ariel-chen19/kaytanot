@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: "קייטנות <noreply@kaytanot.co.il>",
         to: parent_email,
-        subject: camp_id ? `קיבלנו את פנייתך ל${campName}` : "קיבלנו את פנייתך — קייטנות",
+        subject: camp_id ? `קיבלנו את פנייתך ל${campName}` : "קיבלנו את פנייתך - קייטנות",
         html: `
           <div dir="rtl" style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
             <div style="background:#003087;padding:30px;text-align:center;border-radius:12px 12px 0 0;">
@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: "קייטנות <noreply@kaytanot.co.il>",
       to: adminEmail,
-      subject: `פנייה חדשה — ${campName}`,
+      subject: `פנייה חדשה - ${campName}`,
       html: `
         <div dir="rtl" style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
           <div style="background:#003087;padding:30px;text-align:center;border-radius:12px 12px 0 0;">

@@ -121,7 +121,7 @@ export default async function HomePage() {
     <div className="overflow-x-hidden">
 
       {/* ══════════════════════════════════════════════
-          1. HERO — image left fades to white, logo+bullets right
+          1. HERO - image left fades to white, logo+bullets right
       ══════════════════════════════════════════════ */}
       <section className="relative bg-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch min-h-[520px]">
@@ -194,7 +194,7 @@ export default async function HomePage() {
 
             {/* Fields + button row */}
             <div className="flex flex-col lg:flex-row items-stretch gap-3">
-              {/* Search button — far left (RTL end) */}
+              {/* Search button - far left (RTL end) */}
               <Link
                 href="/search"
                 className="flex-shrink-0 flex items-center justify-center gap-2 bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-black text-base px-8 py-4 rounded-xl transition-colors"
@@ -293,7 +293,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          3. CAMPS — "הורים בוחרים"
+          3. CAMPS - "הורים בוחרים"
       ══════════════════════════════════════════════ */}
       <section id="camps" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
@@ -350,7 +350,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          4. CATEGORIES — icon + desc + 3 images
+          4. CATEGORIES - icon + desc + 3 images
       ══════════════════════════════════════════════ */}
       <section id="categories" className="py-16 px-4 bg-[#F5F7FA]">
         <div className="container mx-auto">
@@ -401,7 +401,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          5. BENEFITS — 6 icons in a row
+          5. BENEFITS - 6 icons in a row
       ══════════════════════════════════════════════ */}
       <section id="benefits" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
@@ -437,7 +437,7 @@ export default async function HomePage() {
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-sm leading-relaxed">
             הגופים הגדולים לעובדים במשק בהסדרים מיוחדים ומסובסדים. לפרטים ולהרשמה לחצו על הקישור
-            ובחרו את הקייטנה שלכם — אל תפספסו את הקיץ הכי טוב!
+            ובחרו את הקייטנה שלכם - אל תפספסו את הקיץ הכי טוב!
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4">
             {PARTNERS.map(({ name, color }) => (
@@ -453,7 +453,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          7. LEAD FORM — split layout
+          7. LEAD FORM - split layout
       ══════════════════════════════════════════════ */}
       <section id="contact">
         <LeadFormSection />
@@ -495,7 +495,7 @@ export default async function HomePage() {
                 הפכו מוקדם כבר עכשיו!
               </h2>
               <p className="text-blue-200 text-lg">
-                אל תפספסו את הקיץ הכי טוב של ילדכם — הבטיחו מקום לפני שייגמרו.
+                אל תפספסו את הקיץ הכי טוב של ילדכם - הבטיחו מקום לפני שייגמרו.
               </p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">

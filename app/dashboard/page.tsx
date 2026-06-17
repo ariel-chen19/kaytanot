@@ -150,7 +150,7 @@ async function updateLeadStatus(formData: FormData) {
 
 function getCampName(camps: Lead["camps"]): string {
   if (!camps) return "פנייה כללית";
-  if (Array.isArray(camps)) return camps[0]?.name ?? "—";
+  if (Array.isArray(camps)) return camps[0]?.name ?? "-";
   return camps.name;
 }
 

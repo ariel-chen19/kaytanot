@@ -65,7 +65,7 @@ export default function LeadFormSection() {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-          {/* Left column — benefits / pitch */}
+          {/* Left column - benefits / pitch */}
           <div className="text-white">
             <div className="inline-block bg-[#F5C400] text-[#003087] text-xs font-black px-4 py-1.5 rounded-full mb-5">
               הרשמה ביתומות!
@@ -76,7 +76,7 @@ export default function LeadFormSection() {
               <span className="text-[#F5C400]">השאירו פרטים ונחזור אליכם</span>
             </h2>
             <p className="text-blue-200 text-base mb-8 leading-relaxed">
-              הצטרפו לאלפי משפחות שכבר בחרו בנו — מלאו את הטופס ואחד מנציגינו יחזור אליכם תוך 24 שעות.
+              הצטרפו לאלפי משפחות שכבר בחרו בנו - מלאו את הטופס ואחד מנציגינו יחזור אליכם תוך 24 שעות.
             </p>
 
             <ul className="space-y-3">
@@ -91,7 +91,7 @@ export default function LeadFormSection() {
             </ul>
           </div>
 
-          {/* Right column — form */}
+          {/* Right column - form */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl">
             {submitted ? (
               <div className="text-center py-8">

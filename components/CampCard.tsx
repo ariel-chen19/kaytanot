@@ -57,7 +57,7 @@ export default function CampCard({ camp }: { camp: Camp }) {
           <span className="w-1 h-1 rounded-full bg-gray-300" />
           <span className="flex items-center gap-1">
             <Users className="w-3.5 h-3.5 text-[#003087]" />
-            גילאי {camp.age_min}–{camp.age_max}
+            גילאי {camp.age_min}-{camp.age_max}
           </span>
         </div>
 

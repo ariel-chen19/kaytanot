@@ -421,7 +421,7 @@ export default async function KaytanaPage({
   const displayPrice = c.slug === "mitgalgalim" ? Math.min(...cityPrices.map((item) => item.price)) : c.price_basic;
   const displayPriceLabel =
     c.slug === "mitgalgalim"
-      ? `${Math.min(...cityPrices.map((item) => item.price)).toLocaleString("he-IL")}–${Math.max(
+      ? `${Math.min(...cityPrices.map((item) => item.price)).toLocaleString("he-IL")}-${Math.max(
           ...cityPrices.map((item) => item.price),
         ).toLocaleString("he-IL")} ₪`
       : displayPrice

@@ -28,7 +28,7 @@ const siteUrl = "https://www.kaytanot.co.il";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default:  "קייטנות — כל הקייטנות במקום אחד",
+    default:  "קייטנות - כל הקייטנות במקום אחד",
     template: "%s | קייטנות",
   },
   description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם. כל הקייטנות בישראל במקום אחד.",
@@ -38,14 +38,18 @@ export const metadata: Metadata = {
     locale:      "he_IL",
     url:         siteUrl,
     siteName:    "קייטנות",
-    title:       "קייטנות — כל הקייטנות במקום אחד",
+    title:       "קייטנות - כל הקייטנות במקום אחד",
     description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם.",
     images: [{ url: "/kaytanot_logo.webp", width: 800, height: 400, alt: "קייטנות" }],
   },
   twitter: {
     card:        "summary_large_image",
-    title:       "קייטנות — כל הקייטנות במקום אחד",
+    title:       "קייטנות - כל הקייטנות במקום אחד",
     description: "מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם.",
+  },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
   robots: {
     index:  true,

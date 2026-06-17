@@ -18,7 +18,7 @@ export function createClient() {
               cookieStore.set(name, value, options)
             )
           } catch {
-            // Server component — cookies can't be set
+            // Server component - cookies can't be set
           }
         },
       },
