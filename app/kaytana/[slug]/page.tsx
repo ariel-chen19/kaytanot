@@ -300,7 +300,7 @@ const MITGALGALIM_EXTRA_FAQ_ITEMS: FaqItem[] = [
 ];
 
 const OLYMPIC_SLUG = "havaya-olympit";
-const OLYMPIC_SLUGS = new Set([OLYMPIC_SLUG, "olympic-experience"]);
+const OLYMPIC_SLUGS = new Set([OLYMPIC_SLUG, "olympic", "olympic-experience"]);
 const OLYMPIC_HERO_IMAGE = "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400&q=80";
 const OLYMPIC_LOGO = "/kaytanot_logo.webp";
 const OLYMPIC_TAGLINE = "ספורט, תנועה וחוויה לילדים שאוהבים לזוז";

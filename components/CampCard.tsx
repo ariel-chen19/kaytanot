@@ -78,7 +78,7 @@ export default function CampCard({ camp }: { camp: Camp }) {
         </ul>
 
         <Link
-          href={`/camps/${camp.slug}`}
+          href={`/kaytana/${camp.slug}`}
           className="block w-full text-center bg-[#F5C400] hover:bg-[#e0b200] text-[#003087] font-bold py-3 rounded-full transition-colors text-sm"
         >
           לפרטים והרשמה »
