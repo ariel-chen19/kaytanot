@@ -133,12 +133,13 @@ export default async function HomePage() {
               <img
                 src="/kaytanot/kaytanot_logo.webp"
                 alt="קייטנות"
-                className="mx-auto h-20 w-auto object-contain md:h-24"
+                className="mx-auto h-24 w-auto object-contain md:h-28"
                 loading="eager"
               />
             </div>
             <p className="mb-8 max-w-lg text-lg font-extrabold leading-snug text-[#003087] md:text-xl">
-              מוצאים, משווים ונרשמים לקייטנה המתאימה ביותר לילדים שלכם
+              מוצאים, משווים ונרשמים<br />
+              לקייטנה המתאימה ביותר לילדים שלכם
             </p>
 
             {/* 3 horizontal bullets */}
