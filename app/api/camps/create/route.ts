@@ -8,11 +8,21 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const campSchema = z.object({
   name: z.string().min(2),
   city: z.string().min(1),
-  description: z.string().min(10),
+  description: z.string().min(40),
+  tagline: z.string().min(5),
+  logo_url: z.string().url().optional().or(z.literal("")),
+  image_url: z.string().url().optional().or(z.literal("")),
+  whatsapp: z.string().min(9),
   age_min: z.coerce.number().min(3).max(18),
   age_max: z.coerce.number().min(3).max(18),
   price_basic: z.coerce.number().min(0).optional(),
   price_advanced: z.coerce.number().min(0).optional(),
+  cities_text: z.string().min(2),
+  cycles_text: z.string().min(5),
+  activities_text: z.string().min(5),
+  gallery_text: z.string().optional(),
+  why_us_text: z.string().min(5),
+  faq_text: z.string().optional(),
   package_type: z.enum(["basic", "advanced"]),
 });
 
@@ -23,6 +33,49 @@ function slugify(text: string): string {
     .replace(/[^\w֐-׾-]/g, "")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+function lines(text: string | undefined): string[] {
+  return (text ?? "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function parseCycles(text: string) {
+  return lines(text).map((line, index) => {
+    const [label, dates, days, hours] = line.split("|").map((part) => part?.trim());
+    return {
+      label: label || `מחזור ${index + 1}`,
+      dates: dates || "תאריכים יעודכנו בהמשך",
+      days: days || "ימים יעודכנו בהמשך",
+      hours: hours || "שעות יעודכנו בהמשך",
+    };
+  });
+}
+
+function parseFaq(text: string | undefined) {
+  return lines(text).map((line) => {
+    const [q, a] = line.split("|").map((part) => part?.trim());
+    return { q: q || "שאלה", a: a || "תשובה תעודכן בהמשך" };
+  });
+}
+
+function parseGallery(text: string | undefined) {
+  return lines(text)
+    .map((line) => {
+      const [name, image] = line.split("|").map((part) => part?.trim());
+      if (!name || !image) return null;
+      return { name, image };
+    })
+    .filter(Boolean);
+}
+
+function normalizeWhatsapp(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("972")) return digits;
+  if (digits.startsWith("0")) return `972${digits.slice(1)}`;
+  return digits;
 }
 
 export async function POST(req: NextRequest) {
@@ -63,6 +116,20 @@ export async function POST(req: NextRequest) {
       slug = `${baseSlug}-${attempt}`;
     }
 
+    const activities = lines(data.activities_text);
+    const cities = lines(data.cities_text);
+    const whyUs = lines(data.why_us_text);
+    const cycles = parseCycles(data.cycles_text);
+    const faq = parseFaq(data.faq_text);
+    const gallery = parseGallery(data.gallery_text);
+    const features = [
+      { type: "experience", label: "חוויה עשירה", desc: data.tagline },
+      { type: "ratio", label: "יחס אישי", desc: whyUs[0] ?? "צוות שמלווה את הילדים לאורך היום" },
+      { type: "safety", label: "בטיחות", desc: "נהלים מסודרים וליווי מקצועי" },
+      { type: "personal", label: "מותאם לילדים", desc: `גילאי ${data.age_min}-${data.age_max}` },
+      { type: "transport", label: "אזורי פעילות", desc: `${cities.length} אזורים` },
+    ];
+
     // Insert camp
     const { data: camp, error: campError } = await supabase
       .from("camps")
@@ -71,12 +138,23 @@ export async function POST(req: NextRequest) {
         slug,
         city: data.city,
         description: data.description,
+        tagline: data.tagline,
+        logo_url: data.logo_url || null,
+        image_url: data.image_url || null,
+        whatsapp: normalizeWhatsapp(data.whatsapp),
         age_min: data.age_min,
         age_max: data.age_max,
         price_basic: data.price_basic ?? null,
         price_advanced: data.price_advanced ?? null,
+        activities,
+        cycles,
+        cities,
+        faq,
+        features,
+        why_us: whyUs,
+        activities_gallery: gallery,
         owner_id: user.id,
-        is_active: false,
+        is_active: true,
       })
       .select("id, slug")
       .single();
@@ -116,8 +194,8 @@ export async function POST(req: NextRequest) {
               <h3 style="color: #FF6B35; margin-top: 0;">מה קורה עכשיו?</h3>
               <ol style="color: #4a5568; line-height: 1.8;">
                 <li>השלימו את התשלום של ${packagePrice}₪ (חבילת ${data.package_type === "basic" ? "בסיסי" : "מתקדם"})</li>
-                <li>לאחר אישור התשלום, הקייטנה שלכם תפורסם תוך 24 שעות</li>
-                <li>הורים יוכלו למצוא אתכם ולשלוח פניות ישירות</li>
+                <li>עמוד הקייטנה נבנה אוטומטית לפי הפרטים שמילאתם</li>
+                <li>מומלץ לעבור עליו, לדייק תמונות וטקסטים, ואז להתחיל לשלוח אליו הורים</li>
               </ol>
             </div>
             <p style="color: #4a5568;">

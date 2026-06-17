@@ -18,9 +18,9 @@ export default async function PublishPage() {
       {/* Page header */}
       <div className="bg-[#003087] text-white py-12 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-black mb-3">פרסמו את הקייטנה שלכם</h1>
+          <h1 className="text-3xl md:text-4xl font-black mb-3">בנו עמוד נחיתה לקייטנה שלכם</h1>
           <p className="text-blue-200 text-lg max-w-xl mx-auto">
-            הגיעו לאלפי הורים שמחפשים את הקייטנה המושלמת לילדיהם
+            מלאו את הפרטים, והמערכת תבנה עמוד קייטנה במבנה המקצועי של Kaytanot
           </p>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default async function PublishPage() {
                 299₪<span className="text-base font-normal text-gray-400">/שנה</span>
               </p>
               <ul className="space-y-2">
-                {["פרסום בסיסי בפלטפורמה", "תמונה אחת", "עד 50 פניות מהורים", "עמוד קייטנה מלא"].map((f) => (
+                {["עמוד קייטנה מלא", "טופס השארת פרטים", "חיבור ללידים", "תצוגה בחיפוש האתר"].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-gray-600">
                     <Check className="w-4 h-4 text-green-500 flex-shrink-0" strokeWidth={2.5} />
                     {f}
@@ -56,7 +56,7 @@ export default async function PublishPage() {
                 599₪<span className="text-base font-normal text-blue-200">/שנה</span>
               </p>
               <ul className="space-y-2">
-                {["פרסום מועדף (מיקום גבוה)", "תמונות מרובות", "פניות ללא הגבלה", "אייקון \"מומלץ\" בולט", "סטטיסטיקות צפיות"].map((f) => (
+                {["עמוד נחיתה עשיר", "גלריית תמונות", "שאלות נפוצות", "מחזורים וערים", "הכנה לניהול לידים"].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-blue-100">
                     <Check className="w-4 h-4 text-[#F5C400] flex-shrink-0" strokeWidth={2.5} />
                     {f}
@@ -69,7 +69,7 @@ export default async function PublishPage() {
               <Lock className="w-4 h-4 text-[#003087] mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-bold text-sm text-[#003087]">תשלום מאובטח</p>
-                <p className="text-xs text-gray-500 mt-0.5">הקייטנה תפורסם תוך 24 שעות מאישור התשלום.</p>
+                <p className="text-xs text-gray-500 mt-0.5">אפשר לערוך ולדייק את העמוד גם אחרי היצירה.</p>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default async function PublishPage() {
           {/* Form */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl shadow-md p-6 md:p-8">
-              <h2 className="font-black text-xl text-[#003087] mb-6">פרטי הקייטנה</h2>
+              <h2 className="font-black text-xl text-[#003087] mb-6">פרטי עמוד הנחיתה</h2>
               <PublishForm />
             </div>
           </div>

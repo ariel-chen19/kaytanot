@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: ["/kaytana/mitgalgalim"],
-      disallow: ["/"],
+      allow: ["/", "/kaytana/mitgalgalim", "/about", "/benefits", "/blog", "/faq", "/terms", "/privacy"],
+      disallow: ["/dashboard", "/auth", "/api", "/publish"],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
   };

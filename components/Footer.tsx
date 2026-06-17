@@ -37,6 +37,9 @@ export default function Footer() {
               {[
                 { href: "/", label: "דף הבית" },
                 { href: "/search", label: "קייטנות 2026" },
+                { href: "/benefits", label: "הטבות למשפחות" },
+                { href: "/about", label: "אודות" },
+                { href: "/blog", label: "בלוג" },
                 { href: "/search", label: "תכנים ומסלולים" },
                 { href: "/publish", label: "פרסם קייטנה" },
                 { href: "/dashboard", label: "אזור בעלי קייטנות" },
@@ -62,6 +65,8 @@ export default function Footer() {
                 { href: "/#categories", label: "קטגוריות" },
                 { href: "/#benefits", label: "למה אנחנו?" },
                 { href: "/#contact", label: "צרו קשר" },
+                { href: "/terms", label: "תקנון אתר" },
+                { href: "/privacy", label: "מדיניות פרטיות" },
                 { href: "/auth/register", label: "הרשמה" },
               ].map((l) => (
                 <li key={l.label}>
