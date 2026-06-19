@@ -319,7 +319,7 @@ const OLYMPIC_FEATURES: Feature[] = [
 ];
 
 const OLYMPIC_ACTIVITIES_GALLERY: ActivityGalleryItem[] = [
-  { name: "אתגר קבוצתי", image: "/havaya-olympic/olympic-camp-team-building-challenge.webp" },
+  { name: "הפעלות ואתגרים", image: "/havaya-olympic/olympic-camp-team-building-challenge.webp" },
   { name: "שחייה ובריכה", image: "/havaya-olympic/olympic-camp-swimming-pool.webp" },
   { name: "ספורט ותנועה", image: "/havaya-olympic/olympic-camp-running-game.webp" },
   { name: "פעילות וגיבוש", image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp" },
@@ -912,7 +912,7 @@ export default async function KaytanaPage({
           {usesFeaturedLanding && (
             <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
               <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
-                הקייטנה יוצאת מערים:
+                הקייטנה נמצאת בערים:
               </h2>
               <div className="mb-5 h-1 w-10 rounded-full bg-[#F5C400]" />
               <div className="flex flex-wrap gap-2.5">
