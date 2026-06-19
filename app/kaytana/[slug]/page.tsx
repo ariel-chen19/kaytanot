@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   MapPin,
   Users,
@@ -301,45 +301,49 @@ const MITGALGALIM_EXTRA_FAQ_ITEMS: FaqItem[] = [
 
 const OLYMPIC_SLUG = "havaya-olympit";
 const OLYMPIC_SLUGS = new Set([OLYMPIC_SLUG, "olympic", "olympic-experience"]);
-const OLYMPIC_HERO_IMAGE = "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400&q=80";
-const OLYMPIC_LOGO = "/kaytanot_logo.webp";
-const OLYMPIC_TAGLINE = "ספורט, תנועה וחוויה לילדים שאוהבים לזוז";
+const OLYMPIC_HERO_IMAGE = "/havaya-olympic/olympic-camp-swimming-pool.webp";
+const OLYMPIC_LOGO = "/havaya-olympic/havaya-olympic-camp-logo.webp";
+const OLYMPIC_TAGLINE = "קייטנת חוויה, ספורט ובריכה לילדים בכיתות א׳-ח׳";
 const OLYMPIC_DESCRIPTION =
-  "קייטנת חוויה אולימפית משלבת פעילות ספורטיבית, משחקי קבוצה, תנועה, אתגר והרבה חוויות חברתיות.\nבכל יום הילדים עוברים בין תחנות פעילות מגוונות, מתנסים בענפי ספורט שונים, משחקים, מתגבשים וצוברים ביטחון דרך הצלחות קטנות.\nהקייטנה מתאימה לילדים שאוהבים לזוז, לפרוק אנרגיה ולהיות חלק מקבוצה, עם צוות הדרכה שמלווה את היום, שומר על סדר ובטיחות ונותן לכל ילד מקום להשתלב בקצב שלו.\nהמטרה שלנו פשוטה: יום פעיל, שמח ומסודר שבו הילדים חוזרים הביתה עייפים מהנאה ועם חוויה טובה לספר עליה.";
+  "קייטנת חוויה אולימפית מתקיימת במרכז הספורט העירוני גלי חיפה ומיועדת לילדים העולים לכיתות א׳-ח׳. זו מסגרת יום פעילה, שמחה ומסודרת, שמשלבת ספורט, יצירה, משחקים, בריכה וחוגים באווירה בטוחה ונעימה.\nבכל יום הילדים עוברים בין חמש תחנות פעילות מתחלפות: ספורט ותנועה, יצירה והפעלות, ארוחת בוקר, חוגים לבחירה כמו כדורגל, טניס, ריקוד ושחייה, וזמן בריכה רדודה בליווי מציל וצוות מקצועי.\nהפעילות מחולקת לקבוצות גיל, עם צוות הדרכה שעבר הכשרה ומתאים לעבודה עם ילדים, כדי שכל ילד יוכל להשתלב בקצב שלו, ליהנות מהחברים ומהפעילות ולהרגיש שיש מי שרואה אותו לאורך היום.\nלמשפחות שצריכות יום ארוך קיימת אפשרות לצהרון עד 16:00, כולל ארוחת צהריים חמה והמשך פעילות רגועה ומהנה עד האיסוף.";
 
-const OLYMPIC_DEPARTURE_CITIES = ["נתניה", "כפר יונה", "קדימה צורן", "אבן יהודה", "תל מונד", "תל אביב", "רמת גן", "גבעתיים", "חולון", "בת ים", "ראשון לציון", "רחובות", "נס ציונה", "באר יעקב", "רמלה", "יבנה", "אשדוד", "אשקלון", "ראש העין", "פתח תקווה"];
+const OLYMPIC_DEPARTURE_CITIES = ["חיפה"];
 
 const OLYMPIC_FEATURES: Feature[] = [
-  { type: "sport", label: "חוויה ספורטיבית", desc: "תחנות פעילות, משחקי קבוצה ואתגר" },
-  { type: "experience", label: "יום מלא אנרגיה", desc: "תנועה, גיבוש וחוויות לילדים" },
-  { type: "ratio", label: "קבוצות גיל", desc: "חלוקה מותאמת לפי גיל ורמה" },
-  { type: "safety", label: "בטיחות מעל הכל", desc: "מסגרת מסודרת וצוות מלווה" },
-  { type: "personal", label: "יחס אישי", desc: "מקום לכל ילד להשתלב בקצב שלו" },
+  { type: "safety", label: "סביבה בטוחה ומקצועית", desc: "חובש, אבטחה ונהלי בטיחות במקום" },
+  { type: "experience", label: "בריכה מקורה ומהנה", desc: "פעילות מים בליווי מציל וצוות" },
+  { type: "personal", label: "יחס אישי וקבוצות קטנות", desc: "תשומת לב לכל ילד לאורך היום" },
+  { type: "ratio", label: "חלוקה לפי אפיון גיל", desc: "קבוצות מותאמות לגיל הילדים" },
+  { type: "sport", label: "צוות מקצועי", desc: "מדריכים מוסמכים ומנוסים" },
+  { type: "experience", label: "אפשרות לצהרון", desc: "אפשרות ליום ארוך עד 16:00" },
 ];
 
 const OLYMPIC_ACTIVITIES_GALLERY: ActivityGalleryItem[] = [
-  { name: "משחקי כדור", image: "/mitgalgalim/kaduregel-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
-  { name: "ימי בריכה", image: "/mitgalgalim/brikha-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
-  { name: "פארק מתנפחים", image: "/mitgalgalim/mishtanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
-  { name: "באולינג", image: "/mitgalgalim/bowling-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
-  { name: "פארק מים", image: "/mitgalgalim/park-maim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
-  { name: "מופעי קיץ", image: "/mitgalgalim/mofaa-omanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION },
+  { name: "אתגר קבוצתי", image: "/havaya-olympic/olympic-camp-team-building-challenge.webp" },
+  { name: "שחייה ובריכה", image: "/havaya-olympic/olympic-camp-swimming-pool.webp" },
+  { name: "ספורט ותנועה", image: "/havaya-olympic/olympic-camp-running-game.webp" },
+  { name: "פעילות וגיבוש", image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp" },
+  { name: "חוויה חברתית", image: "/havaya-olympic/olympic-camp-group-activity-sign.webp" },
+  { name: "יצירה והפוגה", image: "/havaya-olympic/olympic-camp-creative-workshop.webp" },
 ];
 
 const OLYMPIC_DAY_SCHEDULE: DayScheduleItem[] = [
-  { time: "08:00", title: "התכנסות והיכרות", icon: Users },
-  { time: "08:30", title: "חימום ומשחקי פתיחה", icon: Target },
-  { time: "09:15", title: "תחנות ספורט ואתגר", icon: Award },
-  { time: "10:30", title: "ארוחת בוקר", icon: Utensils },
-  { time: "11:00", title: "טורנירים ומשחקי קבוצה", icon: Shield },
-  { time: "13:00", title: "סיכום יום ופיזור", icon: CheckCircle },
+  { time: "07:30", title: "קבלת קייטנים והתארגנות", icon: Users },
+  { time: "08:00", title: "תחנת ספורט ופעילות גופנית", icon: Target },
+  { time: "09:00", title: "יצירה והפעלות", icon: Award },
+  { time: "10:00", title: "ארוחת בוקר והפסקת מים", icon: Utensils },
+  { time: "10:30", title: "חוגים לבחירה ופעילות יום", icon: Shield },
+  { time: "11:30", title: "בריכה רדודה בליווי מציל", icon: CheckCircle },
+  { time: "13:00", title: "סיום יום קצר או מעבר לצהרון", icon: CheckCircle },
 ];
 
 const OLYMPIC_EXPERIENCE_GALLERY: ExperienceGalleryItem[] = [
-  { image: "/mitgalgalim/kaduregel-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "ילדים בפעילות ספורט בקייטנה" },
-  { image: "/mitgalgalim/brikha-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "פעילות מים בקייטנה" },
-  { image: "/mitgalgalim/mishtanim-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "מתנפחים ופעילות אתגר בקייטנה" },
-  { image: "/mitgalgalim/bowling-kaytana.webp?v=" + MITGALGALIM_ASSET_VERSION, alt: "באולינג כחלק מפעילות הקייטנה" },
+  { image: "/havaya-olympic/olympic-camp-team-building-challenge.webp", alt: "ילדים בפעילות אתגר קבוצתית בקייטנת חוויה אולימפית" },
+  { image: "/havaya-olympic/olympic-camp-swimming-pool.webp", alt: "ילדים בבריכה רדודה בקייטנת חוויה אולימפית" },
+  { image: "/havaya-olympic/olympic-camp-running-game.webp", alt: "פעילות ספורט ותנועה בקייטנה אולימפית" },
+  { image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp", alt: "ילדים בפעילות גיבוש בחוץ בקייטנה" },
+  { image: "/havaya-olympic/olympic-camp-headphones-activity.webp", alt: "פעילות חווייתית לילדים בקייטנה" },
+  { image: "/havaya-olympic/olympic-camp-creative-workshop.webp", alt: "פעילות יצירה בקייטנת חוויה אולימפית" },
 ];
 
 const OLYMPIC_TESTIMONIALS: CampSocialProof[] = [
@@ -349,24 +353,26 @@ const OLYMPIC_TESTIMONIALS: CampSocialProof[] = [
 ];
 
 const OLYMPIC_FAQ_ITEMS: FaqItem[] = [
-  { q: "לאילו גילאים הקייטנה מתאימה?", a: "הקייטנה מיועדת בדרך כלל לילדים בגילאי 6-14, עם חלוקה לקבוצות גיל כדי להתאים את הפעילות לקצב ולרמה של הילדים." },
-  { q: "האם צריך ניסיון קודם בספורט?", a: "לא. הפעילות בנויה כך שגם ילדים שאוהבים ספורט וגם ילדים שרק רוצים ליהנות מתנועה ומשחקי קבוצה יוכלו להשתלב." },
-  { q: "מה כדאי להביא בכל יום?", a: "בקבוק מים, כובע, נעליים נוחות, ארוחת בוקר ובגדים שמתאימים לפעילות. לפני תחילת הקייטנה נשלחת רשימת ציוד מסודרת להורים." },
-  { q: "איך נרשמים ומקבלים פרטים?", a: "משאירים פרטים בטופס או שולחים הודעת וואטסאפ, ונחזור עם מידע מלא על מיקום, מחזורים, מחירים ואפשרויות הרשמה." },
+  { q: "לאילו גילאים הקייטנה מתאימה?", a: "הקייטנה מיועדת לילדים העולים לכיתות א׳-ח׳, עם חלוקה לקבוצות גיל כדי להתאים את הפעילות לקצב ולרמה של הילדים." },
+  { q: "איפה מתקיימת הקייטנה?", a: "הקייטנה מתקיימת במרכז הספורט העירוני גלי חיפה, בכתובת צביה ויצחק 1, חיפה." },
+  { q: "מה כולל יום הפעילות?", a: "יום הפעילות כולל חמש תחנות מתחלפות: ספורט, יצירה, ארוחת בוקר, חוגים לבחירה ובריכה רדודה בליווי מציל וצוות מקצועי." },
+  { q: "יש אפשרות ליום ארוך?", a: "כן. קיימת אפשרות לצהרון עד השעה 16:00, כולל ארוחת צהריים חמה והמשך פעילות עד האיסוף." },
+  { q: "מי מדריך את הילדים?", a: "הצוות כולל מדריכים שעברו הכשרה מתאימה לעבודה בקייטנה, בליווי ניהול מסודר, חובש ואבטחה במקום." },
 ];
 
 const OLYMPIC_WHY_US = [
-  "פעילות ספורטיבית מגוונת ולא תחרותית מדי",
-  "חלוקה לקבוצות גיל ורמות פעילות",
-  "צוות הדרכה מקצועי ומלווה לאורך כל היום",
-  "מסגרת מסודרת עם דגש על בטיחות ויחס אישי",
-  "שילוב של תנועה, גיבוש, משחקים וחוויות",
-  "מתאים לילדים שאוהבים לזוז ולהיות חלק מקבוצה",
+  "מסגרת מסודרת במרכז הספורט העירוני גלי חיפה",
+  "יום פעילות מגוון עם ספורט, יצירה, חוגים ובריכה",
+  "בריכה רדודה בליווי מציל וצוות מקצועי",
+  "חלוקה לקבוצות גיל לילדים העולים לכיתות א׳-ח׳",
+  "אפשרות לצהרון עד 16:00 כולל ארוחת צהריים חמה",
+  "אבטחה, חובש ונהלי בטיחות לאורך היום",
 ];
 
 const OLYMPIC_CYCLES: Cycle[] = [
-  { label: "מחזור יולי", dates: "יולי 2026", days: "א-ה", hours: "08:00-13:00" },
-  { label: "מחזור אוגוסט", dates: "אוגוסט 2026", days: "א-ה", hours: "08:00-13:00" },
+  { label: "מחזור ראשון", dates: "01-21/07/2026", days: "א׳-ה׳", hours: "07:30-13:00 / 16:00" },
+  { label: "מחזור שני", dates: "22/07-11/08/2026", days: "א׳-ה׳", hours: "07:30-13:00 / 16:00" },
+  { label: "מחזור שלישי", dates: "12-25/08/2026", days: "א׳-ה׳", hours: "07:30-13:00 / 16:00" },
 ];
 
 function isOlympicCampSlug(slug: string) {
@@ -380,8 +386,8 @@ function getFallbackCamp(slug: string): Camp | null {
     name: "קייטנת חוויה אולימפית",
     slug: OLYMPIC_SLUG,
     description: OLYMPIC_DESCRIPTION,
-    city: "ערים נבחרות",
-    location: null,
+    city: "חיפה",
+    location: "מרכז הספורט העירוני גלי חיפה, צביה ויצחק 1",
     age_min: 6,
     age_max: 14,
     price_basic: null,
@@ -390,7 +396,7 @@ function getFallbackCamp(slug: string): Camp | null {
     logo_url: OLYMPIC_LOGO,
     tagline: OLYMPIC_TAGLINE,
     whatsapp: "972559999139",
-    activities: ["ספורט", "משחקי קבוצה", "אתגר", "פעילות מים"],
+    activities: ["ספורט", "יצירה", "בריכה", "חוגים לבחירה", "פעילות מים"],
     cycles: OLYMPIC_CYCLES,
     cities: OLYMPIC_DEPARTURE_CITIES,
     faq: OLYMPIC_FAQ_ITEMS,
@@ -399,24 +405,6 @@ function getFallbackCamp(slug: string): Camp | null {
     why_us: OLYMPIC_WHY_US,
     activities_gallery: OLYMPIC_ACTIVITIES_GALLERY,
   };
-}
-
-function CampComingSoonPage() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#003087] px-4 text-center" dir="rtl">
-      <img
-        src="/kaytanot_logo.webp"
-        alt="קייטנות"
-        className="mb-10 h-28 w-auto object-contain md:h-32"
-      />
-      <h1 className="mb-4 font-heebo text-4xl font-black text-white md:text-5xl">
-        עמוד הקייטנה בבנייה
-      </h1>
-      <p className="max-w-xl text-lg leading-8 text-blue-100 md:text-xl">
-        קייטנת חוויה אולימפית תעלה לאוויר בקרוב עם כל הפרטים, המחזורים ואפשרויות ההרשמה.
-      </p>
-    </div>
-  );
 }
 
 export async function generateMetadata({
@@ -477,10 +465,23 @@ export async function generateMetadata({
   }
 
   if (isOlympicCampSlug(params.slug)) {
-    const title = "קייטנת חוויה אולימפית - בקרוב";
-    const description = "עמוד קייטנת חוויה אולימפית בבנייה ויעלה בקרוב עם כל הפרטים.";
+    const title = "קייטנת חוויה אולימפית בחיפה - ספורט, בריכה וחוגים לילדים";
+    const description = "קייטנת חוויה אולימפית במרכז הספורט העירוני גלי חיפה לילדים בכיתות א׳-ח׳, עם ספורט, יצירה, חוגים, בריכה רדודה וצוות מקצועי.";
     const pageUrl = `${PUBLIC_SITE_URL}/kaytana/${OLYMPIC_SLUG}`;
-    return { title, description, robots: { index: false, follow: false }, alternates: { canonical: pageUrl }, openGraph: { title, description, type: "website", locale: "he_IL", url: pageUrl } };
+    return {
+      title,
+      description,
+      alternates: { canonical: pageUrl },
+      openGraph: {
+        title,
+        description,
+        type: "website",
+        locale: "he_IL",
+        url: pageUrl,
+        images: [{ url: OLYMPIC_HERO_IMAGE, alt: "קייטנת חוויה אולימפית" }],
+      },
+      twitter: { card: "summary_large_image", title, description, images: [OLYMPIC_HERO_IMAGE] },
+    };
   }
 
   return {
@@ -505,8 +506,8 @@ export default async function KaytanaPage({
 }: {
   params: { slug: string };
 }) {
-  if (isOlympicCampSlug(params.slug)) {
-    return <CampComingSoonPage />;
+  if (isOlympicCampSlug(params.slug) && params.slug !== OLYMPIC_SLUG) {
+    redirect(`/kaytana/${OLYMPIC_SLUG}`);
   }
 
   const supabase = createClient();
@@ -556,7 +557,7 @@ export default async function KaytanaPage({
   const cycleCount = c.cycles?.length ?? 0;
   const ageLabel = isMitgalgalim ? "גילאי 6-13" : isOlympic ? "גילאי 6-14" : `גילאי ${c.age_min}-${c.age_max}`;
   const seasonLabel = isMitgalgalim ? "קיץ 2026" : isOlympic ? "מחזורי 2026" : cycleCount === 1 ? c.cycles![0].dates : `${cycleCount} מחזורים`;
-  const cityLabel = isMitgalgalim ? "23 ערים ברחבי הארץ" : isOlympic ? "ערים נבחרות ברחבי הארץ" : `${cityCount} ערים ברחבי הארץ`;
+  const cityLabel = isMitgalgalim ? "23 ערים ברחבי הארץ" : isOlympic ? "חיפה" : `${cityCount} ערים ברחבי הארץ`;
   const displayPrice = isMitgalgalim ? Math.min(...cityPrices.map((item) => item.price)) : c.price_basic;
   const displayPriceLabel =
     isMitgalgalim
@@ -649,6 +650,7 @@ export default async function KaytanaPage({
         ).toFixed(1)
       : null;
   const displayFaq = isMitgalgalim ? MITGALGALIM_EXTRA_FAQ_ITEMS : isOlympic ? OLYMPIC_FAQ_ITEMS : c.faq ?? [];
+  const heroTitle = isOlympic ? <>חוויה אולימפית<br />בגלי חיפה</> : c.name;
   const siteUrl = PUBLIC_SITE_URL;
   const pageUrl = `${siteUrl}/kaytana/${c.slug}`;
   const structuredData = [
@@ -714,7 +716,7 @@ export default async function KaytanaPage({
                   קייטנת
                 </p>
                 <p className="mb-1.5 font-rubik text-4xl font-black leading-[0.95] text-[#182e86]">
-                  {c.name}
+                  {heroTitle}
                 </p>
                 <p className="max-w-xs text-base font-semibold leading-7 text-slate-700">
                   {isMitgalgalim ? "כל האטרקציות המובילות בארץ" : OLYMPIC_TAGLINE}
@@ -739,11 +741,11 @@ export default async function KaytanaPage({
                 </p>
                 {usesFeaturedLanding ? (
                   <p className="mb-1.5 font-rubik text-4xl font-black leading-[0.95] text-[#182e86] md:text-5xl lg:text-[52px]">
-                    {c.name}
+                    {heroTitle}
                   </p>
                 ) : (
                   <h1 className="mb-1.5 font-rubik text-4xl font-black leading-[0.95] text-[#182e86] md:text-5xl lg:text-[52px]">
-                    {c.name}
+                    {heroTitle}
                   </h1>
                 )}
 
@@ -807,8 +809,8 @@ export default async function KaytanaPage({
       {c.features && Array.isArray(c.features) && c.features.length > 0 && (
         <section className="relative z-10 px-4 pb-4 pt-8">
           <div className="mx-auto w-full max-w-[1560px]">
-            <div className="grid grid-cols-2 overflow-hidden rounded-3xl border border-[#dfe7f2] bg-white shadow-xl shadow-[#003087]/10 md:grid-cols-5">
-              {c.features.slice(0, 5).map((feat, i) => {
+            <div className={`grid grid-cols-2 overflow-hidden rounded-3xl border border-[#dfe7f2] bg-white shadow-xl shadow-[#003087]/10 ${isOlympic ? "md:grid-cols-6" : "md:grid-cols-5"}`}>
+              {c.features.slice(0, isOlympic ? 6 : 5).map((feat, i) => {
                 const iconDef = FEATURE_ICONS[feat.type] ?? { icon: CheckCircle, color: "text-[#182e86]" };
                 const Icon = iconDef.icon;
                 const label =
