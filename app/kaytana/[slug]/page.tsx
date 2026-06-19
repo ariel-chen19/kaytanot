@@ -345,11 +345,10 @@ const OLYMPIC_EXPERIENCE_GALLERY: ExperienceGalleryItem[] = [
   { image: "/havaya-olympic/olympic-camp-creative-workshop.webp", alt: "פעילות יצירה בקייטנת חוויה אולימפית" },
 ];
 
-const OLYMPIC_TESTIMONIALS: CampSocialProof[] = [
-  { id: "olympic-parent-1", proof_type: "manual_text", source: "site", author_name: "אמא של איתי", author_city: "פתח תקווה", rating: 5, body_text: "הילד חזר בכל יום עם אנרגיות וחיוך. אהבנו במיוחד את הסדר, החלוקה לקבוצות והתחושה שיש צוות שמכיר את הילדים.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
-  { id: "olympic-parent-2", proof_type: "manual_text", source: "site", author_name: "אבא של נועה", author_city: "רמת גן", rating: 5, body_text: "קייטנה מעולה לילדים שאוהבים לזוז. הרבה פעילות, אווירה טובה, ועדכונים ברורים להורים.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
-  { id: "olympic-parent-3", proof_type: "manual_text", source: "site", author_name: "אמא של יובל", author_city: "ראשון לציון", rating: 5, body_text: "הרגשנו שהילדים מקבלים גם כיף וגם מסגרת. הצוות היה נעים, מקצועי וזמין לאורך כל הדרך.", image_url: null, review_date: null, source_label: "המלצת הורה", source_url: null },
-];
+const OLYMPIC_TESTIMONIALS: CampSocialProof[] = MITGALGALIM_WHATSAPP_REVIEWS.map((item, index) => ({
+  ...item,
+  id: `olympic-whatsapp-review-${index + 1}`,
+}));
 
 const OLYMPIC_FAQ_ITEMS: FaqItem[] = [
   { q: "לאילו גילאים הקייטנה מתאימה?", a: "הקייטנה מיועדת לילדים העולים לכיתות א׳-ח׳, עם חלוקה לקבוצות גיל כדי להתאים את הפעילות לקצב ולרמה של הילדים." },
