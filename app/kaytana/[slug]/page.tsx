@@ -955,18 +955,18 @@ export default async function KaytanaPage({
               <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86]">
-                    {isMitgalgalim ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
+                    {isMitgalgalim || isOlympic ? "הורים כתבו לצוות שלנו" : "מה הורים אומרים"}
                   </h2>
                   <div className="mb-3 h-1 w-10 rounded-full bg-[#F5C400]" />
-                  <p className="max-w-2xl text-base leading-7 text-slate-700">
-                    {isMitgalgalim
-                      ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות, ההסעות והתחושה לאורך הקייטנה."
-                      : isOlympic
-                        ? "הורים מספרים על פעילות מסודרת, צוות זמין וילדים שחוזרים הביתה עם אנרגיות טובות."
+                  {!isOlympic && (
+                    <p className="max-w-2xl text-base leading-7 text-slate-700">
+                      {isMitgalgalim
+                        ? "צילומי מסך אמיתיים מהורים שמספרים על החוויה, הצוות, ההסעות והתחושה לאורך הקייטנה."
                         : "הורים שכבר היו שם מספרים הכי טוב איך נראית החוויה בפועל: סדר, צוות, אטרקציות, הסעות ותחושת ביטחון לאורך כל היום."}
-                  </p>
+                    </p>
+                  )}
                 </div>
-                {!isMitgalgalim && (
+                {!isMitgalgalim && !isOlympic && (
                   <div className="flex min-w-[260px] items-center gap-4 self-start rounded-2xl border border-[#dfe7f2] bg-white px-4 py-3 shadow-sm">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f8fbff] text-[#182e86]">
                       <Users className="h-7 w-7" />
