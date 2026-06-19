@@ -1130,7 +1130,7 @@ export default async function KaytanaPage({
                   השאירו פרטים ונחזור אליכם
                 </h2>
                 <img
-                  src="/mitgalgalim/yellow-arrow.webp"
+                  src="/kaytanot/yellow-arrow.webp"
                   alt=""
                   aria-hidden="true"
                   className="mx-auto mt-3 h-14 w-auto object-contain md:h-16"
