@@ -328,13 +328,12 @@ const OLYMPIC_ACTIVITIES_GALLERY: ActivityGalleryItem[] = [
 ];
 
 const OLYMPIC_DAY_SCHEDULE: DayScheduleItem[] = [
-  { time: "07:30", title: "קבלת קייטנים והתארגנות", icon: Users },
-  { time: "08:00", title: "תחנת ספורט ופעילות גופנית", icon: Target },
-  { time: "09:00", title: "יצירה והפעלות", icon: Award },
-  { time: "10:00", title: "ארוחת בוקר והפסקת מים", icon: Utensils },
-  { time: "10:30", title: "חוגים לבחירה ופעילות יום", icon: Shield },
-  { time: "11:30", title: "בריכה רדודה בליווי מציל", icon: CheckCircle },
-  { time: "13:00", title: "סיום יום קצר או מעבר לצהרון", icon: CheckCircle },
+  { time: "07:30-08:00", title: "קבלת קייטנים", icon: Users },
+  { time: "08:00-09:00", title: "תחנת ספורט / קייטנה אולימפית לפי ענף הספורט", icon: Target },
+  { time: "09:00-10:00", title: "תחנת יצירה", icon: Award },
+  { time: "10:00-10:30", title: "ארוחת בוקר", icon: Utensils },
+  { time: "10:30-11:30", title: "פעילות יום נושא - מדע בצבעים", icon: Shield },
+  { time: "11:30-13:00", title: "בריכה", icon: CheckCircle },
 ];
 
 const OLYMPIC_EXPERIENCE_GALLERY: ExperienceGalleryItem[] = [
@@ -996,14 +995,14 @@ export default async function KaytanaPage({
                 <p className="max-w-2xl text-base leading-7 text-slate-700">
                   {isMitgalgalim
                     ? "בכל יום יוצאים לאטרקציה אחרת, אבל המסגרת היומית נשארת ברורה ומסודרת."
-                    : "יום הפעילות בנוי בצורה ברורה, עם מעבר מסודר בין תחנות, משחקים ואתגרים."}
+                    : "יום הפעילות בנוי בצורה ברורה ומסודרת, עם מעבר בין תחנות פעילות, יצירה, יום נושא ובריכה."}
                 </p>
               </div>
 
               <div className="grid gap-3 md:grid-cols-6 md:gap-2">
-                {(isMitgalgalim ? MITGALGALIM_DAY_SCHEDULE : OLYMPIC_DAY_SCHEDULE).map((item, index) => {
+                {(isMitgalgalim ? MITGALGALIM_DAY_SCHEDULE : OLYMPIC_DAY_SCHEDULE).map((item, index, scheduleItems) => {
                   const Icon = item.icon;
-                  const isLast = index === MITGALGALIM_DAY_SCHEDULE.length - 1;
+                  const isLast = index === scheduleItems.length - 1;
 
                   return (
                     <div key={item.time} className="relative">
