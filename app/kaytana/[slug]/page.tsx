@@ -336,6 +336,16 @@ const OLYMPIC_DAY_SCHEDULE: DayScheduleItem[] = [
   { time: "11:30-13:00", title: "בריכה", icon: CheckCircle },
 ];
 
+const OLYMPIC_EXTENDED_DAY_SCHEDULE: DayScheduleItem[] = [
+  {
+    time: "13:15-13:45",
+    title: "ארוחת צהריים מורכבת מבשר, פחמימות וירקות, קייטרינג מאושר ע\"י משרד הבריאות (קיים רישיון יצרן, כשר)",
+    icon: Utensils,
+  },
+  { time: "13:45-15:30", title: "המשך פעילות: יצירה, סרט, ברכה, סיום פעילות קייטנה", icon: Award },
+  { time: "15:30-16:00", title: "משחקי חברה, לקיחת קייטנים הורים/מלווים", icon: Users },
+];
+
 const OLYMPIC_EXPERIENCE_GALLERY: ExperienceGalleryItem[] = [
   { image: "/havaya-olympic/olympic-camp-team-building-challenge.webp", alt: "ילדים בפעילות אתגר קבוצתית בקייטנת חוויה אולימפית" },
   { image: "/havaya-olympic/olympic-camp-swimming-pool.webp", alt: "ילדים בבריכה רדודה בקייטנת חוויה אולימפית" },
@@ -1025,6 +1035,29 @@ export default async function KaytanaPage({
                   );
                 })}
               </div>
+              {isOlympic && (
+                <div className="mt-8 rounded-2xl border border-[#edf1f7] bg-[#fbfdff] p-5 text-right">
+                  <h3 className="mb-4 font-heebo text-xl font-black text-[#182e86]">
+                    למי שבוחר באפשרות ליום ארוך עד 16:00
+                  </h3>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {OLYMPIC_EXTENDED_DAY_SCHEDULE.map((item) => {
+                      const Icon = item.icon;
+
+                      return (
+                        <div key={item.time} className="rounded-2xl border border-[#e5ebf5] bg-white p-4 shadow-sm">
+                          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-[#f4f0ff] text-[#6d42d8]">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <p className="mb-1 text-sm font-black text-[#182e86]">{item.time}</p>
+                          <p className="text-sm font-bold leading-6 text-slate-800">{item.title}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-5 space-y-1 text-sm font-semibold text-slate-500">
                 <p>כל שעה עגולה בדיקה שהילדים שותים מים - הם שותים מול המדריכים</p>
                 <p>*התכנית ניתנת לשינויים</p>
