@@ -78,6 +78,15 @@ interface ExperienceGalleryItem {
   alt: string;
 }
 
+interface SportTrack {
+  name: string;
+  description: string;
+  image: string;
+  icon: typeof Target;
+  color: string;
+  bg: string;
+}
+
 interface CampReview {
   id: string;
   source: "google" | "site";
@@ -325,6 +334,41 @@ const OLYMPIC_ACTIVITIES_GALLERY: ActivityGalleryItem[] = [
   { name: "פעילות וגיבוש", image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp" },
   { name: "חוויה חברתית", image: "/havaya-olympic/olympic-camp-group-activity-sign.webp" },
   { name: "יצירה והפוגה", image: "/havaya-olympic/olympic-camp-creative-workshop.webp" },
+];
+
+const OLYMPIC_SPORT_TRACKS: SportTrack[] = [
+  {
+    name: "כדורגל",
+    description: "שיפור טכניקה, כדרור ומסירות, פיתוח כושר, עבודת צוות ומשחק נכון",
+    image: "/havaya-olympic/olympic-camp-running-game.webp",
+    icon: Target,
+    color: "text-orange-500",
+    bg: "bg-orange-50",
+  },
+  {
+    name: "שחייה",
+    description: "לימוד ושיפור סגנונות שחייה בקבוצות קטנות עם יחס אישי ובטיחות",
+    image: "/havaya-olympic/olympic-camp-swimming-pool.webp",
+    icon: Waves,
+    color: "text-blue-500",
+    bg: "bg-blue-50",
+  },
+  {
+    name: "טניס",
+    description: "לימוד יסודות המשחק והטכניקה, שיפור זריזות, ריכוז ושליטה בכדור",
+    image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp",
+    icon: Trees,
+    color: "text-green-600",
+    bg: "bg-green-50",
+  },
+  {
+    name: "ריקוד",
+    description: "פיתוח קואורדינציה, קצב וביטחון עצמי עם כיף, תנועה והבעה חופשית",
+    image: "/havaya-olympic/olympic-camp-creative-workshop.webp",
+    icon: Music2,
+    color: "text-pink-500",
+    bg: "bg-pink-50",
+  },
 ];
 
 const OLYMPIC_DAY_SCHEDULE: DayScheduleItem[] = [
@@ -934,6 +978,43 @@ export default async function KaytanaPage({
                     {city}
                   </span>
                 ))}
+              </div>
+            </section>
+          )}
+
+          {isOlympic && (
+            <section className="rounded-3xl border border-[#dfe7f2] bg-white p-6 shadow-sm md:p-8">
+              <div className="mb-6 text-center">
+                <h2 className="mb-1 font-heebo text-3xl font-black text-[#182e86] md:text-4xl">
+                  אפשרות לחוג ספורטיבי עם מדריכים מקצועיים:
+                </h2>
+                <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-[#F5C400]" />
+              </div>
+              <div className="grid gap-4 md:grid-cols-4">
+                {OLYMPIC_SPORT_TRACKS.map((track) => {
+                  const Icon = track.icon;
+
+                  return (
+                    <article
+                      key={track.name}
+                      className="overflow-hidden rounded-3xl border border-[#e5ebf5] bg-white shadow-sm transition-transform hover:-translate-y-1 hover:shadow-lg"
+                    >
+                      <div className="p-5 text-center">
+                        <div className={`mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full ${track.bg} ${track.color}`}>
+                          <Icon className="h-8 w-8" />
+                        </div>
+                        <h3 className={`mb-2 font-heebo text-3xl font-black ${track.color}`}>{track.name}</h3>
+                        <div className={`mx-auto mb-4 h-1 w-24 rounded-full ${track.bg}`} />
+                        <p className="min-h-[72px] text-sm font-semibold leading-6 text-slate-700">{track.description}</p>
+                      </div>
+                      <img
+                        src={track.image}
+                        alt={`חוג ${track.name} בקייטנת חוויה אולימפית`}
+                        className="h-44 w-full object-cover"
+                      />
+                    </article>
+                  );
+                })}
               </div>
             </section>
           )}
