@@ -340,7 +340,7 @@ const OLYMPIC_SPORT_TRACKS: SportTrack[] = [
   {
     name: "כדורגל",
     description: "שיפור טכניקה, כדרור ומסירות, פיתוח כושר, עבודת צוות ומשחק נכון",
-    image: "/havaya-olympic/olympic-camp-running-game.webp",
+    image: "/havaya-olympic/olympic-sports-soccer-camp.webp",
     icon: Target,
     color: "text-orange-500",
     bg: "bg-orange-50",
@@ -348,7 +348,7 @@ const OLYMPIC_SPORT_TRACKS: SportTrack[] = [
   {
     name: "שחייה",
     description: "לימוד ושיפור סגנונות שחייה בקבוצות קטנות עם יחס אישי ובטיחות",
-    image: "/havaya-olympic/olympic-camp-swimming-pool.webp",
+    image: "/havaya-olympic/olympic-sports-swimming-camp.webp",
     icon: Waves,
     color: "text-blue-500",
     bg: "bg-blue-50",
@@ -356,7 +356,7 @@ const OLYMPIC_SPORT_TRACKS: SportTrack[] = [
   {
     name: "טניס",
     description: "לימוד יסודות המשחק והטכניקה, שיפור זריזות, ריכוז ושליטה בכדור",
-    image: "/havaya-olympic/olympic-camp-outdoor-warmup.webp",
+    image: "/havaya-olympic/olympic-sports-tennis-camp.webp",
     icon: Trees,
     color: "text-green-600",
     bg: "bg-green-50",
@@ -364,7 +364,7 @@ const OLYMPIC_SPORT_TRACKS: SportTrack[] = [
   {
     name: "ריקוד",
     description: "פיתוח קואורדינציה, קצב וביטחון עצמי עם כיף, תנועה והבעה חופשית",
-    image: "/havaya-olympic/olympic-camp-creative-workshop.webp",
+    image: "/havaya-olympic/olympic-sports-dance-camp.webp",
     icon: Music2,
     color: "text-pink-500",
     bg: "bg-pink-50",
